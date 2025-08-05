@@ -20,7 +20,7 @@ const Routing = React.memo(() => {
     },
   ];
 
-  const token: boolean = false;
+  const token: boolean = true; // Temporarily set to true for testing
 
   return (
     <div>
