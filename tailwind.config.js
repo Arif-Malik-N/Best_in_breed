@@ -8,7 +8,7 @@
     
 //     extend: {
 //       colors:{
-//         // primary: "#5D87FF",
+//         primary: "#5D87FF",
 //       }
 //     },
 //   },
@@ -26,7 +26,7 @@ export default defineConfig({
     
     extend: {
       colors:{
-        // primary: "#5D87FF",
+        setprimary: "#0052FF",
       }
     },
   },
@@ -34,3 +34,23 @@ export default defineConfig({
     tailwindcss(),
   ],
 })
+
+
+// import type { Config } from 'tailwindcss'
+
+// const config: Config = {
+//   content: [
+//     './index.html',
+//     './src/**/*.{js,ts,jsx,tsx}',  
+//   ],
+//   theme: {
+//     extend: {
+//       colors: {
+//         primary: '#0052FF',
+//       },
+//     },
+//   },
+//   plugins: [],
+// }
+
+// export default config
