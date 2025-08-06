@@ -20,21 +20,23 @@ const Routing = React.memo(() => {
     },
   ];
 
-  const token: boolean = true; // Temporarily set to true for testing
+  const token: boolean = false; // Temporarily set to false for testing
 
   return (
     <div>
       {token ? (
-      <Routes>
-        {routes.map(({ path, component }) => (
-          <>
-            {/* // <React.Fragment index={path}> */}
-            <Route path={path} element={component} />
-            {/* </React.Fragment> */}
-          </>
-        ))}
-      </Routes>
-      ) : <SignIn/>}
+        <Routes>
+          {routes.map(({ path, component }) => (
+            <>
+              {/* // <React.Fragment index={path}> */}
+              <Route path={path} element={component} />
+              {/* </React.Fragment> */}
+            </>
+          ))}
+        </Routes>
+      ) : (
+        <SignIn />
+      )}
     </div>
   );
 });

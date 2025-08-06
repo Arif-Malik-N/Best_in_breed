@@ -47,7 +47,7 @@ const SignInBackground = () => {
       image: smallPaw,
     },
     {
-      className: "rotate-320 row-start-6 col-start-3 place-self-center",
+      className: "rotate-[320deg] row-start-6 col-start-3 place-self-center",
       image: midPaw,
     },
     {
@@ -57,7 +57,7 @@ const SignInBackground = () => {
   ];
 
   return (
-    <div className="bg-[#0052FF] h-screen">
+    <div className="bg-brand-blue h-screen">
       <div className="w-full h-[35vh] grid grid-cols-4 grid-rows-6 relative">
         {firstImageRow.map(({ className, image }, index) => (
           <img
