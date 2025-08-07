@@ -2,7 +2,40 @@ import largePaw from "./largePaw.png";
 import midPaw from "./midPaw.png";
 import smallPaw from "./smallPaw.png";
 import logo from "./logo.png";
-import eyeSlashIcon from "./eyeSlashIcon.png";
 import unlock1 from "./unlock1.png";
+import logoWhiteText from "./logoWhiteText.png";
 
-export { largePaw, midPaw, smallPaw, logo, eyeSlashIcon, unlock1 };
+// icons
+import eyeSlash from "../icons/eyeSlash.png";
+import email from "../icons/email.png";
+import phone from "../icons/phone.png";
+import profile from "../icons/profile.png";
+import profile2 from "../icons/profile2.png";
+import notification from "../icons/notification.png";
+import edit from "../icons/edit.png";
+import changePassword from "../icons/changePassword.png";
+import lock from "../icons/lock.png";
+import terms from "../icons/terms.png";
+import location from "../icons/location.png";
+import check from "../icons/check.png";
+
+export {
+  largePaw,
+  midPaw,
+  smallPaw,
+  logo,
+  unlock1,
+  logoWhiteText,
+  eyeSlash,
+  email,
+  phone,
+  profile,
+  profile2,
+  notification,
+  edit,
+  changePassword,
+  terms,
+  lock,
+  location,
+  check,
+};

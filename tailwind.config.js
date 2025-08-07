@@ -109,6 +109,23 @@ export default {
           950: "#0a0a0a",
         },
 
+        // Gray colors (as per project)
+        gray: {
+          50: "#f0f0f0", // Custom light gray
+          100: "#EFEFEF", // Slightly darker
+          200: "#DBDBDB", // Medium-light gray
+          300: "#D0CECE", // Slight beige-gray
+          400: "#C9D5EF", // Light steel blue-gray
+          500: "#C8DAFF", // Pale blue
+          600: "#ACAAAA", // Muted gray
+          650: "#A3A3A3", // Optional mid-gray
+          700: "#64748B", // Slate gray-blue
+          750: "#6E7179",
+          800: "#404040", // Charcoal
+          850: "#303030", // Darker charcoal
+          900: "#171717", // Almost black
+        },
+
         // Custom brand colors (you can modify these)
         brand: {
           blue: "#0052FF",
@@ -116,8 +133,6 @@ export default {
           green: "#10b981",
           orange: "#f97316",
           pink: "#FCEDED",
-          gray: "#f0f0f0",
-          lightGray: "#64748B",
         },
 
         // NEW: Teal theme (example of adding new colors)
