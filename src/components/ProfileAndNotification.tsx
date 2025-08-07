@@ -1,0 +1,37 @@
+import { Link } from "react-router-dom";
+import { notification, profile } from "../assets/images";
+
+interface Props {
+  className?: string;
+}
+
+const ProfileAndNotification: React.FC<Props> = ({ className = "" }) => {
+  return (
+    <>
+      {/* Profile */}
+      <div className={className}>
+        <Link to="/profile">
+          <div className="flex cursor-pointer">
+            <div className="bg-gray-200 rounded-full">
+              <img src={profile} alt="profile" />
+            </div>
+            <span className="ml-1 mt-4 text-xs">&#9660; </span>
+          </div>
+        </Link>
+      </div>
+
+      {/* Notification */}
+      <div className={className}>
+        <div className="relative bg-gray-400 w-10 h-10 rounded-full flex items-center justify-center">
+          <img src={notification} alt="notification" />
+          {/* White circle background for red dot */}
+          <span className="absolute top-[7px] right-[7px] w-2.5 h-2.5 bg-white rounded-full flex items-center justify-center">
+            <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+          </span>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default ProfileAndNotification;

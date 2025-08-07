@@ -21,18 +21,21 @@ const SignInBackground = () => {
       image: midPaw,
     },
     {
-      className: "rotate-0 row-start-6 col-start-4 place-self-end",
+      className:
+        "rotate-0 xxs:row-start-3 sm:row-start-4 lg:row-start-6 col-start-4 place-self-end",
       image: largePaw,
     },
   ];
 
   const secondImageRow: ImageItem[] = [
     {
-      className: "rotate-[240deg] col-start-1 place-self-center",
+      className:
+        "xxs:rotate-[270deg] lg:rotate-[240deg] xxs:mx-[-25px] lg:mx-0 col-start-1 xxs:place-self-start lg:place-self-center",
       image: smallPaw,
     },
     {
-      className: "rotate-[280deg] col-start-4 place-self-center",
+      className:
+        "xxs:rotate-[270deg] lg:rotate-[280deg] col-start-4 mx-0 xxs:place-self-end lg:place-self-center",
       image: smallPaw,
     },
   ];

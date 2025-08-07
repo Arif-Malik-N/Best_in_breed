@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import SignInBackground from "../components/SignInBackground";
-import { logo, eyeSlashIcon } from "../assets/images";
+import { eyeSlash, logo } from "../assets/images";
 import Input from "../components/fields/Input";
 import Button from "../components/buttons/Button";
 import ResetPassword from "../components/ResetPassword";
@@ -20,6 +20,8 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formType, setFormType] = useState("login");
 
+  console.log(email, password);
+
   // Function to toggle password visibility
   const togglePassword = () => setShowPassword((prev) => !prev);
 
@@ -32,7 +34,7 @@ const SignIn = () => {
       type: "email",
       placeholder: "Enter Your Email",
       className:
-        "w-full h-[62px] bg-brand-gray rounded-lg px-4 text-gray-600 placeholder-gray-500 focus:outline-none",
+        "w-full xxs:h-[50px] sm:xxs:h-[50px] sm:h-[62px] bg-gray-50 rounded-lg px-4 text-gray-700 placeholder-gray-700 focus:outline-none",
       setValue: setEmail,
       endIcon: undefined,
     },
@@ -41,10 +43,10 @@ const SignIn = () => {
       type: showPassword ? "text" : "password",
       placeholder: "Enter Your Password",
       className:
-        "w-full h-[62px] bg-brand-gray rounded-lg px-4 text-gray-600 placeholder-gray-500 focus:outline-none",
+        "w-full xxs:h-[50px] sm:h-[62px] bg-gray-50 rounded-lg px-4 text-gray-700 placeholder-gray-700 focus:outline-none",
       setValue: setPassword,
-      // endIcon: showPassword ? "◎" : eyeSlashIcon,
-      endIcon: eyeSlashIcon,
+      // endIcon: showPassword ? "◎" : eyeSlash,
+      endIcon: eyeSlash,
     },
   ];
 
@@ -54,16 +56,18 @@ const SignIn = () => {
       <SignInBackground />
       {/* Foreground: login form over the background */}
       <div className="absolute inset-0 flex items-center justify-center z-10">
-        <div className="bg-white xxs:h-[75vh] sm:h-[65vh] xxs:w-[92vw] md:w-[85vw] lg:w-[70vw] rounded-4xl shadow-lg">
-          <div className="grid xxs:grid-cols-1 sm:grid-cols-2 place-items-center h-full">
+        <div className="bg-white xxs:pb-4 sm:h-[65vh] xxs:w-[92vw] md:w-[85vw] lg:w-[70vw] rounded-4xl shadow-lg">
+          <div className="grid xxs:grid-cols-1 sm:grid-cols-2 place-items-center sm:h-full">
             {/* logo at left side */}
-            <img src={logo} alt={`paw-logo`} className="xxs:px-5 sm:px-0" />
+            <img src={logo} alt={`paw-logo`} className="xxs:p-5 sm:px-2" />
 
             {/* form at right side */}
             {formType === "login" ? (
               <div className="w-full xxs:p-4 md:p-5 lg:pr-10">
-                <div className="font-bold text-4xl text-center">Welcome</div>
-                <div className="my-2 text-brand-lightGray text-lg text-center">
+                <div className="font-bold xxs:text-2xl xs:text-3xl sm:text-4xl text-center">
+                  Welcome
+                </div>
+                <div className="my-2 text-gray-700 xxs:text-sm xs:text-base sm:text-lg text-center">
                   Please enter your credentials to continue
                 </div>
 
@@ -102,7 +106,7 @@ const SignIn = () => {
                   )}
                 </div>
 
-                <div className="my-5 text-lg text-center">
+                <div className="my-5 xxs:text-sm xs:text-base sm:text-lg text-center">
                   Forgot your password?{" "}
                   <span
                     className="text-brand-blue cursor-pointer"
@@ -114,7 +118,7 @@ const SignIn = () => {
 
                 <Button
                   name="Sign In"
-                  className="w-full h-[56px] bg-brand-blue rounded-lg text-white font-bold"
+                  className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white font-bold"
                   onClick={handleLogin}
                 />
               </div>

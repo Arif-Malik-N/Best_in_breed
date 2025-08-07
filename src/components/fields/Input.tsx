@@ -1,8 +1,9 @@
 import React from "react";
 
 interface InputProps {
+  value: string | number;
   type: string;
-  placeholder: string;
+  placeholder?: string;
   className?: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
   startIcon?: string | undefined;
@@ -10,8 +11,9 @@ interface InputProps {
 }
 
 const Input: React.FC<InputProps> = ({
+  value,
   type,
-  placeholder,
+  placeholder = "",
   className = "",
   setValue,
   startIcon = undefined,
@@ -28,6 +30,7 @@ const Input: React.FC<InputProps> = ({
       )}
 
       <input
+        value={value}
         type={type}
         placeholder={placeholder}
         className={className}
@@ -38,7 +41,7 @@ const Input: React.FC<InputProps> = ({
       {endIcon && (
         <img
           src={endIcon}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
+          className="absolute right-4 top-1/2 transform -translate-y-1/2"
         />
       )}
     </div>

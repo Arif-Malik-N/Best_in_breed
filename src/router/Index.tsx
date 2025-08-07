@@ -2,6 +2,9 @@ import React, { type JSX } from "react";
 import { Route, Routes } from "react-router";
 import { Clients, Home } from "../pages";
 import SignIn from "../pages/SignIn";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import Profile from "../pages/Profile";
 
 interface Route {
   path: string;
@@ -15,25 +18,51 @@ const Routing = React.memo(() => {
       component: <Home />,
     },
     {
+      path: "/schedule",
+      component: <Clients />,
+    },
+    {
       path: "/clients",
       component: <Clients />,
     },
+    {
+      path: "/contracts",
+      component: <Clients />,
+    },
+    {
+      path: "/about-us",
+      component: <Clients />,
+    },
+    {
+      path: "/profile",
+      component: <Profile />,
+    },
   ];
 
-  const token: boolean = false; // Temporarily set to false for testing
+  const token: boolean = true; // Temporarily set for testing
 
   return (
     <div>
       {token ? (
-        <Routes>
-          {routes.map(({ path, component }) => (
-            <>
-              {/* // <React.Fragment index={path}> */}
-              <Route path={path} element={component} />
-              {/* </React.Fragment> */}
-            </>
-          ))}
-        </Routes>
+        <div>
+          <div className="min-h-screen flex flex-col">
+            <div className=""></div>
+            {/* top header */}
+            <Header />
+
+            {/* main content */}
+            <main className="flex-grow pt-10 p-4 xxs:pt-[110px] xs:pt-[120px] sm:pt-[130px] lg:pt-[170px] pb-[40px] xxs:px-[15px] sm:px-[30px] lg:px-[152px]">
+              <Routes>
+                {routes.map(({ path, component }) => (
+                  <Route path={path} element={component} />
+                ))}
+              </Routes>
+            </main>
+
+            {/* below footer */}
+            <Footer />
+          </div>
+        </div>
       ) : (
         <SignIn />
       )}
