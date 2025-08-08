@@ -45,13 +45,13 @@ const Routing = React.memo(() => {
     <div>
       {token ? (
         <div>
-          <div className="min-h-screen flex flex-col">
+          <div className="bg-brand-grayBg min-h-screen flex flex-col">
             <div className=""></div>
             {/* top header */}
             <Header />
 
             {/* main content */}
-            <main className="flex-grow pt-10 p-4 xxs:pt-[90px] xs:pt-[100px] sm:pt-[130px] lg:pt-[170px] pb-[40px] xxs:px-[15px] sm:px-[30px] lg:px-[152px]">
+            <main className="flex-grow pt-10 p-4 xxs:pt-[90px] xs:pt-[100px] sm:pt-[130px] lg:pt-[140px] xl:pt-[170px] pb-[40px] xxs:px-[15px] sm:px-[30px] lg:px-[60px] xl:lg:px-[152px]">
               <Routes>
                 {routes.map(({ path, component }) => (
                   <Route path={path} element={component} />

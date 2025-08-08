@@ -29,7 +29,7 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 xxs:pb-[10px] md:pb-[10px] xxs:pt-[20px] lg:pt-[70px] xxs:px-[15px] sm:px-[30px] lg:px-[152px] w-full bg-white z-50 ${
+      className={`fixed top-0 xxs:pb-[10px] md:pb-[10px] xxs:pt-[20px] lg:pt-[40px] xl:pt-[70px] xxs:px-[15px] sm:px-[30px] lg:px-[60px] xl:px-[152px] w-full bg-brand-grayBg z-50 ${
         menuOpen ? "border-b-2 border-gray-400 shadow-xl" : "md:border-none"
       }`}
     >
@@ -90,7 +90,7 @@ const Header = () => {
               <Link
                 key={url}
                 to={url}
-                className={`${className} block xxs:text-xs sm:text-sm text-center bg-white border-b border-gray-200 xxs:pb-1 sm:pb-2 ${
+                className={`${className} block xxs:text-xs sm:text-sm text-center bg-brand-grayBg border-b border-gray-200 xxs:pb-1 sm:pb-2 ${
                   location.pathname === url
                     ? "text-brand-blue font-semibold"
                     : "text-black"
