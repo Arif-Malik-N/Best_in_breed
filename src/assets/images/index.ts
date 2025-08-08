@@ -4,6 +4,7 @@ import smallPaw from "./smallPaw.png";
 import logo from "./logo.png";
 import unlock1 from "./unlock1.png";
 import logoWhiteText from "./logoWhiteText.png";
+import mainDog from "./mainDog.png";
 
 // icons
 import eyeSlash from "../icons/eyeSlash.png";
@@ -19,6 +20,8 @@ import terms from "../icons/terms.png";
 import location from "../icons/location.png";
 import check from "../icons/check.png";
 import lock2 from "../icons/lock2.png";
+import group from "../icons/group.png";
+import client1Icon from "../icons/client1Icon.png";
 
 export {
   largePaw,
@@ -27,6 +30,7 @@ export {
   logo,
   unlock1,
   logoWhiteText,
+  mainDog,
   eyeSlash,
   email,
   phone,
@@ -40,4 +44,6 @@ export {
   location,
   check,
   lock2,
+  group,
+  client1Icon,
 };
