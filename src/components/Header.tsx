@@ -29,7 +29,7 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 xxs:py-[20px] lg:pt-[70px] xxs:px-[15px] sm:px-[30px] lg:px-[152px] w-full bg-white z-50 ${
+      className={`fixed top-0 xxs:pb-[10px] md:pb-[10px] xxs:pt-[20px] lg:pt-[70px] xxs:px-[15px] sm:px-[30px] lg:px-[152px] w-full bg-white z-50 ${
         menuOpen ? "border-b-2 border-gray-400 shadow-xl" : "md:border-none"
       }`}
     >

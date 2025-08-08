@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "../buttons/Button";
 import { changePassword, edit, lock, terms } from "../../assets/images";
+import { AiOutlineRight } from "react-icons/ai";
 
 interface menu {
   key: string;
@@ -39,21 +40,29 @@ const Menu: React.FC<Props> = ({ setType }) => {
   return (
     <div>
       <div className="my-[50px]">
-        {profileMenu.map(({ key, name, icon }) => (
-          <div
-            key={key}
-            className="flex items-center w-full my-5 cursor-pointer"
-            onClick={() => setType(key)}
-          >
-            <div className="flex w-[90%]">
-              <img src={icon} alt={key} className="w-4 h-5 my-1" />
-              <span className="ml-5 xxs:text-base md:text-lg">{name}</span>
+        {profileMenu.map(({ key, name, icon }) => {
+          const isClickable: boolean = [
+            "changePassword",
+            "editProfile",
+          ].includes(key);
+          return (
+            <div
+              key={key}
+              className={`flex items-center w-full my-5 ${
+                isClickable && "cursor-pointer"
+              }`}
+              onClick={() => isClickable && setType(key)}
+            >
+              <div className="flex w-[90%]">
+                <img src={icon} alt={key} className="w-4 h-5 my-1" />
+                <span className="ml-5 xxs:text-base md:text-lg">{name}</span>
+              </div>
+              <div className="w-[10%] place-items-end">
+                <AiOutlineRight className="ml-1 mt-4" />
+              </div>
             </div>
-            <div className="w-[10%] text-right">
-              <span className="text-xs">▶</span>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <Button

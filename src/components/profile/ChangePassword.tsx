@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "../buttons/Button";
-import { changePassword, edit, lock, terms } from "../../assets/images";
+import { lock2 } from "../../assets/images";
+import Input from "../fields/Input";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 
-interface menu {
-  key: string;
-  icon: string;
+interface field {
   name: string;
+  type: string;
+  className: string;
+  placeholder: string;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
+  startIcon: string | undefined;
 }
 
 interface Props {
@@ -13,53 +18,77 @@ interface Props {
 }
 
 const ChangePassword: React.FC<Props> = ({ setType }) => {
-  const profileMenu: menu[] = [
+  const [currentPsd, setCurrentPsd] = useState("");
+  const [newPsd, setNewPsd] = useState("");
+  const [confirmPsd, setConfirmPsd] = useState("");
+
+  const fields: field[] = [
     {
-      key: "editProfile",
-      icon: edit,
-      name: "Edit Profile",
+      name: "Current Password",
+      type: "password",
+      placeholder: "Current Password",
+      className:
+        "w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg pr-2 pl-12 xxs:text-sm sm:text-base text-gray-750 placeholder-gray-700 border border-gray-300 focus:outline-none",
+      setValue: setCurrentPsd,
+      startIcon: lock2,
     },
     {
-      key: "changePassword",
-      icon: changePassword,
-      name: "Change Password",
+      name: "New Password",
+      type: "password",
+      placeholder: "New Password",
+      className:
+        "w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg pr-2 pl-12 xxs:text-sm sm:text-base text-gray-750 placeholder-gray-700 border border-gray-300 focus:outline-none",
+      setValue: setNewPsd,
+      startIcon: lock2,
     },
     {
-      key: "privacyPolicy",
-      icon: lock,
-      name: "Privacy Policy",
-    },
-    {
-      key: "termsAndCond",
-      icon: terms,
-      name: "Terms & Conditions",
+      name: "Confirm New Password",
+      type: "password",
+      placeholder: "Retype New Password",
+      className:
+        "w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg pr-2 pl-12 xxs:text-sm sm:text-base text-gray-750 placeholder-gray-700 border border-gray-300 focus:outline-none",
+      setValue: setConfirmPsd,
+      startIcon: lock2,
     },
   ];
 
   return (
     <div>
+      <div className="flex gap-5 mt-5">
+        <div className="cursor-pointer" onClick={() => setType("menu")}>
+          <AiOutlineArrowLeft className="mt-1 w-6 h-6" />
+        </div>
+        <span className="xxs:text-lg xs:text-xl sm:text-2xl font-bold">
+          Change Password
+        </span>
+      </div>
       <div className="my-[50px]">
-        {profileMenu.map(({ key, name, icon }) => (
-          <div
-            key={key}
-            className="flex items-center w-full my-5"
-            onClick={() => setType(key)}
-          >
-            <div className="flex w-[90%]">
-              <img src={icon} alt={key} className="w-4 h-5 my-1" />
-              <span className="ml-5 xxs:text-base md:text-lg">{name}</span>
-            </div>
-            <div className="w-[10%] text-right">
-              <span className="text-xs">▶</span>
-            </div>
-          </div>
-        ))}
+        <div className="grid xxs:grid-cols-1 sm:grid-cols-2 xxs:gap-4 sm:gap-5">
+          {fields.map(
+            ({ name, type, placeholder, className, setValue, startIcon }) => (
+              <div key={name}>
+                <div className="xxs:mb-1 sm:mb-3 mx-1 font-bold xxs:text-sm sm:text-base">
+                  {name}
+                </div>
+                <div className="relative">
+                  <Input
+                    type={type}
+                    placeholder={placeholder}
+                    className={className}
+                    setValue={setValue}
+                    startIcon={startIcon}
+                  />
+                </div>
+              </div>
+            )
+          )}
+        </div>
       </div>
 
       <Button
-        name="Log Out"
+        name="Save Changes"
         className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white font-bold"
-        onClick={() => {}}
+        onClick={() => setType("menu")}
       />
     </div>
   );

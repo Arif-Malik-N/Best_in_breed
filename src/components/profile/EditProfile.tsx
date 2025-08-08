@@ -27,26 +27,26 @@ const EditProfile: React.FC<Props> = ({ setType }) => {
       name: "Email Address",
       type: "email",
       className:
-        "w-full xxs:h-[50px] sm:xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 text-gray-750 border border-gray-300 focus:outline-none",
+        "w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 xxs:text-sm sm:text-base text-gray-750 border border-gray-300 focus:outline-none",
       setValue: setEmail,
       endIcon: check,
     },
     {
       value: phoneNo,
       name: "Phone Number",
-      type: "phoneNumber",
+      type: "text",
       className:
-        "w-full xxs:h-[50px] sm:xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 text-gray-750 border border-gray-300 focus:outline-none",
-      setValue: setLoc,
+        "w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 xxs:text-sm sm:text-base text-gray-750 border border-gray-300 focus:outline-none",
+      setValue: setPhoneNo,
       endIcon: undefined,
     },
     {
       value: loc,
       name: "Location",
-      type: "location",
+      type: "text",
       className:
-        "w-full xxs:h-[50px] sm:xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 text-gray-750 border border-gray-300 focus:outline-none",
-      setValue: setPhoneNo,
+        "w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 xxs:text-sm sm:text-base text-gray-750 border border-gray-300 focus:outline-none",
+      setValue: setLoc,
       endIcon: location,
     },
   ];
@@ -54,10 +54,12 @@ const EditProfile: React.FC<Props> = ({ setType }) => {
   return (
     <div>
       <div className="my-[50px]">
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid xxs:grid-cols-1 sm:grid-cols-2 xxs:gap-4 sm:gap-5">
           {fields.map(({ value, name, type, className, setValue, endIcon }) => (
             <div key={name}>
-              <div className="mb-3 mx-1 font-bold text-base">{name}</div>
+              <div className="xxs:mb-1 sm:mb-3 mx-1 font-bold xxs:text-sm sm:text-base">
+                {name}
+              </div>
               <div className="relative">
                 <Input
                   value={value}

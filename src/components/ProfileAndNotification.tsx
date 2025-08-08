@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { notification, profile } from "../assets/images";
+import { AiOutlineDown } from "react-icons/ai";
 
 interface Props {
   className?: string;
@@ -15,7 +16,7 @@ const ProfileAndNotification: React.FC<Props> = ({ className = "" }) => {
             <div className="bg-gray-200 rounded-full">
               <img src={profile} alt="profile" />
             </div>
-            <span className="ml-1 mt-4 text-xs">&#9660; </span>
+            <AiOutlineDown className="ml-1 mt-4" />
           </div>
         </Link>
       </div>
