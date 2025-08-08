@@ -18,6 +18,7 @@ import lock from "../icons/lock.png";
 import terms from "../icons/terms.png";
 import location from "../icons/location.png";
 import check from "../icons/check.png";
+import lock2 from "../icons/lock2.png";
 
 export {
   largePaw,
@@ -38,4 +39,5 @@ export {
   lock,
   location,
   check,
+  lock2,
 };
