@@ -51,7 +51,7 @@ const Routing = React.memo(() => {
             <Header />
 
             {/* main content */}
-            <main className="flex-grow pt-10 p-4 xxs:pt-[110px] xs:pt-[120px] sm:pt-[130px] lg:pt-[170px] pb-[40px] xxs:px-[15px] sm:px-[30px] lg:px-[152px]">
+            <main className="flex-grow pt-10 p-4 xxs:pt-[90px] xs:pt-[100px] sm:pt-[130px] lg:pt-[170px] pb-[40px] xxs:px-[15px] sm:px-[30px] lg:px-[152px]">
               <Routes>
                 {routes.map(({ path, component }) => (
                   <Route path={path} element={component} />
