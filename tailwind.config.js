@@ -133,6 +133,7 @@ export default {
           green: "#10b981",
           orange: "#f97316",
           pink: "#FCEDED",
+          grayBg: "#F9F9F9",
         },
 
         // NEW: Teal theme (example of adding new colors)
