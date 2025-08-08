@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, type ReactNode } from "react";
 import SignInBackground from "../components/SignInBackground";
 import { eyeSlash, logo } from "../assets/images";
 import Input from "../components/fields/Input";
 import Button from "../components/buttons/Button";
 import ResetPassword from "../components/ResetPassword";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 interface field {
   name: string;
@@ -11,7 +12,7 @@ interface field {
   placeholder: string;
   className: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
-  endIcon: string | undefined;
+  endIcon: string | undefined | ReactNode;
 }
 
 const SignIn = () => {
@@ -34,7 +35,7 @@ const SignIn = () => {
       type: "email",
       placeholder: "Enter Your Email",
       className:
-        "w-full xxs:h-[50px] sm:xxs:h-[50px] sm:h-[62px] bg-gray-50 rounded-lg px-4 text-gray-700 placeholder-gray-700 focus:outline-none",
+        "w-full xxs:h-[50px] sm:h-[62px] bg-gray-50 rounded-lg px-4 text-gray-700 placeholder-gray-700 focus:outline-none",
       setValue: setEmail,
       endIcon: undefined,
     },
@@ -45,8 +46,11 @@ const SignIn = () => {
       className:
         "w-full xxs:h-[50px] sm:h-[62px] bg-gray-50 rounded-lg px-4 text-gray-700 placeholder-gray-700 focus:outline-none",
       setValue: setPassword,
-      // endIcon: showPassword ? "◎" : eyeSlash,
-      endIcon: eyeSlash,
+      endIcon: showPassword ? (
+        <AiOutlineEye className="w-5 h-5 text-gray-750" />
+      ) : (
+        <AiOutlineEyeInvisible className="w-5 h-5 text-gray-750" />
+      ),
     },
   ];
 
@@ -94,11 +98,12 @@ const SignIn = () => {
                           />
                           {/* Eye endIcon to toggle password visibility */}
                           {name === "Password" && (
-                            <img
-                              src={endIcon}
+                            <div
                               className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
                               onClick={togglePassword}
-                            />
+                            >
+                              {endIcon}
+                            </div>
                           )}
                         </div>
                       </div>
