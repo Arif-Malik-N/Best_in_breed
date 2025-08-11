@@ -9,9 +9,9 @@ const AboutUs = () => {
   return (
     <div>
       {/* Top bar */}
-      <div className="flex gap-5 mt-5">
+      <div className="flex gap-2 sm:gap-5 sm:mt-5">
         <div className="cursor-pointer" onClick={() => navigate("/")}>
-          <AiOutlineLeft className="font-bold mt-1 w-6 h-6" />
+          <AiOutlineLeft className="font-bold mt-1 sm:w-6 sm:h-6" />
         </div>
         <span className="xxs:text-lg xs:text-xl sm:text-2xl font-bold">
           About App
@@ -19,7 +19,7 @@ const AboutUs = () => {
       </div>
 
       {/* Middle Text With Image */}
-      <div className="my-10">
+      <div className="my-3 sm:my-10">
         {/* Text Section */}
         <div className="xxs:text-xs xs:text-sm sm:text-lg text-gray-800 space-y-4">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim dui

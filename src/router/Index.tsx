@@ -33,7 +33,7 @@ const Routing = React.memo(() => {
     },
   ];
 
-  const token: boolean = false; // Temporarily set for testing
+  const token: boolean = true; // Temporarily set for testing
 
   return (
     <div>
@@ -45,7 +45,7 @@ const Routing = React.memo(() => {
             <Header />
 
             {/* main content */}
-            <main className="flex-grow pt-10 sm:p-4 xxs:pt-[90px] xs:pt-[100px] sm:pt-[130px] lg:pt-[150px] xl:pt-[200px] pb-[60px] xxs:px-[8px] sm:px-[30px] lg:px-[60px] xl:px-[152px]">
+            <main className="flex-grow pt-10 sm:p-4 xxs:pt-[90px] xs:pt-[100px] sm:pt-[130px] lg:pt-[150px] xl:pt-[200px] xxs:pb-[20px] sm:pb-[60px] xxs:px-[8px] sm:px-[30px] lg:px-[60px] xl:px-[152px]">
               <Routes>
                 {routes.map(({ path, component }) => (
                   <Route path={path} element={component} />

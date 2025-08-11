@@ -24,7 +24,7 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 xxs:pb-[10px] md:pb-[10px] xxs:pt-[20px] lg:pt-[40px] xl:pt-[70px] xxs:px-[15px] sm:px-[30px] lg:px-[60px] xl:px-[152px] w-full bg-brand-grayBg z-50 ${
+      className={`fixed top-0 xxs:pb-[10px] md:pb-[10px] border-b-2 border-b-zinc-500 xxs:pt-[20px] lg:pt-[40px] xl:pt-[70px] xxs:px-[15px] sm:px-[30px] lg:px-[60px] xl:px-[152px] w-full bg-brand-grayBg z-50 ${
         menuOpen ? "border-b-2 border-gray-400 shadow-xl" : "md:border-none"
       }`}
     >
