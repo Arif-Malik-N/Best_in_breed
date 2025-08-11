@@ -72,7 +72,7 @@ const AboutUs = () => {
             obedience.
           </h3>
         </div>
-        <img src={certificates} alt={"certificates"} />
+        <img src={certificates} alt={"certificates"} className="w-full" />
       </div>
     </div>
   );
