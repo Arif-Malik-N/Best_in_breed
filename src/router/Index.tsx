@@ -1,18 +1,12 @@
-import React, { type JSX } from "react";
+import React from "react";
 import { Route, Routes } from "react-router";
-import { Clients, Home } from "../pages";
-import SignIn from "../pages/SignIn";
+import { Home, Clients, Contracts, AboutUs, Profile, SignIn } from "../pages";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import Profile from "../pages/Profile";
-
-interface Route {
-  path: string;
-  component: JSX.Element;
-}
+import type { AppRoute } from "../utils/interfaces";
 
 const Routing = React.memo(() => {
-  const routes: Route[] = [
+  const routes: AppRoute[] = [
     {
       path: "/",
       component: <Home />,
@@ -27,11 +21,11 @@ const Routing = React.memo(() => {
     },
     {
       path: "/contracts",
-      component: <Clients />,
+      component: <Contracts />,
     },
     {
       path: "/about-us",
-      component: <Clients />,
+      component: <AboutUs />,
     },
     {
       path: "/profile",
@@ -39,7 +33,7 @@ const Routing = React.memo(() => {
     },
   ];
 
-  const token: boolean = true; // Temporarily set for testing
+  const token: boolean = false; // Temporarily set for testing
 
   return (
     <div>
@@ -51,7 +45,7 @@ const Routing = React.memo(() => {
             <Header />
 
             {/* main content */}
-            <main className="flex-grow pt-10 p-4 xxs:pt-[90px] xs:pt-[100px] sm:pt-[130px] lg:pt-[140px] xl:pt-[170px] pb-[40px] xxs:px-[15px] sm:px-[30px] lg:px-[60px] xl:lg:px-[152px]">
+            <main className="flex-grow pt-10 sm:p-4 xxs:pt-[90px] xs:pt-[100px] sm:pt-[130px] lg:pt-[150px] xl:pt-[200px] pb-[60px] xxs:px-[8px] sm:px-[30px] lg:px-[60px] xl:px-[152px]">
               <Routes>
                 {routes.map(({ path, component }) => (
                   <Route path={path} element={component} />

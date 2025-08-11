@@ -3,19 +3,7 @@ import Button from "../buttons/Button";
 import { lock2 } from "../../assets/images";
 import Input from "../fields/Input";
 import { AiOutlineArrowLeft } from "react-icons/ai";
-
-interface field {
-  name: string;
-  type: string;
-  className: string;
-  placeholder: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
-  startIcon: string | undefined;
-}
-
-interface Props {
-  setType: React.Dispatch<React.SetStateAction<string>>;
-}
+import type { field, Props } from "../../utils/interfaces";
 
 const ChangePassword: React.FC<Props> = ({ setType }) => {
   const [currentPsd, setCurrentPsd] = useState("");

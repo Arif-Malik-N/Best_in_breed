@@ -2,19 +2,7 @@ import React, { useState } from "react";
 import Button from "../buttons/Button";
 import { check, location } from "../../assets/images";
 import Input from "../fields/Input";
-
-interface field {
-  value: string | number;
-  name: string;
-  type: string;
-  className: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
-  endIcon: string | undefined;
-}
-
-interface Props {
-  setType: React.Dispatch<React.SetStateAction<string>>;
-}
+import type { field, Props } from "../../utils/interfaces";
 
 const EditProfile: React.FC<Props> = ({ setType }) => {
   const [email, setEmail] = useState("brucenelson@demomail.com");

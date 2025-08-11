@@ -2,12 +2,13 @@ import React, { useRef } from "react";
 import Button from "./buttons/Button";
 import Input from "./fields/Input";
 import ResetPasswordDialog from "./dialog/ResetPasswordDialog";
+import type { ResetPsdProps } from "../utils/interfaces";
 
-interface Props {
-  setEmail: React.Dispatch<React.SetStateAction<string>>;
-  setFormType: React.Dispatch<React.SetStateAction<string>>;
-}
-const ResetPassword: React.FC<Props> = ({ setEmail, setFormType }) => {
+const ResetPassword: React.FC<ResetPsdProps> = ({
+  email,
+  setEmail,
+  setFormType,
+}) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   const openDialog = () => {
@@ -55,7 +56,11 @@ const ResetPassword: React.FC<Props> = ({ setEmail, setFormType }) => {
       />
 
       {/* modal */}
-      <ResetPasswordDialog dialogRef={dialogRef} closeDialog={closeDialog} />
+      <ResetPasswordDialog
+        email={email}
+        dialogRef={dialogRef}
+        closeDialog={closeDialog}
+      />
     </div>
   );
 };

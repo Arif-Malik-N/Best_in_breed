@@ -1,11 +1,7 @@
 import React from "react";
 import { email, logoWhiteText, phone } from "../assets/images";
 import { Link, useLocation } from "react-router-dom";
-
-interface link {
-  name: string;
-  url: string;
-}
+import type { link } from "../utils/interfaces";
 
 const Footer = () => {
   const location = useLocation();
@@ -55,7 +51,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="mx-2">
+    <footer className="mt-5 mx-2">
       <div className="bg-black xxs:h-full md:h-[362px] w-full rounded-4xl">
         <div className="grid xxs:grid-cols-1 md:grid-cols-3 gap-5 xxs:p-4 md:p-6 place-items-center h-full">
           {/* logo and description at left side */}
@@ -85,7 +81,7 @@ const Footer = () => {
                       to={url}
                       className={`xxs:text-xs xs:text-sm sm:text-base ${
                         location.pathname === url
-                          ? "text-white"
+                          ? "text-white font-semibold"
                           : "text-gray-600"
                       }`}
                     >
@@ -106,7 +102,7 @@ const Footer = () => {
                       to={url}
                       className={`xxs:text-xs xs:text-sm sm:text-base ${
                         location.pathname === url
-                          ? "text-white"
+                          ? "text-white font-semibold"
                           : "text-gray-600"
                       }`}
                     >

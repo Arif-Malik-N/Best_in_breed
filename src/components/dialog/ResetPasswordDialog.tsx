@@ -1,13 +1,10 @@
 import React from "react";
 import { unlock1 } from "../../assets/images"; // Ensure this path is correct
 import Button from "../buttons/Button";
-
-interface DialogProps {
-  dialogRef: React.RefObject<HTMLDialogElement>;
-  closeDialog: React.MouseEventHandler<HTMLButtonElement>;
-}
+import type { DialogProps } from "../../utils/interfaces";
 
 const ResetPasswordDialog: React.FC<DialogProps> = ({
+  email,
   dialogRef,
   closeDialog,
 }) => {
@@ -27,8 +24,8 @@ const ResetPasswordDialog: React.FC<DialogProps> = ({
 
         {/* Description */}
         <p className="xxs:text-sm xs:text-base sm:text-lg pb-5">
-          Password reset link has been sent to bru*****n@gmail.com please check
-          your email and follow the instructions
+          Password reset link has been sent to {email} please check your email
+          and follow the instructions
         </p>
 
         {/* Okay Button */}

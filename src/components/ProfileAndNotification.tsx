@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
 import { notification, profile } from "../assets/images";
 import { AiOutlineDown } from "react-icons/ai";
+import type { ProfileAndNotProps } from "../utils/interfaces";
 
-interface Props {
-  className?: string;
-}
-
-const ProfileAndNotification: React.FC<Props> = ({ className = "" }) => {
+const ProfileAndNotification: React.FC<ProfileAndNotProps> = ({
+  className = "",
+}) => {
   return (
     <>
       {/* Profile */}

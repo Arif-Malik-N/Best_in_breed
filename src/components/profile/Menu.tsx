@@ -2,16 +2,7 @@ import React from "react";
 import Button from "../buttons/Button";
 import { changePassword, edit, lock, terms } from "../../assets/images";
 import { AiOutlineRight } from "react-icons/ai";
-
-interface menu {
-  key: string;
-  icon: string;
-  name: string;
-}
-
-interface Props {
-  setType: React.Dispatch<React.SetStateAction<string>>;
-}
+import type { menu, Props } from "../../utils/interfaces";
 
 const Menu: React.FC<Props> = ({ setType }) => {
   const profileMenu: menu[] = [

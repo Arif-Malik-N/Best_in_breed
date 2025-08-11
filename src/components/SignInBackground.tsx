@@ -1,10 +1,6 @@
 import React from "react";
 import { largePaw, midPaw, smallPaw } from "../assets/images";
-
-interface ImageItem {
-  className: string;
-  image: string;
-}
+import type { ImageItem } from "../utils/interfaces";
 
 const SignInBackground = () => {
   const firstImageRow: ImageItem[] = [

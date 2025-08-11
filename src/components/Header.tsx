@@ -2,12 +2,7 @@ import React, { useState } from "react";
 import { logo } from "../assets/images";
 import { Link, useLocation } from "react-router-dom";
 import ProfileAndNotification from "./ProfileAndNotification";
-
-interface link {
-  name: string;
-  url: string;
-  className: string;
-}
+import type { link } from "../utils/interfaces";
 
 const Header = () => {
   const location = useLocation();
@@ -64,7 +59,9 @@ const Header = () => {
               key={url}
               to={url}
               className={`${className} text-sm lg:text-base transition-colors ${
-                location.pathname === url ? "text-brand-blue" : "text-black"
+                location.pathname === url
+                  ? "text-brand-blue font-semibold"
+                  : "text-black"
               }`}
             >
               {name}

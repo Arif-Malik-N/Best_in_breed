@@ -1,14 +1,5 @@
 import React from "react";
-
-interface InputProps {
-  value: string | number;
-  type: string;
-  placeholder?: string;
-  className?: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
-  startIcon?: string | undefined;
-  endIcon?: string | undefined;
-}
+import type { InputProps } from "../../utils/interfaces";
 
 const Input: React.FC<InputProps> = ({
   value,

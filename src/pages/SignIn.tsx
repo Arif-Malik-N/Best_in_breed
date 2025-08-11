@@ -1,19 +1,11 @@
-import React, { useState, type ReactNode } from "react";
+import React, { useState } from "react";
 import SignInBackground from "../components/SignInBackground";
-import { eyeSlash, logo } from "../assets/images";
+import { logo } from "../assets/images";
 import Input from "../components/fields/Input";
 import Button from "../components/buttons/Button";
 import ResetPassword from "../components/ResetPassword";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-
-interface field {
-  name: string;
-  type: string;
-  placeholder: string;
-  className: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
-  endIcon: string | undefined | ReactNode;
-}
+import type { field } from "../utils/interfaces";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -128,7 +120,11 @@ const SignIn = () => {
                 />
               </div>
             ) : (
-              <ResetPassword setEmail={setEmail} setFormType={setFormType} />
+              <ResetPassword
+                email={email}
+                setEmail={setEmail}
+                setFormType={setFormType}
+              />
             )}
           </div>
         </div>

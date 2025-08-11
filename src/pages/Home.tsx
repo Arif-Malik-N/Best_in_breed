@@ -1,13 +1,11 @@
 import React from "react";
-import { client1Icon, group } from "../assets/images";
+import { group } from "../assets/images";
 import CardWithDog from "../components/cards/CardWithDog";
 import Button from "../components/buttons/Button";
+import Table from "../components/Table";
+import type { card } from "../utils/interfaces";
+import { clientsSampleData, columns } from "../utils/arrays";
 
-interface card {
-  icon: string;
-  name: string;
-  number: number;
-}
 function Home() {
   const cards: card[] = [
     {
@@ -26,6 +24,7 @@ function Home() {
       number: 9,
     },
   ];
+
   return (
     <div className="">
       <div className="grid grid-cols-3 gap-3">
@@ -61,8 +60,8 @@ function Home() {
         </div>
       </div>
 
-      <div className="rounded-xl bg-white my-8 py-6 px-3">
-        <div className="flex justify-between place-items-center">
+      <div className="rounded-xl bg-white my-8 py-6">
+        <div className="flex justify-between place-items-center px-3">
           <div className="xxs:text-base xl:text-lg font-semibold ml-4">
             Client
           </div>
@@ -72,25 +71,7 @@ function Home() {
             onClick={() => {}}
           />
         </div>
-
-        {/* Columns Header */}
-        <div className="flex px-5 py-2 font-semibold text-xs">
-          <div className="w-1/4">Name</div>
-          <div className="w-1/4">Email</div>
-          <div className="w-1/4">Phone</div>
-        </div>
-
-        {/* Columns Data */}
-        <div>
-          <div className="flex bg-gray-100 rounded-xl px-5 py-3 my-1 items-center text-sm">
-            <div className="w-1/4 flex items-center gap-2">
-              <img src={client1Icon} alt="client1Icon" />
-              <span className="text-brand-blue underline">John Doe</span>
-            </div>
-            <div className="w-1/4">johndoe@example.com</div>
-            <div className="w-1/4">+1 234 567 890</div>
-          </div>
-        </div>
+        <Table columns={columns} dataSource={clientsSampleData} />
       </div>
     </div>
   );
