@@ -76,6 +76,15 @@ export interface ClientCards {
   image?: string;
 }
 
+// for upcomming session
+export interface EventItem {
+  name: string;
+  description: string;
+  startTime: string;
+  endTime: string;
+  image?: string;
+}
+
 // ============================================= interface for props
 
 // Props for a reusable table component
