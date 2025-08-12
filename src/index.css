@@ -6,7 +6,6 @@
 body {
   font-family: "Inter", sans-serif;
 }
-
 /* Global custom styles */
 @layer base {
   /* Custom scrollbar */
@@ -153,6 +152,13 @@ body {
   .animate-bounce-gentle {
     animation: bounceGentle 2s infinite;
   }
+}
+
+/* change default icon color and make cursor pointer */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(20%) sepia(100%) saturate(5000%) hue-rotate(200deg)
+    brightness(90%) contrast(100%);
+  cursor: pointer;
 }
 
 /* Custom animations */
