@@ -5,6 +5,7 @@ import Button from "../components/buttons/Button";
 import Table from "../components/Table";
 import type { card } from "../utils/interfaces";
 import { clientsSampleData, columns } from "../utils/arrays";
+import UpcomminSession from "../components/UpcomminSession";
 
 function Home() {
   const cards: card[] = [
@@ -40,8 +41,8 @@ function Home() {
                   <img src={icon} alt={name} />
                 </div>
                 <div className="text-base xxs:ml-4 sm:ml-2">
-                  <div className="font-bold">{name}</div>
-                  <div>{number}</div>
+                  <h1 className="font-bold">{name}</h1>
+                  <h1>{number}</h1>
                 </div>
               </div>
             ))}
@@ -51,13 +52,8 @@ function Home() {
           <CardWithDog />
         </div>
 
-        {/* Scheduling card */}
-        <div className="col-span-3 lg:col-span-1 rounded-xl bg-white border">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deleniti
-          consequuntur ut accusantium rem, qui necessitatibus corrupti delectus
-          cupiditate quas et consequatur dolorum quo hic, assumenda itaque, aut
-          quasi reprehenderit dolore.
-        </div>
+        {/* Upcomming Session */}
+        <UpcomminSession />
       </div>
 
       <div className="rounded-xl bg-white my-8 py-6">
