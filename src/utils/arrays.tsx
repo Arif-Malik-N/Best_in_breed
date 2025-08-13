@@ -1,4 +1,261 @@
-import type { Column, EventItem, rowData } from "./interfaces";
+import type { Column, EventItem, field, rowData } from "./interfaces";
+
+export const cifFirstSectionFields: field[] = [
+  {
+    name: "homePhone",
+    placeholder: "Home Phone",
+    elementType: "input",
+    type: "number",
+    colSpan: "col-span-4",
+  },
+  {
+    name: "cellPhone",
+    placeholder: "Cell Phone",
+    elementType: "input",
+    type: "number",
+    colSpan: "col-span-4",
+  },
+  {
+    name: "workPhone",
+    placeholder: "Work Phone",
+    elementType: "input",
+    type: "number",
+    colSpan: "col-span-4",
+  },
+
+  {
+    name: "breed",
+    placeholder: "Select Breed",
+    elementType: "select",
+    options: ["Breed 1", "Breed 2"],
+    colSpan: "col-span-3",
+  },
+  {
+    name: "name",
+    placeholder: "Name",
+    elementType: "input",
+    type: "text",
+    colSpan: "col-span-3",
+  },
+  {
+    name: "sex",
+    placeholder: "Sex",
+    elementType: "input",
+    type: "text",
+    colSpan: "col-span-3",
+  },
+  {
+    name: "age",
+    placeholder: "Age",
+    elementType: "input",
+    type: "number",
+    colSpan: "col-span-3",
+  },
+
+  {
+    name: "referral",
+    placeholder: "Referral",
+    elementType: "input",
+    type: "text",
+    colSpan: "col-span-6",
+  },
+  {
+    name: "vetName",
+    placeholder: "Name of Vet",
+    elementType: "input",
+    type: "text",
+    colSpan: "col-span-6",
+  },
+
+  {
+    name: "whereDog",
+    placeholder: "Where did you get dog",
+    elementType: "input",
+    type: "text",
+    colSpan: "col-span-12",
+  },
+  {
+    name: "previousTraining",
+    placeholder: "Previous Training",
+    elementType: "input",
+    type: "text",
+    colSpan: "col-span-12",
+  },
+  {
+    name: "trainer",
+    placeholder: "Who will be doing most of the training",
+    elementType: "input",
+    type: "text",
+    colSpan: "col-span-12",
+  },
+  {
+    name: "problems",
+    placeholder: "Select Problems",
+    elementType: "select",
+    colSpan: "col-span-12",
+    options: ["Problem 1", "Problem 2"],
+  },
+  {
+    name: "bestTime",
+    placeholder: "Best time for training sessions",
+    elementType: "input",
+    type: "text",
+    colSpan: "col-span-12",
+  },
+  {
+    name: "others",
+    placeholder: "Others",
+    elementType: "input",
+    type: "text",
+    colSpan: "col-span-12",
+  },
+  {
+    name: "corrections",
+    placeholder: "What corrections are used",
+    elementType: "input",
+    type: "text",
+    colSpan: "col-span-12",
+  },
+  {
+    name: "housebroken",
+    placeholder: "Is/Are dog housebroken",
+    elementType: "input",
+    type: "text",
+    colSpan: "col-span-12",
+  },
+  {
+    name: "accident",
+    placeholder: "Correction for accident",
+    elementType: "input",
+    type: "text",
+    colSpan: "col-span-12",
+  },
+
+  {
+    name: "confinementDay",
+    placeholder: "Confinement / Day",
+    elementType: "input",
+    type: "text",
+    colSpan: "col-span-6",
+  },
+  {
+    name: "confinementNight",
+    placeholder: "Confinement / Night",
+    elementType: "input",
+    type: "text",
+    colSpan: "col-span-6",
+  },
+
+  {
+    name: "trainingGoals",
+    placeholder: "Training goals for dog",
+    elementType: "textarea",
+    rows: 3,
+    colSpan: "col-span-12",
+  },
+  {
+    name: "remarks",
+    placeholder: "Evaluator's remarks",
+    elementType: "textarea",
+    rows: 3,
+    colSpan: "col-span-12",
+  },
+];
+
+export const cifCheckBox: field[] = [
+  // {
+  //   name: "address",
+  //   placeholder: "Address",
+  //   elementType: "input",
+  //   type: "text",
+  // },
+  // { name: "phone", placeholder: "Phone", elementType: "input", type: "number" },
+
+  {
+    name: "Weeks on leash",
+    label: "House breaking:",
+    elementType: "checkbox",
+    options: [
+      "Chewing",
+      "Going in Trash",
+      "Leash Green",
+      "Heel",
+      "Done",
+      "Sit Stay",
+      "Down stay",
+      "Release command",
+      "Behavior Problems",
+      "Respect for word 'NO'",
+      "Lifetime Consultation",
+    ],
+  },
+  {
+    name: "Weeks on/off leash",
+    label: "House breaking:",
+    elementType: "checkbox",
+    options: [
+      "Chewing",
+      "Going in Trash",
+      "Leash Green",
+      "Heel",
+      "Done",
+      "Sit Stay",
+      "Down stay",
+      "Release command",
+      "Behavior Problems",
+      "Respect for word 'NO'",
+      "Lifetime Consultation",
+    ],
+  },
+  {
+    name: "8 Weeks on leash",
+    label: "Personal Protection (NO bite work—treat training only)",
+    elementType: "checkbox",
+    options: ["Watch", "Out", "Lifetime consultation"],
+  },
+  {
+    name: "Months Maintenance",
+    label: "",
+    elementType: "checkbox",
+    options: ["Maintain previously enrolled program"],
+  },
+
+  // {
+  //   name: "trainingFee",
+  //   placeholder: "Training Fee",
+  //   elementType: "input",
+  //   type: "number",
+  //   colSpan: "col-span-2",
+  // },
+  // {
+  //   name: "notes",
+  //   placeholder: "Notes & Terms",
+  //   elementType: "textarea",
+  //   rows: 4,
+  //   colSpan: "col-span-2",
+  // },
+
+  // {
+  //   name: "ownerName",
+  //   placeholder: "Owner Name",
+  //   elementType: "input",
+  //   type: "text",
+  //   colSpan: "col-span-2",
+  // },
+  // { name: "date", placeholder: "Date", elementType: "input", type: "date" },
+  // {
+  //   name: "dogName",
+  //   placeholder: "Owner of Dog",
+  //   elementType: "input",
+  //   type: "text",
+  // },
+  // {
+  //   name: "trainingStart",
+  //   placeholder: "Training to start week of",
+  //   elementType: "input",
+  //   type: "date",
+  // },
+];
 
 export const columns: Column[] = [
   { key: "name", title: "Name", minWidth: 180, isIcon: true },

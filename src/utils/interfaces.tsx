@@ -56,12 +56,18 @@ export interface Column {
 export interface field {
   value?: string | number;
   name: string;
-  type: string;
-  className: string;
+  type?: string;
+  className?: string;
   placeholder?: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  setValue?: React.Dispatch<React.SetStateAction<string>>;
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
+  // below types is only for client intake forms
+  elementType?: "input" | "textarea" | "select" | "checkbox";
+  colSpan?: string;
+  options?: string[]; // for select
+  rows?: number; // for textarea
+  label?: string; // dor check box label
 }
 
 // Route definition for application routing
@@ -116,6 +122,7 @@ export interface InputProps {
   setValue: React.Dispatch<React.SetStateAction<string>>;
   startIcon?: string | React.ReactNode;
   endIcon?: string | React.ReactNode;
+  rows?: number;
 }
 
 // Generic props with a setter for type switching
@@ -133,4 +140,14 @@ export interface ResetPsdProps {
   email?: string;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   setFormType: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface clientIntakeProp {
+  renderPage?: string;
+  setRenderPage: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface NavigationTopBarProp {
+  name: string;
+  onClick: () => void;
 }

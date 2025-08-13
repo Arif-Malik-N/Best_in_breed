@@ -1,7 +1,7 @@
 import React from "react";
-import { AiOutlineLeft } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
 import { aboutPageDog, certificates } from "../assets/images";
+import NavigationTopBar from "../components/NavigationTopBar";
+import { useNavigate } from "react-router-dom";
 
 const AboutUs = () => {
   const navigate = useNavigate();
@@ -9,14 +9,7 @@ const AboutUs = () => {
   return (
     <div>
       {/* Top bar */}
-      <div className="flex gap-2 sm:gap-5 sm:mt-5">
-        <div className="cursor-pointer" onClick={() => navigate("/")}>
-          <AiOutlineLeft className="font-bold mt-1 sm:w-6 sm:h-6" />
-        </div>
-        <span className="xxs:text-lg xs:text-xl sm:text-2xl font-bold">
-          About App
-        </span>
-      </div>
+      <NavigationTopBar name="About App" onClick={() => navigate("/")} />
 
       {/* Middle Text With Image */}
       <div className="my-3 sm:my-10">

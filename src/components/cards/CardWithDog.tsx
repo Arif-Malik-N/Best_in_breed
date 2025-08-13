@@ -1,8 +1,9 @@
 import React from "react";
 import Button from "../buttons/Button";
 import { mainDog } from "../../assets/images";
+import type { clientIntakeProp } from "../../utils/interfaces";
 
-const CardWithDog = () => {
+const CardWithDog: React.FC<clientIntakeProp> = ({ setRenderPage }) => {
   return (
     <div className="mt-5 sm:mt-[70px]">
       <div className="relative sm:h-[348px] rounded-xl bg-brand-blue text-white">
@@ -34,7 +35,7 @@ const CardWithDog = () => {
             <Button
               name="Client Intake Form"
               className="w-[200px] xxs:h-[45px] sm:h-[56px] bg-black rounded-lg text-white font-bold"
-              onClick={() => {}}
+              onClick={() => setRenderPage("clientIntakeForm")}
             />
           </div>
 

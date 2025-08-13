@@ -117,6 +117,7 @@ export default {
           200: "#DBDBDB", // Medium-light gray
           300: "#D0CECE", // Slight beige-gray
           400: "#C9D5EF", // Light steel blue-gray
+          450: "#CDD5DF",
           500: "#C8DAFF", // Pale blue
           550: "#A7A7A7",
           600: "#ACAAAA", // Muted gray
