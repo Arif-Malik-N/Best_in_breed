@@ -8,7 +8,7 @@ const Table: React.FC<TableProps> = React.memo(({ columns, dataSource }) => {
   );
 
   return (
-    <div className="w-full max-h-[500px] overflow-auto pl-3 pr-2 py-2">
+    <div className="w-full max-h-[530px] overflow-auto pl-3 pr-2 py-2">
       {/* Header */}
       <div
         className="flex font-semibold text-xs px-5"
