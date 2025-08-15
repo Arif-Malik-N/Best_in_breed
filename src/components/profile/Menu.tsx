@@ -58,7 +58,7 @@ const Menu: React.FC<Props> = ({ setType }) => {
 
       <Button
         name="Log Out"
-        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white font-bold"
+        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white"
         onClick={() => {}}
       />
     </div>

@@ -114,8 +114,10 @@ export default {
           50: "#f0f0f0", // Custom light gray
           100: "#EFEFEF", // Slightly darker
           150: "#F5F5F5",
+          250: "#A9ACB4",
           200: "#DBDBDB", // Medium-light gray
           300: "#D0CECE", // Slight beige-gray
+          350: "#EFF3FA",
           400: "#C9D5EF", // Light steel blue-gray
           450: "#CDD5DF",
           500: "#C8DAFF", // Pale blue

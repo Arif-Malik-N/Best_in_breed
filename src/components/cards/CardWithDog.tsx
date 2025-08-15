@@ -34,7 +34,7 @@ const CardWithDog: React.FC<clientIntakeProp> = ({ setRenderPage }) => {
             {/* Client Button */}
             <Button
               name="Client Intake Form"
-              className="w-[200px] xxs:h-[45px] sm:h-[56px] bg-black rounded-lg text-white font-bold"
+              className="w-[200px] xxs:h-[45px] sm:h-[56px] bg-black rounded-lg text-white"
               onClick={() => setRenderPage("clientIntakeForm")}
             />
           </div>

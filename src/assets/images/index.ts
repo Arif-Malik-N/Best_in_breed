@@ -21,6 +21,8 @@ import client13 from "./client13.png";
 import client14 from "./client14.png";
 import certificates from "./certificates.png";
 import aboutPageDog from "./aboutPageDog.png";
+import dog1 from "./dog1.png";
+import dog2 from "./dog2.png";
 
 // icons
 import email from "../icons/email.png";
@@ -37,6 +39,7 @@ import check from "../icons/check.png";
 import lock2 from "../icons/lock2.png";
 import group from "../icons/group.png";
 import client1Icon from "../icons/client1Icon.png";
+import pdf from "../icons/pdf.png";
 
 export {
   largePaw,
@@ -62,6 +65,8 @@ export {
   client14,
   certificates,
   aboutPageDog,
+  dog1,
+  dog2,
   // icons
   email,
   phone,
@@ -77,4 +82,5 @@ export {
   lock2,
   group,
   client1Icon,
+  pdf,
 };

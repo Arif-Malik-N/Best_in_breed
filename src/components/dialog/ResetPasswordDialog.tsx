@@ -18,7 +18,7 @@ const ResetPasswordDialog: React.FC<DialogProps> = ({
         <img src={unlock1} alt="Unlock Icon" />
 
         {/* Title */}
-        <h2 className="xxs:text-lg xs:text-xl sm:text-2xl font-bold text-black">
+        <h2 className="xxs:text-lg xs:text-xl sm:text-2xl  text-black">
           Reset Link Sent!
         </h2>
 

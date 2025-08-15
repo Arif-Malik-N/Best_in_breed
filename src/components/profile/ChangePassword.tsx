@@ -73,7 +73,7 @@ const ChangePassword: React.FC<Props> = ({ setType }) => {
 
       <Button
         name="Save Changes"
-        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white font-bold"
+        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white"
         onClick={() => setType("menu")}
       />
     </div>

@@ -30,7 +30,7 @@ const Step2: React.FC<StepFormProps> = ({
     <div className="my-8 md:pt-10 xl:pt-18 pb-4">
       {/* Title */}
       <div>
-        <h1 className="font-bold xxs:text-xl xs:text-2xl md:text-3xl lg:text-4xl text-center">
+        <h1 className=" xxs:text-xl xs:text-2xl md:text-3xl lg:text-4xl text-center">
           Best in Breed Dog Training
         </h1>
         <h1 className="font-semibold xxs:text-base xs:text-lg sm:text-xl lg:text-2xl text-center my-2">
@@ -310,7 +310,7 @@ const Step2: React.FC<StepFormProps> = ({
       {/* Next Button */}
       <Button
         name="Next"
-        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-xl text-white font-semibold text-base"
+        className="w-full bg-brand-blue rounded-xl text-white font-semibold"
         onClick={() => setStep((prev: number) => prev + 1)}
       />
     </div>

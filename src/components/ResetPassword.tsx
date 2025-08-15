@@ -44,14 +44,14 @@ const ResetPassword: React.FC<ResetPsdProps> = ({
       {/* reset button */}
       <Button
         name="Get Reset Link"
-        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white font-bold my-4"
+        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white my-4"
         onClick={openDialog}
       />
 
       {/* back button */}
       <Button
         name="Back To Login"
-        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-pink rounded-lg text-brand-blue font-bold"
+        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-pink rounded-lg text-brand-blue"
         onClick={() => setFormType("login")}
       />
 

@@ -32,7 +32,7 @@ const Step3: React.FC<StepFormProps> = ({
       {/* Submit Button */}
       <Button
         name="Submit"
-        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-xl text-white font-semibold text-base"
+        className="w-full bg-brand-blue rounded-xl text-white font-semibold"
         onClick={() => defaultAllState?.()}
       />
     </div>

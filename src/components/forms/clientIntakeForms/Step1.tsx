@@ -14,7 +14,7 @@ const Step1: React.FC<StepFormProps> = ({
     <div>
       {/* All Fields */}
       <div className="border rounded-xl bg-white my-8 pt-3 sm:pt-18 pb-4 xxs:px-2 sm:px-6">
-        <h1 className="font-bold xxs:text-xl xs:text-2xl sm:text-3xl lg:text-4xl text-center">
+        <h1 className=" xxs:text-xl xs:text-2xl sm:text-3xl lg:text-4xl text-center">
           Best in Breed Dog Training
         </h1>
         <div className="grid sm:grid-cols-4 gap-2 sm:gap-4 items-center xxs:mt-6 sm:mt-0 mb-1 sm:my-8 lg:my-18">
@@ -93,7 +93,7 @@ const Step1: React.FC<StepFormProps> = ({
       {/* Next Button */}
       <Button
         name="Next"
-        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-xl text-white font-semibold text-base"
+        className="w-full bg-brand-blue rounded-xl text-white text-base"
         onClick={() => setStep((prev: number) => prev + 1)}
       />
     </div>
