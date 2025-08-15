@@ -58,7 +58,7 @@ const Header = () => {
             <Link
               key={url}
               to={url}
-              className={`${className} text-sm lg:text-base transition-colors ${
+              className={`${className} text-sm lg:text-base transition-colors outline-none ${
                 location.pathname === url
                   ? "text-brand-blue font-semibold"
                   : "text-black"
@@ -87,7 +87,7 @@ const Header = () => {
               <Link
                 key={url}
                 to={url}
-                className={`${className} block xxs:text-xs sm:text-sm text-center bg-brand-grayBg border-b border-gray-200 xxs:pb-1 sm:pb-2 ${
+                className={`${className} block xxs:text-xs sm:text-sm text-center bg-brand-grayBg border-b border-gray-200 xxs:pb-1 sm:pb-2 outline-none ${
                   location.pathname === url
                     ? "text-brand-blue font-semibold"
                     : "text-black"
