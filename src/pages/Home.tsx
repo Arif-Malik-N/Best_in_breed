@@ -6,7 +6,8 @@ import Table from "../components/Table";
 import type { card } from "../utils/interfaces";
 import { clientsSampleData, columns } from "../utils/arrays";
 import UpcomminSession from "../components/UpcomminSession";
-import ClientIntakeForm from "../components/forms/ClientIntakeForm";
+import ClientIntakeForm from "../components/forms/clientIntakeForms/ClientIntakeForm";
+import ClientDetails from "../components/ClientDetails";
 
 function Home() {
   const [renderPage, setRenderPage] = useState("home");
@@ -36,6 +37,8 @@ function Home() {
           renderPage={renderPage}
           setRenderPage={setRenderPage}
         />
+      ) : renderPage === "clientDetails" ? (
+        <ClientDetails renderPage={renderPage} setRenderPage={setRenderPage} />
       ) : (
         <div>
           {/* Top Section */}
@@ -79,7 +82,11 @@ function Home() {
                 onClick={() => {}}
               />
             </div>
-            <Table columns={columns} dataSource={clientsSampleData} />
+            <Table
+              columns={columns}
+              dataSource={clientsSampleData}
+              setRenderPage={setRenderPage}
+            />
           </div>
         </div>
       )}

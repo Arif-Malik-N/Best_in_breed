@@ -4,6 +4,7 @@ import { lock2 } from "../../assets/images";
 import Input from "../fields/Input";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import type { field, Props } from "../../utils/interfaces";
+import NavigationTopBar from "../NavigationTopBar";
 
 const ChangePassword: React.FC<Props> = ({ setType }) => {
   const [currentPsd, setCurrentPsd] = useState("");
@@ -42,14 +43,11 @@ const ChangePassword: React.FC<Props> = ({ setType }) => {
 
   return (
     <div>
-      <div className="flex gap-5 mt-5">
-        <div className="cursor-pointer" onClick={() => setType("menu")}>
-          <AiOutlineArrowLeft className="mt-1 w-6 h-6" />
-        </div>
-        <span className="xxs:text-lg xs:text-xl sm:text-2xl font-bold">
-          Change Password
-        </span>
-      </div>
+      {/* Top Bar */}
+      <NavigationTopBar
+        name="Change Password"
+        onClick={() => setType("menu")}
+      />
       <div className="my-[50px]">
         <div className="grid xxs:grid-cols-1 sm:grid-cols-2 xxs:gap-4 sm:gap-5">
           {fields.map(

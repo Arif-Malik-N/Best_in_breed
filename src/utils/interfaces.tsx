@@ -56,13 +56,24 @@ export interface Column {
 export interface field {
   value?: string | number;
   name: string;
+  type: string;
+  className: string;
+  placeholder?: string;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
+  startIcon?: React.ReactNode;
+  endIcon?: React.ReactNode;
+}
+
+// It is only for client intake forms fields
+export interface clientFormFields {
+  value?: string | number;
+  name: string;
   type?: string;
   className?: string;
   placeholder?: string;
   setValue?: React.Dispatch<React.SetStateAction<string>>;
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
-  // below types is only for client intake forms
   elementType?: "input" | "textarea" | "select" | "checkbox";
   colSpan?: string;
   options?: string[]; // for select
@@ -97,6 +108,7 @@ export interface EventItem {
 export interface TableProps {
   columns: Column[];
   dataSource: Record<string, any>[]; // Can handle any object shape
+  setRenderPage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 // Props for a reusable button component
@@ -150,4 +162,11 @@ export interface clientIntakeProp {
 export interface NavigationTopBarProp {
   name: string;
   onClick: () => void;
+}
+
+export interface StepFormProps {
+  setStep?: React.Dispatch<React.SetStateAction<number>>; // for step 1 and 2
+  defaultAllState?: () => void; // for step 3
+  formData: Record<string, string>;
+  handleFieldChange: (name: string, value: string) => void;
 }

@@ -1,26 +1,32 @@
-import type { Column, EventItem, field, rowData } from "./interfaces";
+import type {
+  clientFormFields,
+  Column,
+  EventItem,
+  rowData,
+} from "./interfaces";
 
-export const cifFirstSectionFields: field[] = [
+// fields for client intake form step 1
+export const cifStep1Fields: clientFormFields[] = [
   {
     name: "homePhone",
     placeholder: "Home Phone",
     elementType: "input",
     type: "number",
-    colSpan: "col-span-4",
+    colSpan: "col-span-12 md:col-span-4",
   },
   {
     name: "cellPhone",
     placeholder: "Cell Phone",
     elementType: "input",
     type: "number",
-    colSpan: "col-span-4",
+    colSpan: "col-span-12 md:col-span-4",
   },
   {
     name: "workPhone",
     placeholder: "Work Phone",
     elementType: "input",
     type: "number",
-    colSpan: "col-span-4",
+    colSpan: "col-span-12 md:col-span-4",
   },
 
   {
@@ -28,28 +34,28 @@ export const cifFirstSectionFields: field[] = [
     placeholder: "Select Breed",
     elementType: "select",
     options: ["Breed 1", "Breed 2"],
-    colSpan: "col-span-3",
+    colSpan: "col-span-12 md:col-span-3",
   },
   {
     name: "name",
     placeholder: "Name",
     elementType: "input",
     type: "text",
-    colSpan: "col-span-3",
+    colSpan: "col-span-12 md:col-span-3",
   },
   {
     name: "sex",
     placeholder: "Sex",
     elementType: "input",
     type: "text",
-    colSpan: "col-span-3",
+    colSpan: "col-span-12 md:col-span-3",
   },
   {
     name: "age",
     placeholder: "Age",
     elementType: "input",
     type: "number",
-    colSpan: "col-span-3",
+    colSpan: "col-span-12 md:col-span-3",
   },
 
   {
@@ -57,14 +63,14 @@ export const cifFirstSectionFields: field[] = [
     placeholder: "Referral",
     elementType: "input",
     type: "text",
-    colSpan: "col-span-6",
+    colSpan: "col-span-12 md:col-span-6",
   },
   {
     name: "vetName",
     placeholder: "Name of Vet",
     elementType: "input",
     type: "text",
-    colSpan: "col-span-6",
+    colSpan: "col-span-12 md:col-span-6",
   },
 
   {
@@ -72,27 +78,27 @@ export const cifFirstSectionFields: field[] = [
     placeholder: "Where did you get dog",
     elementType: "input",
     type: "text",
-    colSpan: "col-span-12",
+    colSpan: "col-span-12 md:col-span-12",
   },
   {
     name: "previousTraining",
     placeholder: "Previous Training",
     elementType: "input",
     type: "text",
-    colSpan: "col-span-12",
+    colSpan: "col-span-12 md:col-span-12",
   },
   {
     name: "trainer",
     placeholder: "Who will be doing most of the training",
     elementType: "input",
     type: "text",
-    colSpan: "col-span-12",
+    colSpan: "col-span-12 md:col-span-12",
   },
   {
     name: "problems",
     placeholder: "Select Problems",
     elementType: "select",
-    colSpan: "col-span-12",
+    colSpan: "col-span-12 md:col-span-12",
     options: ["Problem 1", "Problem 2"],
   },
   {
@@ -100,35 +106,35 @@ export const cifFirstSectionFields: field[] = [
     placeholder: "Best time for training sessions",
     elementType: "input",
     type: "text",
-    colSpan: "col-span-12",
+    colSpan: "col-span-12 md:col-span-12",
   },
   {
     name: "others",
     placeholder: "Others",
     elementType: "input",
     type: "text",
-    colSpan: "col-span-12",
+    colSpan: "col-span-12 md:col-span-12",
   },
   {
     name: "corrections",
     placeholder: "What corrections are used",
     elementType: "input",
     type: "text",
-    colSpan: "col-span-12",
+    colSpan: "col-span-12 md:col-span-12",
   },
   {
     name: "housebroken",
     placeholder: "Is/Are dog housebroken",
     elementType: "input",
     type: "text",
-    colSpan: "col-span-12",
+    colSpan: "col-span-12 md:col-span-12",
   },
   {
     name: "accident",
     placeholder: "Correction for accident",
     elementType: "input",
     type: "text",
-    colSpan: "col-span-12",
+    colSpan: "col-span-12 md:col-span-12",
   },
 
   {
@@ -136,14 +142,14 @@ export const cifFirstSectionFields: field[] = [
     placeholder: "Confinement / Day",
     elementType: "input",
     type: "text",
-    colSpan: "col-span-6",
+    colSpan: "col-span-12 md:col-span-6",
   },
   {
     name: "confinementNight",
     placeholder: "Confinement / Night",
     elementType: "input",
     type: "text",
-    colSpan: "col-span-6",
+    colSpan: "col-span-12 md:col-span-6",
   },
 
   {
@@ -151,18 +157,19 @@ export const cifFirstSectionFields: field[] = [
     placeholder: "Training goals for dog",
     elementType: "textarea",
     rows: 3,
-    colSpan: "col-span-12",
+    colSpan: "col-span-12 md:col-span-12",
   },
   {
     name: "remarks",
     placeholder: "Evaluator's remarks",
     elementType: "textarea",
     rows: 3,
-    colSpan: "col-span-12",
+    colSpan: "col-span-12 md:col-span-12",
   },
 ];
 
-export const cifCheckBox: field[] = [
+// checkboxes for client intake form step 2
+export const cifStep2CheckBoxes: clientFormFields[] = [
   // {
   //   name: "address",
   //   placeholder: "Address",
@@ -225,14 +232,14 @@ export const cifCheckBox: field[] = [
   //   placeholder: "Training Fee",
   //   elementType: "input",
   //   type: "number",
-  //   colSpan: "col-span-2",
+  //   colSpan: "col-span-12 md:col-span-2",
   // },
   // {
   //   name: "notes",
   //   placeholder: "Notes & Terms",
   //   elementType: "textarea",
   //   rows: 4,
-  //   colSpan: "col-span-2",
+  //   colSpan: "col-span-12 md:col-span-2",
   // },
 
   // {
@@ -240,7 +247,7 @@ export const cifCheckBox: field[] = [
   //   placeholder: "Owner Name",
   //   elementType: "input",
   //   type: "text",
-  //   colSpan: "col-span-2",
+  //   colSpan: "col-span-12 md:col-span-2",
   // },
   // { name: "date", placeholder: "Date", elementType: "input", type: "date" },
   // {
@@ -257,6 +264,102 @@ export const cifCheckBox: field[] = [
   // },
 ];
 
+// fields for client intake form step 3
+export const cifStep3Fields: clientFormFields[] = [
+  {
+    name: "name",
+    label: "Name",
+    type: "text",
+    placeholder: "Enter name",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+  {
+    name: "date",
+    label: "Date",
+    type: "date",
+    placeholder: "Select date",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+  {
+    name: "address",
+    label: "Address",
+    type: "text",
+    placeholder: "Enter address",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+  {
+    name: "subdivision",
+    label: "Subdivision",
+    type: "text",
+    placeholder: "Enter subdivision",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+  {
+    name: "phone1",
+    label: "Phone #1",
+    type: "number",
+    placeholder: "Enter phone number",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+  {
+    name: "phone2",
+    label: "Phone #2",
+    type: "number",
+    placeholder: "Enter phone number",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+  {
+    name: "referral",
+    label: "Referral",
+    type: "text",
+    placeholder: "Enter referral source",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+  {
+    name: "dogName",
+    label: "Dog name",
+    type: "text",
+    placeholder: "Enter dog's name",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+  {
+    name: "breed",
+    label: "Breed",
+    type: "text",
+    placeholder: "Enter breed",
+    colSpan: "col-span-12 md:col-span-4",
+  },
+  {
+    name: "age",
+    label: "Age",
+    type: "number",
+    placeholder: "Enter age",
+    colSpan: "col-span-12 md:col-span-4",
+  },
+  {
+    name: "sex",
+    label: "Sex",
+    type: "text",
+    placeholder: "Enter sex",
+    colSpan: "col-span-12 md:col-span-4",
+  },
+  {
+    name: "problem",
+    label: "Problem",
+    type: "text",
+    placeholder: "Enter problem",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+  {
+    name: "appointmentScheduled",
+    label: "Appointment scheduled",
+    type: "text",
+    placeholder: "Enter appointment date",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+];
+
+// columns for client table
 export const columns: Column[] = [
   { key: "name", title: "Name", minWidth: 180, isIcon: true },
   { key: "email", title: "Email", minWidth: 220 },
@@ -267,6 +370,7 @@ export const columns: Column[] = [
   { key: "contract", title: "Contract", minWidth: 90, isClickable: true },
 ];
 
+// below all code is just for testing (i:e sample data)
 export const clientsSampleData: rowData[] = [
   {
     name: "Annette Black",
