@@ -15,6 +15,11 @@ function Contracts() {
       client[key].toLowerCase().includes(search.toLowerCase())
     )
   );
+
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" }); // to render every step component at the top
+  }, []);
+
   return (
     <div>
       {renderPage === "clientIntakeForm" ? (

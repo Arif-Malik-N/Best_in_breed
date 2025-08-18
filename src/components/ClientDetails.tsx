@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import NavigationTopBar from "./NavigationTopBar";
 import type { clientIntakeProp } from "../utils/interfaces";
 import {
-  AiFillFilePdf,
   AiOutlineDelete,
   AiOutlineDown,
   AiOutlineMail,
@@ -12,8 +11,10 @@ import {
 } from "react-icons/ai";
 import { client1, dog1, dog2, pdf } from "../assets/images";
 import Button from "./buttons/Button";
+import ReportForm from "./forms/clientIntakeForms/ReportForm";
 
 const ClientDetails: React.FC<clientIntakeProp> = ({ setRenderPage }) => {
+  const [isReportFormRender, setIsReportFormRender] = useState(false);
   const [openDog, setOpenDog] = useState<string | null>("Penny");
 
   const toggleDog = (name: string) => {
@@ -28,7 +29,9 @@ const ClientDetails: React.FC<clientIntakeProp> = ({ setRenderPage }) => {
     window.scrollTo({ top: 0, behavior: "smooth" }); // to render every step component at the top
   }, []);
 
-  return (
+  return isReportFormRender ? (
+    <ReportForm setIsReportFormRender={setIsReportFormRender} />
+  ) : (
     <div className="bg-white rounded-xl m-1 p-2 md:p-5 md:m-0">
       {/* Top Bar */}
       <NavigationTopBar name="Details" onClick={defaultAllState} />
@@ -177,7 +180,7 @@ const ClientDetails: React.FC<clientIntakeProp> = ({ setRenderPage }) => {
                     <Button
                       name="Add new report"
                       className="w-[110px] sm:w-[200px] text-xs sm:text-base bg-brand-blue rounded-xl text-white font-semibold"
-                      onClick={() => {}}
+                      onClick={() => setIsReportFormRender(true)}
                     />
                   </div>
                   {[1, 2].map((i) => (

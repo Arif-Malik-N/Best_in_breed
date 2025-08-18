@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { augustDataWithImage, septemberDataWithImage } from "../utils/arrays";
 import type { EventItem } from "../utils/interfaces";
+import EventList from "./EventList";
 
 const UpcomminSession = () => {
   const today = new Date();
@@ -200,35 +201,12 @@ const UpcomminSession = () => {
       </div>
 
       {/* Events list */}
-      {events.length > 0 ? (
-        <div className="overflow-auto max-h-[450px] lg:max-h-[325px]">
-          {events.map((ev, idx) => (
-            <div
-              key={idx}
-              className={`flex items-center gap-3 p-2 bg-gray-400 rounded-xl ${
-                idx !== 0 && "xxs:mt-2 lg:mt-3"
-              }`}
-            >
-              <img
-                src={ev.image}
-                alt={ev.name}
-                className="w-[65px] h-[65px] rounded-xl object-cover"
-              />
-              <div className="space-y-1">
-                <div className="text-sm font-bold">{ev.name}</div>
-                <div className="text-xs">{ev.description}</div>
-                <div className="text-xs">
-                  {ev.startTime} - {ev.endTime}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <h3 className="xxs:text-sm sm:text-base text-red-400 py-5 font-semibold text-center">
-          No sessions for this date.
-        </h3>
-      )}
+      <EventList
+        events={events}
+        scrollable
+        className="gap-3 p-2 bg-gray-400"
+        emptyMessage="No sessions for this date."
+      />
     </div>
   );
 };

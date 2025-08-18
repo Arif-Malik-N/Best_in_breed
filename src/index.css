@@ -161,7 +161,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
 }
 
-/* Custom animations */
+/* custom calendar */
+.fc-v-event {
+  background-color: white !important;
+  border: none !important;
+}
+
+.fc-timegrid-slot-label-cushion,
+.fc-scrollgrid-sync-inner {
+  font-size: small;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

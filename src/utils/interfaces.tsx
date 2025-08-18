@@ -62,6 +62,7 @@ export interface field {
   setValue: React.Dispatch<React.SetStateAction<string>>;
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
+  elementType?: "input" | "textarea";
 }
 
 // It is only for client intake forms fields

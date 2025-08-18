@@ -6,6 +6,10 @@ import { useNavigate } from "react-router-dom";
 const AboutUs = () => {
   const navigate = useNavigate();
 
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" }); // to render every step component at the top
+  }, []);
+
   return (
     <div>
       {/* Top bar */}

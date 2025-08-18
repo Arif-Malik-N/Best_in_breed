@@ -1,6 +1,14 @@
 import React from "react";
 import { Route, Routes } from "react-router";
-import { Home, Clients, Contracts, AboutUs, Profile, SignIn } from "../pages";
+import {
+  Home,
+  Clients,
+  Contracts,
+  AboutUs,
+  Profile,
+  SignIn,
+  Schedule,
+} from "../pages";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import type { AppRoute } from "../utils/interfaces";
@@ -13,7 +21,7 @@ const Routing = React.memo(() => {
     },
     {
       path: "/schedule",
-      component: <Clients />,
+      component: <Schedule />,
     },
     {
       path: "/clients",

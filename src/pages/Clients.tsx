@@ -18,6 +18,7 @@ import {
 } from "../assets/images";
 import { AiOutlineSearch } from "react-icons/ai";
 import Input from "../components/fields/Input";
+import ClientDetails from "../components/ClientDetails";
 
 const clientsData: ClientCards[] = [
   {
@@ -93,13 +94,20 @@ const clientsData: ClientCards[] = [
 ];
 
 function Clients() {
+  const [renderPage, setRenderPage] = useState("client");
   const [search, setSearch] = useState("");
 
   const filteredClients = clientsData.filter((client) =>
     client.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  return (
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" }); // to render every step component at the top
+  }, []);
+
+  return renderPage === "clientDetails" ? (
+    <ClientDetails renderPage={renderPage} setRenderPage={setRenderPage} />
+  ) : (
     <div className="bg-white rounded-xl px-4 py-10">
       {/* Search Bar */}
       <div className="relative mb-6">
@@ -123,7 +131,8 @@ function Clients() {
           {filteredClients.map(({ name, role, image }, index) => (
             <div
               key={name}
-              className="place-content-center h-[225px] border rounded-xl shadow-sm hover:shadow-md transition"
+              className="place-content-center h-[225px] border rounded-xl shadow-sm hover:shadow-md transition cursor-pointer"
+              onClick={() => setRenderPage("clientDetails")}
             >
               <img
                 src={image}

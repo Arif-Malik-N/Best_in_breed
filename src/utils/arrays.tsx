@@ -707,6 +707,30 @@ export const augustData: AugustData = {
       startTime: "7:30 AM",
       endTime: "8:15 AM",
     },
+    {
+      name: "Bella",
+      description: "Training",
+      startTime: "9:30 AM",
+      endTime: "10:30 AM",
+    },
+    {
+      name: "Daisy",
+      description: "Vet checkup",
+      startTime: "12:00 PM",
+      endTime: "1:00 PM",
+    },
+    {
+      name: "Max",
+      description: "Bath",
+      startTime: "2:00 PM",
+      endTime: "2:45 PM",
+    },
+    {
+      name: "Luna",
+      description: "Grooming",
+      startTime: "4:00 PM",
+      endTime: "5:00 PM",
+    },
   ],
   "20-aug 2025": [
     {
