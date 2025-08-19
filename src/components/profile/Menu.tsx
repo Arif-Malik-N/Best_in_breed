@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import Button from "../buttons/Button";
 import { changePassword, edit, lock, terms } from "../../assets/images";
 import { AiOutlineRight } from "react-icons/ai";
 import type { menu, Props } from "../../utils/interfaces";
+import { AuthContext } from "../../router/Index";
 
 const Menu: React.FC<Props> = ({ setType }) => {
+  const { setIsAuthenticated } = useContext(AuthContext);
+
   const profileMenu: menu[] = [
     {
       key: "editProfile",
@@ -59,7 +62,7 @@ const Menu: React.FC<Props> = ({ setType }) => {
       <Button
         name="Log Out"
         className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white"
-        onClick={() => {}}
+        onClick={() => setIsAuthenticated(false)}
       />
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useContext, useState } from "react";
 import SignInBackground from "../components/SignInBackground";
 import { logo } from "../assets/images";
 import Input from "../components/fields/Input";
@@ -6,20 +6,21 @@ import Button from "../components/buttons/Button";
 import ResetPassword from "../components/ResetPassword";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import type { field } from "../utils/interfaces";
+import { AuthContext } from "../router/Index";
 
 const SignIn = () => {
+  const { setIsAuthenticated } = useContext(AuthContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [formType, setFormType] = useState("login");
 
-  console.log(email, password);
-
   // Function to toggle password visibility
   const togglePassword = () => setShowPassword((prev) => !prev);
 
   // login function
-  const handleLogin = () => {};
+  const handleLogin = () => setIsAuthenticated(true);
 
   const fields: field[] = [
     {
