@@ -112,7 +112,7 @@ const Calendar = () => {
           ].map(({ label, view }) => {
             const isActive = currentView === view; // <-- track active view
             return (
-              <div key={name}>
+              <div key={label}>
                 <Button
                   name={label}
                   className={`p-2 lg:w-[70px] border transition text-center text-sm outline-none ${
@@ -140,20 +140,17 @@ const Calendar = () => {
             { action: "prev", icon: <AiOutlineLeft size={18} /> },
             { action: "next", icon: <AiOutlineRight size={18} /> },
           ].map(({ action, icon }) => (
-            <>
-              <div key={action}>
-                <Button
-                  name={icon}
-                  onClick={() => calendarRef.current?.getApi()[action]()}
-                  className="p-1 xs:p-2 lg:w-[40px] lg:h-[40px] flex items-center justify-center rounded-full border bg-white hover:bg-gray-100 outline-none cursor-pointer"
-                />
-              </div>
-
+            <div key={action}>
+              <Button
+                name={icon}
+                onClick={() => calendarRef.current?.getApi()[action]()}
+                className="p-1 xs:p-2 lg:w-[40px] lg:h-[40px] flex items-center justify-center rounded-full border bg-white hover:bg-gray-100 outline-none cursor-pointer"
+              />
               {/* Date Range */}
               {action === "prev" && (
                 <h2 className="text-sm font-semibold">{currentRange}</h2>
-              )}
-            </>
+              )}{" "}
+            </div>
           ))}
         </div>
       </div>
