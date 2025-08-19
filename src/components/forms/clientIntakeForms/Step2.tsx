@@ -310,7 +310,7 @@ const Step2: React.FC<StepFormProps> = ({
       {/* Next Button */}
       <Button
         name="Next"
-        className="w-full bg-brand-blue rounded-xl text-white font-semibold"
+        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-xl text-white font-semibold"
         onClick={() => setStep((prev: number) => prev + 1)}
       />
     </div>

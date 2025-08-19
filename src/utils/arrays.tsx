@@ -737,7 +737,7 @@ export const augustData: AugustData = {
       name: "Rocky",
       description: "Vet appointment",
       startTime: "10:00 AM",
-      endTime: "11:00 AM",
+      endTime: "12:30 PM",
     },
     {
       name: "Bella",

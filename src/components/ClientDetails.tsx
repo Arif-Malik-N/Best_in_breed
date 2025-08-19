@@ -179,7 +179,7 @@ const ClientDetails: React.FC<clientIntakeProp> = ({ setRenderPage }) => {
                     </h4>
                     <Button
                       name="Add new report"
-                      className="w-[110px] sm:w-[200px] text-xs sm:text-base bg-brand-blue rounded-xl text-white font-semibold"
+                      className="w-[110px] sm:w-[200px] xxs:h-[45px] sm:h-[56px] text-xs sm:text-base bg-brand-blue rounded-xl text-white font-semibold"
                       onClick={() => setIsReportFormRender(true)}
                     />
                   </div>

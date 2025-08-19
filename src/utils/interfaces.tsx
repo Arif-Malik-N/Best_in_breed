@@ -114,7 +114,7 @@ export interface TableProps {
 
 // Props for a reusable button component
 export interface ButtonProps {
-  name: string;
+  name: string | React.ReactNode;
   className?: string;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
