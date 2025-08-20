@@ -73,7 +73,7 @@ const Calendar = () => {
 
     return (
       <div
-        className="border-2 rounded-lg py-1 px-2 bg-white"
+        className="border-2 xl:ml-1 rounded-lg py-1 px-1 lg:px-2 bg-white"
         style={{ borderColor: color }}
       >
         {/* Time */}
@@ -163,8 +163,8 @@ const Calendar = () => {
             initialView="timeGridWeek" // initially week
             events={calendarEvents}
             height="auto"
-            slotMinTime="08:00:00"
-            slotMaxTime="20:00:00"
+            slotMinTime="06:00:00"
+            slotMaxTime="23:59:00"
             allDaySlot={false}
             nowIndicator={true} // red line to indicate current time
             headerToolbar={false} // Hide default header
