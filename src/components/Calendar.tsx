@@ -140,7 +140,7 @@ const Calendar = () => {
             { action: "prev", icon: <AiOutlineLeft size={18} /> },
             { action: "next", icon: <AiOutlineRight size={18} /> },
           ].map(({ action, icon }) => (
-            <div key={action}>
+            <React.Fragment key={action}>
               <Button
                 name={icon}
                 onClick={() => calendarRef.current?.getApi()[action]()}
@@ -150,7 +150,7 @@ const Calendar = () => {
               {action === "prev" && (
                 <h2 className="text-sm font-semibold">{currentRange}</h2>
               )}{" "}
-            </div>
+            </React.Fragment>
           ))}
         </div>
       </div>
