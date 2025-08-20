@@ -4,8 +4,10 @@ import { changePassword, edit, lock, terms } from "../../assets/images";
 import { AiOutlineRight } from "react-icons/ai";
 import type { menu, Props } from "../../utils/interfaces";
 import { AuthContext } from "../../router/Index";
+import { useNavigate } from "react-router-dom";
 
 const Menu: React.FC<Props> = ({ setType }) => {
+  const navigate = useNavigate();
   const { setIsAuthenticated } = useContext(AuthContext);
 
   const profileMenu: menu[] = [
@@ -62,7 +64,10 @@ const Menu: React.FC<Props> = ({ setType }) => {
       <Button
         name="Log Out"
         className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white"
-        onClick={() => setIsAuthenticated(false)}
+        onClick={() => {
+          setIsAuthenticated(false);
+          navigate("/");
+        }}
       />
     </div>
   );
