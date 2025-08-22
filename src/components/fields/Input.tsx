@@ -22,6 +22,7 @@ const Input: React.FC<InputProps> = ({
 
       <input
         value={value}
+        min="0"
         type={type}
         placeholder={placeholder}
         className={className}

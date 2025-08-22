@@ -55,6 +55,11 @@ const AboutUs = () => {
           non ut sit adipiscing sed id nisl at integ ipsum dolor sit amet,
           consectetur adipiscing elit Sed non netus cum faucibus blandit. Non
           non ut
+          <React.Fragment>
+            Non non ut sit adipiscing sed id nisl at integ ipsum dolor sit amet,
+            consectetur adipiscing elit Sed non netus cum faucibus blandit. Non
+            non ut sit adipiscing sed id nisl at integ ipsum dolor sit amet.
+          </React.Fragment>
         </div>
       </div>
 

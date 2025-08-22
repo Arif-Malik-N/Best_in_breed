@@ -15,7 +15,7 @@ const EditProfile: React.FC<Props> = ({ setType }) => {
       name: "Email Address",
       type: "email",
       className:
-        "w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 xxs:text-sm sm:text-base text-gray-750 border border-gray-300 focus:outline-none",
+        "w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 xxs:text-sm sm:text-base placeholder-gray-700 border border-gray-300 focus:outline-none",
       setValue: setEmail,
       endIcon: check,
     },
@@ -24,7 +24,7 @@ const EditProfile: React.FC<Props> = ({ setType }) => {
       name: "Phone Number",
       type: "text",
       className:
-        "w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 xxs:text-sm sm:text-base text-gray-750 border border-gray-300 focus:outline-none",
+        "w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 xxs:text-sm sm:text-base placeholder-gray-700 border border-gray-300 focus:outline-none",
       setValue: setPhoneNo,
       endIcon: undefined,
     },
@@ -33,7 +33,7 @@ const EditProfile: React.FC<Props> = ({ setType }) => {
       name: "Location",
       type: "text",
       className:
-        "w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 xxs:text-sm sm:text-base text-gray-750 border border-gray-300 focus:outline-none",
+        "w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 xxs:text-sm sm:text-base placeholder-gray-700 border border-gray-300 focus:outline-none",
       setValue: setLoc,
       endIcon: location,
     },

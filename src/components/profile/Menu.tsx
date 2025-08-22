@@ -25,29 +25,29 @@ const Menu: React.FC<Props> = ({ setType }) => {
       key: "privacyPolicy",
       icon: lock,
       name: "Privacy Policy",
+      path: "/privacy-policy",
     },
     {
       key: "termsAndCond",
       icon: terms,
       name: "Terms & Conditions",
+      path: "/term-and-conditions",
     },
   ];
 
   return (
     <div>
       <div className="my-[50px]">
-        {profileMenu.map(({ key, name, icon }) => {
-          const isClickable: boolean = [
+        {profileMenu.map(({ key, name, icon, path }) => {
+          const isSamePage: boolean = [
             "changePassword",
             "editProfile",
           ].includes(key);
           return (
             <div
               key={key}
-              className={`flex items-center w-full my-5 ${
-                isClickable && "cursor-pointer"
-              }`}
-              onClick={() => isClickable && setType(key)}
+              className={`flex items-center w-full my-5 cursor-pointer`}
+              onClick={() => (isSamePage ? setType(key) : navigate(path))}
             >
               <div className="flex w-[90%]">
                 <img src={icon} alt={key} className="w-4 h-5 my-1" />

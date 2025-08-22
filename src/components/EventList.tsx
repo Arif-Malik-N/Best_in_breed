@@ -1,6 +1,5 @@
-import React from "react";
-
 const EventList = ({
+  selectedDate = Date(),
   events = [],
   emptyMessage = "No sessions available.",
   scrollable = false, // controls scroll vs normal
@@ -13,6 +12,11 @@ const EventList = ({
       </h3>
     );
   }
+  const currentDate = new Date(selectedDate);
+  const dateAndMonth = currentDate.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+  });
 
   return (
     <div
@@ -44,7 +48,7 @@ const EventList = ({
             </div>
             <div className="text-xs">{description}</div>
             <div className="text-xs">
-              {startTime} - {endTime}
+              {dateAndMonth} | {startTime} - {endTime}
             </div>
           </div>
         </div>

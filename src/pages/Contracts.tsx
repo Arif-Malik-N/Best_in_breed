@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import Input from "../components/fields/Input";
-import { clientsSampleData, columns } from "../utils/arrays";
+import { clientsSampleData, contractColumns } from "../utils/arrays";
 import Table from "../components/Table";
 import ClientIntakeForm from "../components/forms/clientIntakeForms/ClientIntakeForm";
 import ClientDetails from "../components/ClientDetails";
@@ -11,7 +11,7 @@ function Contracts() {
   const [search, setSearch] = useState("");
 
   const filteredClients = clientsSampleData.filter((client) =>
-    columns.some(({ key }) =>
+    contractColumns.some(({ key }) =>
       client[key].toLowerCase().includes(search.toLowerCase())
     )
   );
@@ -36,7 +36,7 @@ function Contracts() {
             <Input
               value={search}
               type={"text"}
-              placeholder="Search Clients"
+              placeholder="Search Contract"
               className={
                 "w-full xxs:h-[50px] sm:h-[56px] bg-gray-150 rounded-lg pr-2 pl-12 xxs:text-sm sm:text-base text-gray-750 placeholder-gray-700 border border-gray-300 focus:outline-none"
               }
@@ -50,7 +50,7 @@ function Contracts() {
           {/* Clients Table */}
           {filteredClients?.length > 0 ? (
             <Table
-              columns={columns}
+              columns={contractColumns}
               dataSource={filteredClients}
               setRenderPage={setRenderPage}
             />

@@ -78,7 +78,7 @@ function Home() {
           <div className="rounded-xl bg-white my-8 py-6">
             <div className="flex justify-between place-items-center px-3">
               <div className="xxs:text-base xl:text-lg font-semibold ml-4">
-                Client
+                Clients
               </div>
               <Button
                 name="View All"

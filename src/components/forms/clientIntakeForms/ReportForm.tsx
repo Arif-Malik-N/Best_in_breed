@@ -24,7 +24,7 @@ const ReportForm: React.FC<Props> = ({ setIsReportFormRender }) => {
       type: "text",
       placeholder: "Enter Goal",
       className:
-        "w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 xxs:text-sm sm:text-base text-gray-750 placeholder-gray-700 border border-gray-300 focus:outline-none",
+        "w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 xxs:text-sm sm:text-base placeholder-gray-700 border border-gray-300 focus:outline-none",
       setValue: setGoal,
       elementType: "input",
     },
@@ -33,7 +33,7 @@ const ReportForm: React.FC<Props> = ({ setIsReportFormRender }) => {
       type: "text",
       placeholder: "Enter Behavior",
       className:
-        "w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 xxs:text-sm sm:text-base text-gray-750 placeholder-gray-700 border border-gray-300 focus:outline-none",
+        "w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 xxs:text-sm sm:text-base placeholder-gray-700 border border-gray-300 focus:outline-none",
       setValue: setBehavior,
       elementType: "input",
     },
@@ -42,7 +42,7 @@ const ReportForm: React.FC<Props> = ({ setIsReportFormRender }) => {
       type: "text",
       placeholder: "Enter Session Notes",
       className:
-        "w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 xxs:text-sm sm:text-base text-gray-750 placeholder-gray-700 border border-gray-300 focus:outline-none",
+        "w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 xxs:text-sm sm:text-base placeholder-gray-700 border border-gray-300 focus:outline-none",
       setValue: setSessionNotes,
       elementType: "textarea",
     },
@@ -71,7 +71,7 @@ const ReportForm: React.FC<Props> = ({ setIsReportFormRender }) => {
                     <TextArea
                       rows={10}
                       placeholder={placeholder}
-                      className="w-full bg-white rounded-lg px-4 text-gray-750 placeholder-gray-750 border border-gray-300 xxs:text-sm sm:text-base focus:outline-none pt-3"
+                      className="w-full bg-white rounded-lg px-4 placeholder-gray-750 border border-gray-300 xxs:text-sm sm:text-base focus:outline-none pt-3"
                       setValue={setValue}
                     />
                   ) : (

@@ -48,22 +48,22 @@ const Step2: React.FC<StepFormProps> = ({
           <Input
             value={formData["Client Name"] || ""}
             type="text"
-            className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 text-gray-700 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
+            className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
             setValue={(val) => handleFieldChange("Client Name", val)}
           />
         </div>
         <Input
-          value={formData["Client Name"] || ""}
+          value={formData["Client Address"] || ""}
           type="text"
           placeholder="Address"
-          className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 text-gray-700 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
+          className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
           setValue={(val) => handleFieldChange("Client Address", val)}
         />{" "}
         <Input
           value={formData["Client Phone"] || ""}
           type="number"
           placeholder="Phone"
-          className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 text-gray-700 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
+          className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
           setValue={(val) => handleFieldChange("Client Phone", val)}
         />
       </div>
@@ -78,14 +78,17 @@ const Step2: React.FC<StepFormProps> = ({
             <div className="col-span-6 sm:col-span-2 lg:col-span-1 place-content-center">
               <div className="bg-gray-300 rounded-lg p-3">
                 {field.name !== "8 Weeks on leash" && (
-                  <Input
+                  <input
                     value={formData[field.name] || ""}
                     type="number"
-                    className="w-full h-[26px] bg-white rounded-md px-1 text-gray-750 border border-gray-300 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
-                    setValue={(val) => handleFieldChange(field.name, val)}
+                    min="0"
+                    className="w-[60px] h-[26px] mr-2 bg-white rounded-md px-1 text-gray-750 border border-gray-300 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
+                    onChange={(e) =>
+                      handleFieldChange(field.name, e.target.value)
+                    }
                   />
                 )}
-                <span className="font-medium xxs:text-md sm:text-base md:text-lg">
+                <span className="font-medium xxs:text-md sm:text-base">
                   {field.name}
                 </span>
               </div>
@@ -107,6 +110,7 @@ const Step2: React.FC<StepFormProps> = ({
                     <input
                       type="checkbox"
                       checked={formData[field.name]?.includes(opt) || false}
+                      className="outline-none"
                       onChange={(e) => {
                         const current = formData[field.name] || [];
                         handleFieldChange(
@@ -131,14 +135,14 @@ const Step2: React.FC<StepFormProps> = ({
           value={formData["trainingFee"] || ""}
           type="number"
           placeholder="Training Fee"
-          className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 text-gray-700 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
+          className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
           setValue={(val) => handleFieldChange("trainingFee", val)}
         />{" "}
         <Input
           value={formData["notesAndTerms"] || ""}
           type="text"
           placeholder="Notes & Terms"
-          className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 text-gray-700 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
+          className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
           setValue={(val) => handleFieldChange("notesAndTerms", val)}
         />
       </div>
@@ -221,7 +225,7 @@ const Step2: React.FC<StepFormProps> = ({
             <Input
               value={formData["ownerName"] || ""}
               type="text"
-              className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 text-gray-700 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
+              className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
               setValue={(val) => handleFieldChange("ownerName", val)}
             />
           </div>
@@ -239,7 +243,7 @@ const Step2: React.FC<StepFormProps> = ({
             <Input
               value={formData["date"] || ""}
               type="date"
-              className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 text-gray-700 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
+              className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
               setValue={(val) => handleFieldChange("date", val)}
             />
           </div>
@@ -255,7 +259,7 @@ const Step2: React.FC<StepFormProps> = ({
             penColor="black"
             canvasProps={{
               className:
-                "w-full h-[115px] bg-gray-50 rounded-lg px-4 text-gray-700 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none",
+                "w-full h-[115px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none",
             }}
             onEnd={() => saveSignature(ownerSigRef, "ownerSignature")}
           />
@@ -277,7 +281,7 @@ const Step2: React.FC<StepFormProps> = ({
             <Input
               value={formData["trainigStart"] || ""}
               type="date"
-              className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 text-gray-700 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
+              className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
               setValue={(val) => handleFieldChange("trainigStart", val)}
             />
           </div>
@@ -293,7 +297,7 @@ const Step2: React.FC<StepFormProps> = ({
             penColor="black"
             canvasProps={{
               className:
-                "w-full h-[115px] bg-gray-50 rounded-lg px-4 text-gray-700 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none",
+                "w-full h-[115px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none",
             }}
             onEnd={() => saveSignature(repSigRef, "repSignature")}
           />

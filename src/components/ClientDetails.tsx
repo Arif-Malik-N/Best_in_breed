@@ -34,7 +34,7 @@ const ClientDetails: React.FC<clientIntakeProp> = ({ setRenderPage }) => {
   ) : (
     <div className="bg-white rounded-xl m-1 p-2 md:p-5 md:m-0">
       {/* Top Bar */}
-      <NavigationTopBar name="Details" onClick={defaultAllState} />
+      <NavigationTopBar name="Client Details" onClick={defaultAllState} />
 
       <div className="py-0 sm:py-10 pt-4 sm:pt-0 space-y-4 sm:space-y-7 mt-6 sm:mt-12">
         <div className="rounded-xl border p-3 lg:p-6 space-y-4 sm:space-y-10 lg:space-y-18">

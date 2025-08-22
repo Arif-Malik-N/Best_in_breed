@@ -33,16 +33,16 @@ const Footer = () => {
   // for legal
   const legals: link[] = [
     {
-      name: "About Us",
-      url: "/about-us",
+      name: "About App",
+      url: "/about-app",
     },
     {
-      name: "Term Of Use",
-      url: "/term-of-use",
+      name: "Terms & Conditions",
+      url: "/term-and-conditions",
     },
     {
-      name: "Privacy",
-      url: "/privacy",
+      name: "Privacy Policy",
+      url: "/privacy-policy",
     },
     {
       name: "FAQs",
@@ -62,8 +62,8 @@ const Footer = () => {
               className="xxs:m-0 md:m-4 lg:m-8 mb-3 xxs:w-[80%] xs:w-[60%] sm:w-[40%] md:w-[80%]"
             />
             <div className="mt-4 text-gray-600 xxs:mx-0 md:mx-4 lg:mx-8 xxs:text-xs xs:text-sm sm:text-base">
-              Scale efficiently with every workload efficiently with every work
-              cale efficiently with every workload with every workload
+              Scale efficiently with every workload. Handle increasing demands
+              effortlessly, while ensuring speed and reliability.
             </div>
           </div>
 
@@ -79,7 +79,7 @@ const Footer = () => {
                   <div key={url} className="my-3">
                     <Link
                       to={url}
-                      className={`xxs:text-xs xs:text-sm sm:text-base ${
+                      className={`xxs:text-xs xs:text-sm sm:text-base outline-none ${
                         location.pathname === url
                           ? "text-white font-semibold"
                           : "text-gray-600"
@@ -100,7 +100,7 @@ const Footer = () => {
                   <div key={url} className="my-3">
                     <Link
                       to={url}
-                      className={`xxs:text-xs xs:text-sm sm:text-base ${
+                      className={`xxs:text-xs xs:text-sm sm:text-base outline-none ${
                         location.pathname === url
                           ? "text-white font-semibold"
                           : "text-gray-600"
@@ -123,7 +123,7 @@ const Footer = () => {
                 </div>
                 <div className="my-3 xxs:text-xs xs:text-sm sm:text-base text-gray-600 flex items-center gap-2">
                   <img src={phone} alt="phone" />
-                  +1 234 456 678 89
+                  +1 234 456 678
                 </div>
               </div>
             </div>

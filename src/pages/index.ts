@@ -5,5 +5,21 @@ import AboutUs from "./AboutUs";
 import Contracts from "./Contracts";
 import Profile from "./Profile";
 import SignIn from "./SignIn";
+import TermsAndConditions from "./TermsAndConditions";
+import PrivacyPolicy from "./PrivacyPolicy";
+import FAQs from "./FAQs";
+import Notifications from "./Notifications";
 
-export { Home, Schedule, Clients, AboutUs, Contracts, Profile, SignIn };
+export {
+  Home,
+  Schedule,
+  Clients,
+  AboutUs,
+  Contracts,
+  Profile,
+  SignIn,
+  TermsAndConditions,
+  PrivacyPolicy,
+  FAQs,
+  Notifications,
+};

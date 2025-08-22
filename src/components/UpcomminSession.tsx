@@ -142,7 +142,7 @@ const UpcomminSession = () => {
             className="w-[22px] text-brand-blue cursor-pointer focus:outline-none"
           />
 
-          <h1 className="xxs:text-lg sm:text-xl font-semibold text-brand-blue">
+          <h1 className="xxs:text-lg sm:text-xl text-brand-blue">
             {monthName}
           </h1>
         </div>
@@ -202,6 +202,7 @@ const UpcomminSession = () => {
 
       {/* Events list */}
       <EventList
+        selectedDate={selectedDate}
         events={events}
         scrollable
         className="gap-3 p-2 bg-gray-400"

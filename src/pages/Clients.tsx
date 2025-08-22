@@ -19,6 +19,7 @@ import {
 import { AiOutlineSearch } from "react-icons/ai";
 import Input from "../components/fields/Input";
 import ClientDetails from "../components/ClientDetails";
+import ClientIntakeForm from "../components/forms/clientIntakeForms/ClientIntakeForm";
 
 const clientsData: ClientCards[] = [
   {
@@ -105,7 +106,9 @@ function Clients() {
     window.scrollTo({ top: 0, behavior: "smooth" }); // to render every step component at the top
   }, []);
 
-  return renderPage === "clientDetails" ? (
+  return renderPage === "clientIntakeForm" ? (
+    <ClientIntakeForm renderPage={renderPage} setRenderPage={setRenderPage} />
+  ) : renderPage === "clientDetails" ? (
     <ClientDetails renderPage={renderPage} setRenderPage={setRenderPage} />
   ) : (
     <div className="bg-white rounded-xl px-4 py-10">

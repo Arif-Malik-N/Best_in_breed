@@ -14,7 +14,7 @@ const Step1: React.FC<StepFormProps> = ({
     <div>
       {/* All Fields */}
       <div className="border rounded-xl bg-white my-8 pt-3 sm:pt-18 pb-4 xxs:px-2 sm:px-6">
-        <h1 className=" xxs:text-xl xs:text-2xl sm:text-3xl lg:text-4xl text-center">
+        <h1 className="xxs:text-xl xs:text-2xl sm:text-3xl lg:text-4xl text-center font-semibold">
           Best in Breed Dog Training
         </h1>
         <div className="grid sm:grid-cols-4 gap-2 sm:gap-4 items-center xxs:mt-6 sm:mt-0 mb-1 sm:my-8 lg:my-18">
@@ -29,7 +29,7 @@ const Step1: React.FC<StepFormProps> = ({
               rows={4}
               value={formData["Mailing Address"] || ""}
               placeholder="Mailing Address"
-              className="w-full bg-gray-50 rounded-lg px-4 text-gray-700 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none pt-3"
+              className="w-full bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none pt-3"
               setValue={(val) => handleFieldChange("Mailing Address", val)}
             />
           </div>
@@ -44,7 +44,7 @@ const Step1: React.FC<StepFormProps> = ({
                       type={field.type || "text"}
                       value={formData[field.name] || ""}
                       placeholder={field.placeholder}
-                      className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 text-gray-700 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none"
+                      className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none"
                       setValue={(val) => handleFieldChange(field.name, val)}
                     />
                   </div>
@@ -57,7 +57,7 @@ const Step1: React.FC<StepFormProps> = ({
                       rows={field.rows || 3}
                       value={formData[field.name] || ""}
                       placeholder={field.placeholder}
-                      className="w-full bg-gray-50 rounded-lg px-4 text-gray-700 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none pt-3"
+                      className="w-full bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none pt-3"
                       setValue={(val) => handleFieldChange(field.name, val)}
                     />
                   </div>
@@ -71,9 +71,11 @@ const Step1: React.FC<StepFormProps> = ({
                       onChange={(e) =>
                         handleFieldChange(field.name, e.target.value)
                       }
-                      className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 text-gray-700 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none"
+                      className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none"
                     >
-                      <option value="">{field.placeholder}</option>
+                      <option value="abv" className="text-gray-100">
+                        {field.placeholder}
+                      </option>
                       {field.options?.map((opt, i) => (
                         <option key={i} value={opt}>
                           {opt}

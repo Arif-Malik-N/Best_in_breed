@@ -70,20 +70,23 @@ const Calendar = () => {
   function renderEventContent(eventInfo: any) {
     const { event } = eventInfo;
     const { description, image, color } = event.extendedProps as any;
+    console.log(eventInfo);
 
     return (
       <div
-        className="border-2 xl:ml-1 rounded-lg py-1 px-1 lg:px-2 bg-white"
+        className="border-2 xl:ml-1 rounded-lg py-1 px-1 lg:px-2 bg-white min-w-[120px] "
         style={{ borderColor: color }}
       >
         {/* Time */}
         <div className="flex justify-between">
-          <span
-            className="text-[9px] font-bold p-1 rounded"
-            style={{ background: color, color: "white" }}
-          >
-            {eventInfo.timeText}
-          </span>
+          {["dayGridYear", "dayGridMonth"].includes(currentView) ? null : (
+            <span
+              className="text-[9px] font-bold p-1 rounded"
+              style={{ background: color, color: "white" }}
+            >
+              {eventInfo.timeText}
+            </span>
+          )}
           {/* Avatar */}
           {image && (
             <img src={image} alt="avatar" className="w-5 h-5 rounded-lg" />
@@ -92,7 +95,15 @@ const Calendar = () => {
 
         {/* Title & Description */}
         <div className="mt-1 font-semibold text-xs text-[#5C5C5C]">
-          {event.title} - {description}
+          {["dayGridYear", "dayGridMonth"].includes(currentView) ? (
+            <>
+              {" "}
+              <div className="font-bold">{event.title}</div>
+              <div>{description}</div>
+            </> // for month and year view
+          ) : (
+            `${event.title} - ${description}` // for day and week view
+          )}
         </div>
       </div>
     );

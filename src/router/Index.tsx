@@ -2,12 +2,16 @@ import React, { createContext, useState } from "react";
 import { Route, Routes } from "react-router";
 import {
   Home,
+  Schedule,
   Clients,
-  Contracts,
   AboutUs,
+  Contracts,
   Profile,
   SignIn,
-  Schedule,
+  TermsAndConditions,
+  PrivacyPolicy,
+  FAQs,
+  Notifications,
 } from "../pages";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -23,10 +27,13 @@ const Routing = React.memo(() => {
     { path: "/schedule", component: <Schedule /> },
     { path: "/clients", component: <Clients /> },
     { path: "/contracts", component: <Contracts /> },
-    { path: "/about-us", component: <AboutUs /> },
+    { path: "/about-app", component: <AboutUs /> },
     { path: "/profile", component: <Profile /> },
+    { path: "/term-and-conditions", component: <TermsAndConditions /> },
+    { path: "/privacy-policy", component: <PrivacyPolicy /> },
+    { path: "/faqs", component: <FAQs /> },
+    { path: "/notification", component: <Notifications /> },
   ];
-
   return (
     <div>
       <AuthContext value={{ isAuthenticated, setIsAuthenticated }}>

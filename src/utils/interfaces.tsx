@@ -20,6 +20,7 @@ export interface menu {
   key: string;
   icon: string;
   name: string;
+  path?: string;
 }
 
 // Card data structure for hoem page etc.
@@ -38,6 +39,7 @@ export interface rowData {
   breed: string;
   dogAge: string;
   contract: string;
+  date?: string;
 }
 
 // Ensures column keys match rowData properties
@@ -56,7 +58,7 @@ export interface Column {
 export interface field {
   value?: string | number;
   name: string;
-  type: string;
+  type?: string;
   className: string;
   placeholder?: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
@@ -101,6 +103,7 @@ export interface EventItem {
   startTime: string;
   endTime: string;
   image?: string;
+  date?: string;
 }
 
 // ============================================= interface for props

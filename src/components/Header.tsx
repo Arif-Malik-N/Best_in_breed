@@ -13,7 +13,7 @@ const Header = () => {
     { name: "Schedule", url: "/schedule", className: "" },
     { name: "Clients", url: "/clients", className: "" },
     { name: "Contracts", url: "/contracts", className: "" },
-    { name: "About us", url: "/about-us", className: "" },
+    { name: "About App", url: "/about-app", className: "" },
     { name: "Profile", url: "/profile", className: "xxs:block sm:hidden" },
     {
       name: "Notification",

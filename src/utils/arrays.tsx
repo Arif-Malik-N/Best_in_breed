@@ -1,3 +1,11 @@
+import {
+  client1,
+  client2,
+  client3,
+  client4,
+  client5,
+  location,
+} from "../assets/images";
 import type {
   clientFormFields,
   Column,
@@ -286,6 +294,7 @@ export const cifStep3Fields: clientFormFields[] = [
     type: "text",
     placeholder: "Enter address",
     colSpan: "col-span-12 md:col-span-6",
+    endIcon: location,
   },
   {
     name: "subdivision",
@@ -359,7 +368,7 @@ export const cifStep3Fields: clientFormFields[] = [
   },
 ];
 
-// columns for client table
+// columns for home and client page table
 export const columns: Column[] = [
   { key: "name", title: "Name", minWidth: 180, isIcon: true },
   { key: "email", title: "Email", minWidth: 220 },
@@ -368,6 +377,15 @@ export const columns: Column[] = [
   { key: "breed", title: "Breed", minWidth: 200 },
   { key: "dogAge", title: "Dog Age", minWidth: 90 },
   { key: "contract", title: "Contract", minWidth: 90, isClickable: true },
+];
+
+// columns for contract page table
+export const contractColumns: Column[] = [
+  { key: "name", title: "Name", minWidth: 180, isIcon: true },
+  { key: "contract", title: "Contract", minWidth: 90, isClickable: true },
+  { key: "date", title: "Date", minWidth: 120 },
+  { key: "email", title: "Email", minWidth: 220 },
+  { key: "phone", title: "Phone", minWidth: 140 },
 ];
 
 // below all code is just for testing (i:e sample data)
@@ -380,6 +398,7 @@ export const clientsSampleData: rowData[] = [
     breed: "Border Terrier",
     dogAge: "2 years",
     contract: "View",
+    date: "27/07/2020",
   },
   {
     name: "Jenny Wilson",
@@ -389,6 +408,7 @@ export const clientsSampleData: rowData[] = [
     breed: "Belgian Shepherd",
     dogAge: "4 years",
     contract: "View",
+    date: "24/07/2020",
   },
   {
     name: "Albert Flores",
@@ -398,6 +418,7 @@ export const clientsSampleData: rowData[] = [
     breed: "Belgian Shepherd",
     dogAge: "4 years",
     contract: "View",
+    date: "02/08/2020",
   },
   {
     name: "Bessie Cooper",
@@ -407,6 +428,7 @@ export const clientsSampleData: rowData[] = [
     breed: "Bullmastiff",
     dogAge: "5 years",
     contract: "View",
+    date: "06/08/2020",
   },
   {
     name: "Jane Cooper",
@@ -416,6 +438,7 @@ export const clientsSampleData: rowData[] = [
     breed: "German Shepherd",
     dogAge: "6 years",
     contract: "View",
+    date: "08/08/2020",
   },
   {
     name: "Robert Fox",
@@ -425,6 +448,7 @@ export const clientsSampleData: rowData[] = [
     breed: "Golden Retriever",
     dogAge: "3 years",
     contract: "View",
+    date: "28/08/2020",
   },
   {
     name: "Emily Johnson",
@@ -434,6 +458,7 @@ export const clientsSampleData: rowData[] = [
     breed: "Labrador Retriever",
     dogAge: "2 years",
     contract: "View",
+    date: "28/08/2020",
   },
   {
     name: "Michael Smith",
@@ -443,6 +468,7 @@ export const clientsSampleData: rowData[] = [
     breed: "Poodle",
     dogAge: "5 years",
     contract: "View",
+    date: "28/09/2020",
   },
   {
     name: "Sophia Brown",
@@ -452,6 +478,7 @@ export const clientsSampleData: rowData[] = [
     breed: "French Bulldog",
     dogAge: "4 years",
     contract: "View",
+    date: "29/09/2020",
   },
   {
     name: "David Wilson",
@@ -461,6 +488,7 @@ export const clientsSampleData: rowData[] = [
     breed: "Beagle",
     dogAge: "3 years",
     contract: "View",
+    date: "27/09/2020",
   },
 ];
 
@@ -862,3 +890,41 @@ export const septemberDataWithImage = Object.fromEntries(
     })),
   ])
 );
+
+export const notifications = [
+  {
+    id: 1,
+    img: client1,
+    name: "John Carter",
+    description: "Booked a new obedience training session for Max",
+    time: "2h Ago",
+  },
+  {
+    id: 2,
+    img: client2,
+    name: "Emily Johnson",
+    description: "Requested feedback on Bella’s agility progress",
+    time: "3h Ago",
+  },
+  {
+    id: 3,
+    img: client3,
+    name: "Michael Lee",
+    description: "Confirmed enrollment for Luna in puppy classes",
+    time: "5h Ago",
+  },
+  {
+    id: 4,
+    img: client4,
+    name: "Sophia Williams",
+    description: "Scheduled a private session for Rocky’s behavior training",
+    time: "6h Ago",
+  },
+  {
+    id: 5,
+    img: client5,
+    name: "David Kim",
+    description: "Shared an update on Daisy’s progress in advanced training",
+    time: "1d Ago",
+  },
+];

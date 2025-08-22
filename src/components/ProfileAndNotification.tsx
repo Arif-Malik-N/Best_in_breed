@@ -21,15 +21,17 @@ const ProfileAndNotification: React.FC<ProfileAndNotProps> = ({
       </div>
 
       {/* Notification */}
-      <div className={className}>
-        <div className="relative bg-gray-400 w-10 h-10 rounded-full flex items-center justify-center">
-          <img src={notification} alt="notification" />
-          {/* White circle background for red dot */}
-          <span className="absolute top-[7px] right-[7px] w-2.5 h-2.5 bg-white rounded-full flex items-center justify-center">
-            <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
-          </span>
+      <Link to="/notification" className="outline-none">
+        <div className={className}>
+          <div className="relative bg-gray-400 w-10 h-10 rounded-full flex items-center justify-center">
+            <img src={notification} alt="notification" />
+            {/* White circle background for red dot */}
+            <span className="absolute top-[7px] right-[7px] w-2.5 h-2.5 bg-white rounded-full flex items-center justify-center">
+              <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+            </span>
+          </div>
         </div>
-      </div>
+      </Link>
     </>
   );
 };
