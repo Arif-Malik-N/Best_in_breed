@@ -161,6 +161,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
 }
 
+/* change default select option color*/
+select:invalid {
+  color: #6e7179; /* placeholder color */
+}
+
 /* custom calendar */
 .fc-v-event {
   background-color: white !important;

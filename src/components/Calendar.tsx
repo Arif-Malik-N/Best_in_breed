@@ -66,27 +66,32 @@ const Calendar = () => {
     );
   };
 
+  const dayAndYear: boolean = ["dayGridYear", "dayGridMonth"].includes(
+    currentView
+  );
+
   // to print cards in calendar
   function renderEventContent(eventInfo: any) {
     const { event } = eventInfo;
     const { description, image, color } = event.extendedProps as any;
-    console.log(eventInfo);
 
     return (
       <div
-        className="border-2 xl:ml-1 rounded-lg py-1 px-1 lg:px-2 bg-white min-w-[120px] "
+        className={`border-2 xl:ml-1 rounded-lg py-1 px-1 min-w-[120px] bg-white ${
+          dayAndYear ? "lg:min-w-[130px]" : "lg:px-2"
+        }`}
         style={{ borderColor: color }}
       >
         {/* Time */}
         <div className="flex justify-between">
-          {["dayGridYear", "dayGridMonth"].includes(currentView) ? null : (
-            <span
-              className="text-[9px] font-bold p-1 rounded"
-              style={{ background: color, color: "white" }}
-            >
-              {eventInfo.timeText}
-            </span>
-          )}
+          <span
+            className={`rounded p-1 ${
+              dayAndYear ? "text-[7.5px]" : "font-bold text-[9px]"
+            }`}
+            style={{ background: color, color: "white" }}
+          >
+            {eventInfo.timeText}
+          </span>
           {/* Avatar */}
           {image && (
             <img src={image} alt="avatar" className="w-5 h-5 rounded-lg" />
@@ -95,9 +100,8 @@ const Calendar = () => {
 
         {/* Title & Description */}
         <div className="mt-1 font-semibold text-xs text-[#5C5C5C]">
-          {["dayGridYear", "dayGridMonth"].includes(currentView) ? (
+          {dayAndYear ? (
             <>
-              {" "}
               <div className="font-bold">{event.title}</div>
               <div>{description}</div>
             </> // for month and year view
@@ -117,8 +121,8 @@ const Calendar = () => {
         <div className="flex justify-center">
           {[
             { label: "Year", view: "dayGridYear" },
-            { label: "Week", view: "timeGridWeek" },
             { label: "Month", view: "dayGridMonth" },
+            { label: "Week", view: "timeGridWeek" },
             { label: "Day", view: "timeGridDay" },
           ].map(({ label, view }) => {
             const isActive = currentView === view; // <-- track active view
@@ -181,6 +185,12 @@ const Calendar = () => {
             headerToolbar={false} // Hide default header
             datesSet={handleDatesSet} // Update range text
             eventContent={renderEventContent} // render cards in calendar
+            eventTimeFormat={{
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: dayAndYear ? true : false,
+            }}
+            displayEventEnd={true} // <-- important, shows the END time as well
           />
         </div>
       </div>

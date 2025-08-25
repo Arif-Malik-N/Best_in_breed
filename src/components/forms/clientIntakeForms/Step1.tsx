@@ -4,6 +4,7 @@ import { cifStep1Fields } from "../../../utils/arrays";
 import Input from "../../fields/Input";
 import TextArea from "../../fields/TextArea";
 import type { StepFormProps } from "../../../utils/interfaces";
+import { AiOutlineDown } from "react-icons/ai";
 
 const Step1: React.FC<StepFormProps> = ({
   setStep,
@@ -14,7 +15,8 @@ const Step1: React.FC<StepFormProps> = ({
     <div>
       {/* All Fields */}
       <div className="border rounded-xl bg-white my-8 pt-3 sm:pt-18 pb-4 xxs:px-2 sm:px-6">
-        <h1 className="xxs:text-xl xs:text-2xl sm:text-3xl lg:text-4xl text-center font-semibold">
+        {/* <h1 className="xxs:text-xl xs:text-2xl sm:text-3xl lg:text-4xl text-center font-semibold"> */}
+        <h1 className="xxs:text-xl xs:text-2xl md:text-3xl lg:text-4xl text-center">
           Best in Breed Dog Training
         </h1>
         <div className="grid sm:grid-cols-4 gap-2 sm:gap-4 items-center xxs:mt-6 sm:mt-0 mb-1 sm:my-8 lg:my-18">
@@ -65,15 +67,16 @@ const Step1: React.FC<StepFormProps> = ({
 
               case "select":
                 return (
-                  <div key={index} className={field.colSpan}>
+                  <div key={index} className={`relative ${field.colSpan}`}>
                     <select
+                      required
                       value={formData[field.name] || ""}
                       onChange={(e) =>
                         handleFieldChange(field.name, e.target.value)
                       }
-                      className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none"
+                      className="appearance-none w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 xxs:text-sm sm:text-base focus:outline-none"
                     >
-                      <option value="abv" className="text-gray-100">
+                      <option value="" disabled selected hidden>
                         {field.placeholder}
                       </option>
                       {field.options?.map((opt, i) => (
@@ -82,6 +85,7 @@ const Step1: React.FC<StepFormProps> = ({
                         </option>
                       ))}
                     </select>
+                    <AiOutlineDown className="w-3 h-3 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
                   </div>
                 );
 
