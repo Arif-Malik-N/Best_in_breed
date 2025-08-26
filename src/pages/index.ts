@@ -9,6 +9,7 @@ import TermsAndConditions from "./TermsAndConditions";
 import PrivacyPolicy from "./PrivacyPolicy";
 import FAQs from "./FAQs";
 import Notifications from "./Notifications";
+import Reports from "./Reports";
 
 export {
   Home,
@@ -22,4 +23,5 @@ export {
   PrivacyPolicy,
   FAQs,
   Notifications,
+  Reports,
 };

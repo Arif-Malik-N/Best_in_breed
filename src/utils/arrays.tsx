@@ -519,6 +519,20 @@ export const septemberData: AugustData = {
       endTime: "4:00 PM",
     },
   ],
+  "3-sept 2025": [
+    {
+      name: "Bella",
+      description: "Vet appointment",
+      startTime: "1:00 PM",
+      endTime: "2:00 PM",
+    },
+    {
+      name: "Max",
+      description: "Training session",
+      startTime: "3:00 PM",
+      endTime: "4:00 PM",
+    },
+  ],
   "4-sept 2025": [
     {
       name: "Charlie",
@@ -537,6 +551,14 @@ export const septemberData: AugustData = {
       description: "Playtime",
       startTime: "12:00 PM",
       endTime: "1:00 PM",
+    },
+  ],
+  "5-sept 2025": [
+    {
+      name: "Luna",
+      description: "Training session",
+      startTime: "8:00 AM",
+      endTime: "9:00 AM",
     },
   ],
   "6-sept 2025": [
@@ -559,6 +581,46 @@ export const septemberData: AugustData = {
       description: "Grooming",
       startTime: "1:00 PM",
       endTime: "2:00 PM",
+    },
+  ],
+  "8-sept 2025": [
+    {
+      name: "Luna",
+      description: "Training session",
+      startTime: "8:00 AM",
+      endTime: "9:00 AM",
+    },
+  ],
+  "9-sept 2025": [
+    {
+      name: "Luna",
+      description: "Training session",
+      startTime: "8:00 AM",
+      endTime: "9:00 AM",
+    },
+  ],
+  "10-sept 2025": [
+    {
+      name: "Luna",
+      description: "Training session",
+      startTime: "8:00 AM",
+      endTime: "9:00 AM",
+    },
+  ],
+  "11-sept 2025": [
+    {
+      name: "Luna",
+      description: "Training session",
+      startTime: "8:00 AM",
+      endTime: "9:00 AM",
+    },
+  ],
+  "12-sept 2025": [
+    {
+      name: "Luna",
+      description: "Training session",
+      startTime: "8:00 AM",
+      endTime: "9:00 AM",
     },
   ],
 };
@@ -822,12 +884,48 @@ export const augustData: AugustData = {
       endTime: "12:00 PM",
     },
   ],
+  "26-aug 2025": [
+    {
+      name: "Milo",
+      description: "Grooming",
+      startTime: "1:00 PM",
+      endTime: "2:00 PM",
+    },
+  ],
+  "27-aug 2025": [
+    {
+      name: "Milo",
+      description: "Grooming",
+      startTime: "1:00 PM",
+      endTime: "2:00 PM",
+    },
+  ],
   "28-aug 2025": [
     {
       name: "Milo",
       description: "Grooming",
       startTime: "1:00 PM",
       endTime: "2:00 PM",
+    },
+  ],
+  "29-aug 2025": [
+    {
+      name: "Rocky",
+      description: "Playtime",
+      startTime: "9:00 AM",
+      endTime: "10:00 AM",
+    },
+    {
+      name: "Bella",
+      description: "Walk",
+      startTime: "3:00 PM",
+      endTime: "4:00 PM",
+    },
+    {
+      name: "Teddy",
+      description: "Training",
+      startTime: "5:00 PM",
+      endTime: "6:00 PM",
     },
   ],
   "30-aug 2025": [

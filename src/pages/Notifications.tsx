@@ -18,7 +18,7 @@ export default function Notifications() {
               className="w-12 h-12 sm:w-20 sm:h-20 rounded-full object-cover"
             />
             <div className="flex flex-col flex-grow">
-              <span className="text-sm sm:text-base font-medium text-gray-800">
+              <span className="text-sm sm:text-base font-bold text-gray-800">
                 {name}
               </span>
               <span className="text-xs sm:text-sm text-gray-600">

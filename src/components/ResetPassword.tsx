@@ -36,7 +36,7 @@ const ResetPassword: React.FC<ResetPsdProps> = ({
         <Input
           type="email"
           placeholder="Enter Your Email"
-          className="w-full xxs:h-[50px] sm:h-[62px] bg-brand-pink rounded-lg px-4 my-5 text-gray-700 placeholder-gray-700 focus=outline-none"
+          className="w-full xxs:h-[50px] sm:h-[62px] bg-brand-pink rounded-lg px-4 my-5  placeholder-gray-700 focus=outline-none"
           setValue={setEmail}
         />
       </div>

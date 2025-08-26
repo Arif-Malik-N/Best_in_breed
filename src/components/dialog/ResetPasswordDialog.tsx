@@ -18,14 +18,14 @@ const ResetPasswordDialog: React.FC<DialogProps> = ({
         <img src={unlock1} alt="Unlock Icon" />
 
         {/* Title */}
-        <h2 className="xxs:text-lg xs:text-xl sm:text-2xl  text-black">
+        <h2 className="xxs:text-lg xs:text-xl sm:text-2xl font-bold text-black">
           Reset Link Sent!
         </h2>
 
         {/* Description */}
         <p className="xxs:text-sm xs:text-base sm:text-lg pb-5">
-          Password reset link has been sent to {email} please check your email
-          and follow the instructions
+          Password reset link has been sent to {email || "bru*****n@gmail.com"}{" "}
+          <br /> please check your email and follow the instructions
         </p>
 
         {/* Okay Button */}

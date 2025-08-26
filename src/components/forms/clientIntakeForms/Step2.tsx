@@ -30,7 +30,7 @@ const Step2: React.FC<StepFormProps> = ({
     <div className="my-8 md:pt-10 xl:pt-18 pb-4">
       {/* Title */}
       <div>
-        <h1 className=" xxs:text-xl xs:text-2xl md:text-3xl lg:text-4xl text-center">
+        <h1 className=" xxs:text-xl xs:text-2xl md:text-3xl lg:text-4xl text-center font-semibold">
           Best in Breed Dog Training
         </h1>
         <h1 className="font-semibold xxs:text-base xs:text-lg sm:text-xl lg:text-2xl text-center my-2">

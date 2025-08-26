@@ -28,7 +28,7 @@ const SignIn = () => {
       type: "email",
       placeholder: "Enter Your Email",
       className:
-        "w-full xxs:h-[50px] sm:h-[62px] bg-gray-50 rounded-lg px-4 text-gray-700 placeholder-gray-700 focus:outline-none",
+        "w-full xxs:h-[50px] sm:h-[62px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 focus:outline-none",
       setValue: setEmail,
       endIcon: undefined,
     },
@@ -37,7 +37,7 @@ const SignIn = () => {
       type: showPassword ? "text" : "password",
       placeholder: "Enter Your Password",
       className:
-        "w-full xxs:h-[50px] sm:h-[62px] bg-gray-50 rounded-lg px-4 text-gray-700 placeholder-gray-700 focus:outline-none",
+        "w-full xxs:h-[50px] sm:h-[62px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 focus:outline-none",
       setValue: setPassword,
       endIcon: showPassword ? (
         <AiOutlineEye className="w-5 h-5 text-gray-750" />
@@ -107,7 +107,7 @@ const SignIn = () => {
                 <div className="my-5 xxs:text-sm xs:text-base sm:text-lg text-center">
                   Forgot your password?{" "}
                   <span
-                    className="text-brand-blue cursor-pointer"
+                    className="text-brand-blue cursor-pointer underline"
                     onClick={() => setFormType("resetPassword")}
                   >
                     Reset Now

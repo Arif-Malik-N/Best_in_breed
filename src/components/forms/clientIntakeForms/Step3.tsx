@@ -22,7 +22,7 @@ const Step3: React.FC<StepFormProps> = ({
               value={formData[field.name] || ""}
               placeholder={field.placeholder}
               // className="w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none"
-              className={`w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 xxs:text-sm sm:text-base text-gray-750 placeholder-gray-700 border border-gray-300 focus:outline-none ${
+              className={`w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 xxs:text-sm sm:text-base placeholder-gray-700 border border-gray-300 focus:outline-none ${
                 field.endIcon && "pr-10"
               }`}
               setValue={(val) => handleFieldChange(field.name, val)}

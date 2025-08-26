@@ -12,6 +12,7 @@ import {
   PrivacyPolicy,
   FAQs,
   Notifications,
+  Reports,
 } from "../pages";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -32,6 +33,7 @@ const Routing = React.memo(() => {
     { path: "/term-and-conditions", component: <TermsAndConditions /> },
     { path: "/privacy-policy", component: <PrivacyPolicy /> },
     { path: "/faqs", component: <FAQs /> },
+    { path: "/reports", component: <Reports /> },
     { path: "/notification", component: <Notifications /> },
   ];
   return (

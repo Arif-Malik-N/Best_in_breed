@@ -2,19 +2,14 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import NavigationTopBar from "../components/NavigationTopBar";
 
-const TermsAndConditions = () => {
+const Reports = () => {
   const navigate = useNavigate();
-
   return (
-    <div className="min-h-scree text-gray-800">
-      {/* Top Navigation */}
-      <NavigationTopBar
-        name="Terms & Conditions"
-        onClick={() => navigate(-1)}
-      />
-
+    <div>
+      {" "}
+      <NavigationTopBar name="Reports" onClick={() => navigate(-1)} />
       {/* Content */}
-      <div className="py-6 text-xs sm:text-sm lg:text-base">
+      <div className="py-6">
         <p className="mb-4">
           Best in Breed Dog Training provides comprehensive training services
           for dogs of all breeds and sizes. By utilizing our services, you agree
@@ -64,4 +59,4 @@ const TermsAndConditions = () => {
   );
 };
 
-export default TermsAndConditions;
+export default Reports;

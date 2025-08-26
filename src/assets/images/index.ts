@@ -41,6 +41,9 @@ import group from "../icons/group.png";
 import client1Icon from "../icons/client1Icon.png";
 import pdf from "../icons/pdf.png";
 
+// svg
+import tabIcon from "../icons/tabIcon.svg";
+
 export {
   largePaw,
   midPaw,
@@ -67,6 +70,7 @@ export {
   aboutPageDog,
   dog1,
   dog2,
+
   // icons
   email,
   phone,
@@ -83,4 +87,7 @@ export {
   group,
   client1Icon,
   pdf,
+
+  // svg
+  tabIcon,
 };
