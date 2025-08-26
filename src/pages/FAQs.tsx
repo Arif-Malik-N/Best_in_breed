@@ -47,7 +47,7 @@ const FAQs = () => {
   return (
     <div className="text-gray-800">
       {/* Top Bar */}
-      <NavigationTopBar name="FAQ" onClick={() => navigate(-1)} />
+      <NavigationTopBar name="FAQs" onClick={() => navigate(-1)} />
 
       {/* Content */}
       <div className="py-6">
