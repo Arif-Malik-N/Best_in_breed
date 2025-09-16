@@ -1,5 +1,13 @@
 import React from "react";
-import { aboutPageDog, certificates } from "../assets/images";
+import {
+  aboutPageDog,
+  certificate1,
+  certificate2,
+  certificate3,
+  certificate4,
+  certificate5,
+  certificates,
+} from "../assets/images";
 import NavigationTopBar from "../components/NavigationTopBar";
 import { useNavigate } from "react-router-dom";
 
@@ -13,7 +21,7 @@ const AboutUs = () => {
   return (
     <div>
       {/* Top bar */}
-      <NavigationTopBar name="About App" onClick={() => navigate("/")} />
+      <NavigationTopBar name="About us" onClick={() => navigate("/")} />
 
       {/* Middle Text With Image */}
       <div className="my-3 sm:my-10">
@@ -74,7 +82,42 @@ const AboutUs = () => {
             obedience.
           </h3>
         </div>
-        <img src={certificates} alt={"certificates"} className="w-full" />
+        <div className="grid lg:grid-cols-3 gap-3">
+          {/* Left side: certificates 1 and 2 */}
+          <div>
+            <img
+              src={certificate1}
+              alt="certificate1"
+              className="w-full h-[330px] pb-3 border-b-2 border-black"
+            />
+            <img
+              src={certificate2}
+              alt="certificate2"
+              className="w-full h-[330px] pt-3"
+            />
+          </div>
+
+          {/* Center: certificate 3 */}
+          <img
+            src={certificate3}
+            alt="certificate3"
+            className="w-full h-[700px] border-x-2 border-black"
+          />
+
+          {/* Right side: certificates 4 and 5 */}
+          <div>
+            <img
+              src={certificate4}
+              alt="certificate4"
+              className="w-full h-[330px] pb-3 border-b-2 border-black"
+            />
+            <img
+              src={certificate5}
+              alt="certificate5"
+              className="w-full h-[330px] pt-3"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

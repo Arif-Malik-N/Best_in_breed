@@ -28,7 +28,7 @@ const Routing = React.memo(() => {
     { path: "/schedule", component: <Schedule /> },
     { path: "/clients", component: <Clients /> },
     { path: "/contracts", component: <Contracts /> },
-    { path: "/about-app", component: <AboutUs /> },
+    { path: "/about-us", component: <AboutUs /> },
     { path: "/profile", component: <Profile /> },
     { path: "/term-and-conditions", component: <TermsAndConditions /> },
     { path: "/privacy-policy", component: <PrivacyPolicy /> },

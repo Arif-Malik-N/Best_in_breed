@@ -33,8 +33,8 @@ const Footer = () => {
   // for legal
   const legals: link[] = [
     {
-      name: "About App",
-      url: "/about-app",
+      name: "About us",
+      url: "/about-us",
     },
     {
       name: "Terms & Conditions",

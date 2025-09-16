@@ -104,10 +104,13 @@ export const cifStep1Fields: clientFormFields[] = [
   },
   {
     name: "problems",
-    placeholder: "Select Problems",
+    placeholder: "Problem 1/2",
     elementType: "select",
     colSpan: "col-span-12 md:col-span-12",
-    options: ["Problem 1", "Problem 2"],
+    options: [
+      "House Breaking",
+      "Personal Protection (no bite work - treat training only)",
+    ],
   },
   {
     name: "bestTime",
@@ -361,7 +364,7 @@ export const cifStep3Fields: clientFormFields[] = [
   },
   {
     name: "appointmentScheduled",
-    label: "Appointment scheduled",
+    label: "Evaluation scheduled",
     type: "text",
     placeholder: "Enter appointment date",
     colSpan: "col-span-12 md:col-span-6",

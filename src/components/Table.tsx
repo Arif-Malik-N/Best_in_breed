@@ -44,11 +44,11 @@ const Table: React.FC<TableProps> = React.memo(
               >
                 {isIcon ? (
                   <>
-                    <img
+                    {/* <img
                       src={`https://i.pravatar.cc/32?img=${rowIndex + 1}`}
                       alt={row.name || ""}
                       className="w-8 h-8 rounded-full"
-                    />
+                    /> */}
                     <span className="text-brand-blue underline">
                       {row[key]}
                     </span>

@@ -36,7 +36,7 @@ function Contracts() {
             <Input
               value={search}
               type={"text"}
-              placeholder="Search Contract"
+              placeholder="Search Contracts"
               className={
                 "w-full xxs:h-[50px] sm:h-[56px] bg-gray-150 rounded-lg pr-2 pl-12 xxs:text-sm sm:text-base text-gray-750 placeholder-gray-700 border border-gray-300 focus:outline-none"
               }

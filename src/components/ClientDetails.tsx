@@ -77,7 +77,7 @@ const ClientDetails: React.FC<clientIntakeProp> = ({ setRenderPage }) => {
           </div>
 
           {/* About Dogs */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[
               {
                 name: "Penny",
@@ -106,7 +106,7 @@ const ClientDetails: React.FC<clientIntakeProp> = ({ setRenderPage }) => {
                 </div>
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
 
         {/* Dog Accordion */}

@@ -20,6 +20,11 @@ import client12 from "./client12.png";
 import client13 from "./client13.png";
 import client14 from "./client14.png";
 import certificates from "./certificates.png";
+import certificate1 from "./certificate1.jpg";
+import certificate2 from "./certificate2.jpg";
+import certificate3 from "./certificate3.jpg";
+import certificate4 from "./certificate4.jpg";
+import certificate5 from "./certificate5.jpg";
 import aboutPageDog from "./aboutPageDog.png";
 import dog1 from "./dog1.png";
 import dog2 from "./dog2.png";
@@ -67,6 +72,11 @@ export {
   client13,
   client14,
   certificates,
+  certificate1,
+  certificate2,
+  certificate3,
+  certificate4,
+  certificate5,
   aboutPageDog,
   dog1,
   dog2,
