@@ -14,6 +14,7 @@ const Header = () => {
     { name: "Clients", url: "/clients", className: "" },
     { name: "Contracts", url: "/contracts", className: "" },
     { name: "About us", url: "/about-us", className: "" },
+    { name: "Review", url: "/review", className: "" },
     { name: "Profile", url: "/profile", className: "xxs:block sm:hidden" },
     {
       name: "Notification",
@@ -24,7 +25,7 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 xxs:pb-[10px] md:pb-[10px] border-b-2 border-b-zinc-500 xxs:pt-[20px] lg:pt-[40px] xl:pt-[70px] xxs:px-[15px] sm:px-[30px] lg:px-[60px] xl:px-[152px] w-full bg-brand-grayBg z-50 ${
+      className={`fixed top-0 xxs:pb-[10px] md:pb-[10px] border-b-2 border-b-zinc-500 xxs:pt-[20px] lg:pt-[40px] xl:pt-[70px] xxs:px-[15px] sm:px-[30px] md:px-[20px] lg:px-[60px] xl:px-[152px] w-full bg-brand-grayBg z-50 ${
         menuOpen ? "border-b-2 border-gray-400 shadow-xl" : "md:border-none"
       }`}
     >
@@ -33,7 +34,7 @@ const Header = () => {
         <img
           src={logo}
           alt="logo"
-          className="xxs:w-[50%] xs:w-[40%] sm:w-[30%] lg:w-[22%] xl:w-[20%]"
+          className="xxs:w-[50%] xs:w-[40%] sm:w-[30%] md:w-[25%] lg:w-[22%] xl:w-[20%]"
         />
         <div className="flex items-center xxs:gap-2 xs:gap-4 md:hidden">
           {/* profile and notification  */}

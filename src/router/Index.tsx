@@ -13,6 +13,7 @@ import {
   FAQs,
   Notifications,
   Reports,
+  Review,
 } from "../pages";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -29,6 +30,7 @@ const Routing = React.memo(() => {
     { path: "/clients", component: <Clients /> },
     { path: "/contracts", component: <Contracts /> },
     { path: "/about-us", component: <AboutUs /> },
+    { path: "/review", component: <Review /> },
     { path: "/profile", component: <Profile /> },
     { path: "/term-and-conditions", component: <TermsAndConditions /> },
     { path: "/privacy-policy", component: <PrivacyPolicy /> },
