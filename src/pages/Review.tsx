@@ -61,7 +61,7 @@ const StarIcon = () => (
 );
 
 const TestimonialCard = ({ testimonial }) => (
-  <div className="flex flex-col overflow-hidden shadow-xl rounded-xl bg-white">
+  <div className="flex flex-col overflow-hidden shadow-xl rounded-xl bg-white min-h-[300px]">
     <div className="flex flex-col justify-between flex-1 p-6 lg:py-8 lg:px-7">
       <div className="flex-1">
         <div className="flex items-center">
@@ -98,97 +98,180 @@ const Review = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const visibleCount = 3;
 
-  // Auto slide every 4 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       nextSlide();
     }, 4000);
-
     return () => clearInterval(interval);
-  }, [currentIndex]);
+  }, []);
 
   const nextSlide = () => {
-    setCurrentIndex(
-      (prevIndex) => (prevIndex + visibleCount) % testimonials.length
+    setCurrentIndex((prevIndex) =>
+      prevIndex + visibleCount >= testimonials.length
+        ? 0
+        : prevIndex + visibleCount
     );
   };
 
   const prevSlide = () => {
-    setCurrentIndex(
-      (prevIndex) =>
-        (prevIndex - visibleCount + testimonials.length) % testimonials.length
+    setCurrentIndex((prevIndex) =>
+      prevIndex - visibleCount < 0
+        ? testimonials.length - visibleCount
+        : prevIndex - visibleCount
     );
-  };
-
-  // Show only 3 testimonials at a time
-  const getVisibleTestimonials = () => {
-    const visible = [];
-    for (let i = 0; i < visibleCount; i++) {
-      visible.push(testimonials[(currentIndex + i) % testimonials.length]);
-    }
-    return visible;
   };
 
   return (
     <section>
-      <div className="">
-        <div className="flex flex-col items-center">
-          <div className="text-center">
-            <p className="text-lg font-medium text-gray-600 font-pj">
-              2,157 people have said how good Best In Breed
-            </p>
-            <h2 className="mt-4 text-3xl font-bold text-gray-900 sm:text-4xl xl:text-5xl font-pj">
-              Our happy clients say about us
-            </h2>
-          </div>
+      <div className="flex flex-col items-center">
+        {/* Header */}
+        <div className="text-center">
+          <p className="text-lg font-medium text-gray-600 font-pj">
+            2,157 people have said how good Best In Breed
+          </p>
+          <h2 className="mt-4 text-3xl font-bold text-gray-900 sm:text-4xl xl:text-5xl font-pj">
+            Our happy clients say about us
+          </h2>
+        </div>
 
-          <div className="mt-8 text-center md:mt-16">
-            <a
-              href="#"
-              className="pb-2 text-base font-bold leading-7 text-gray-900 border-b-2 border-gray-900 hover:border-gray-600 hover:text-gray-600 font-pj"
+        {/* Carousel */}
+        <div className="relative mt-10 w-full max-w-5xl">
+          {/* Left Button */}
+          <FaAngleLeft
+            onClick={prevSlide}
+            size={35}
+            className="absolute left-0 lg:left-[-50px] xl:left-[-100px] top-1/2 -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow-lg hover:bg-gray-100 cursor-pointer"
+          />
+
+          {/* Slider Wrapper */}
+          <div className="overflow-hidden">
+            <div
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{
+                transform: `translateX(-${
+                  (currentIndex / testimonials.length) * 100
+                }%)`,
+                width: `${(testimonials.length / visibleCount) * 100}%`,
+              }}
             >
-              Check all 2,157 reviews
-            </a>
-          </div>
-
-          <div className="relative mt-10 md:mt-24 w-full">
-            <div className="absolute -inset-x-1 inset-y-16 md:-inset-x-2 md:-inset-y-6 pointer-events-none">
-              <div
-                className="w-full h-full max-w-5xl mx-auto rounded-3xl opacity-30 blur-lg filter"
-                style={{
-                  background:
-                    "linear-gradient(90deg, #44ff9a -0.55%, #44b0ff 22.86%, #8b44ff 48.36%, #ff6644 73.33%, #ebff70 99.34%)",
-                }}
-              ></div>
-            </div>
-
-            <div className="relative flex items-center justify-between">
-              {/* Left Button */}
-
-              <FaAngleLeft
-                onClick={prevSlide}
-                size={35}
-                className=" left-0 z-10 p-2 text-2xl bg-white rounded-full shadow-lg hover:bg-gray-100 cursor-pointer"
-              />
-
-              {/* Testimonials */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-10 mx-auto max-w-5xl w-full px-">
-                {getVisibleTestimonials().map((t, idx) => (
-                  <TestimonialCard key={idx} testimonial={t} />
-                ))}
-              </div>
-              {/* Right Button */}
-              <FaAngleRight
-                onClick={nextSlide}
-                size={35}
-                className=" right-0 z-10 p-2 text-2xl bg-white rounded-full shadow-lg hover:bg-gray-100 cursor-pointer"
-              />
+              {testimonials.map((t, idx) => (
+                <div
+                  key={idx}
+                  className="w-full md:w-1/3 flex-shrink-0 px-2 my-5"
+                >
+                  <TestimonialCard testimonial={t} />
+                </div>
+              ))}
             </div>
           </div>
+
+          {/* Right Button */}
+          <FaAngleRight
+            onClick={nextSlide}
+            size={35}
+            className="absolute right-0 lg:right-[-50px] xl:right-[-100px] top-1/2 -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow-lg hover:bg-gray-100 cursor-pointer"
+          />
         </div>
       </div>
     </section>
   );
 };
+
+// const Review = () => {
+//   const [currentIndex, setCurrentIndex] = useState(0);
+//   const visibleCount = 3;
+
+//   // Auto slide every 4 seconds
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       nextSlide();
+//     }, 4000);
+
+//     return () => clearInterval(interval);
+//   }, [currentIndex]);
+
+//   const nextSlide = () => {
+//     setCurrentIndex(
+//       (prevIndex) => (prevIndex + visibleCount) % testimonials.length
+//     );
+//   };
+
+//   const prevSlide = () => {
+//     setCurrentIndex(
+//       (prevIndex) =>
+//         (prevIndex - visibleCount + testimonials.length) % testimonials.length
+//     );
+//   };
+
+//   // Show only 3 testimonials at a time
+//   const getVisibleTestimonials = () => {
+//     const visible = [];
+//     for (let i = 0; i < visibleCount; i++) {
+//       visible.push(testimonials[(currentIndex + i) % testimonials.length]);
+//     }
+//     return visible;
+//   };
+
+//   return (
+//     <section>
+//       <div className="">
+//         <div className="flex flex-col items-center">
+//           <div className="text-center">
+//             <p className="text-lg font-medium text-gray-600 font-pj">
+//               2,157 people have said how good Best In Breed
+//             </p>
+//             <h2 className="mt-4 text-3xl font-bold text-gray-900 sm:text-4xl xl:text-5xl font-pj">
+//               Our happy clients say about us
+//             </h2>
+//           </div>
+
+//           <div className="mt-8 text-center md:mt-16">
+//             <a
+//               href="#"
+//               className="pb-2 text-base font-bold leading-7 text-gray-900 border-b-2 border-gray-900 hover:border-gray-600 hover:text-gray-600 font-pj"
+//             >
+//               Check all 2,157 reviews
+//             </a>
+//           </div>
+
+//           <div className="relative mt-10 md:mt-24 w-full">
+//             <div className="absolute -inset-x-1 inset-y-16 md:-inset-x-2 md:-inset-y-6 pointer-events-none">
+//               <div
+//                 className="w-full h-full max-w-5xl mx-auto rounded-3xl opacity-30 blur-lg filter"
+//                 style={{
+//                   background:
+//                     "linear-gradient(90deg, #44ff9a -0.55%, #44b0ff 22.86%, #8b44ff 48.36%, #ff6644 73.33%, #ebff70 99.34%)",
+//                 }}
+//               ></div>
+//             </div>
+
+//             <div className="relative flex items-center justify-between">
+//               {/* Left Button */}
+
+//               <FaAngleLeft
+//                 onClick={prevSlide}
+//                 size={35}
+//                 className=" left-0 z-10 p-2 text-2xl bg-white rounded-full shadow-lg hover:bg-gray-100 cursor-pointer"
+//               />
+
+//               {/* Testimonials */}
+//               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-10 mx-auto max-w-5xl w-full px-">
+//                 {getVisibleTestimonials().map((t, idx) => (
+//                   <TestimonialCard key={idx} testimonial={t} />
+//                 ))}
+//               </div>
+//               {/* Right Button */}
+//               <FaAngleRight
+//                 onClick={nextSlide}
+//                 size={35}
+//                 className=" right-0 z-10 p-2 text-2xl bg-white rounded-full shadow-lg hover:bg-gray-100 cursor-pointer"
+//               />
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// };
 
 export default Review;

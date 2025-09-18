@@ -16,6 +16,74 @@ import type {
 // fields for client intake form step 1
 export const cifStep1Fields: clientFormFields[] = [
   {
+    name: "name",
+    label: "Name",
+    type: "text",
+    placeholder: "Enter name",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+  {
+    name: "date",
+    label: "Date",
+    type: "date",
+    placeholder: "Select date",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+  {
+    name: "address",
+    label: "Address",
+    type: "text",
+    placeholder: "Enter address",
+    colSpan: "col-span-12 md:col-span-6",
+    endIcon: location,
+  },
+  {
+    name: "subdivision",
+    label: "Subdivision",
+    type: "text",
+    placeholder: "Enter subdivision",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+  {
+    name: "phone1",
+    label: "Phone #1",
+    type: "number",
+    placeholder: "Enter phone number",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+  {
+    name: "phone2",
+    label: "Phone #2",
+    type: "number",
+    placeholder: "Enter phone number",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+  {
+    name: "referral",
+    label: "Referral",
+    type: "text",
+    placeholder: "Enter referral source",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+  {
+    name: "appointmentScheduled",
+    label: "Evaluation scheduled",
+    type: "text",
+    placeholder: "Enter appointment date",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+  {
+    name: "problem",
+    label: "Problem",
+    type: "text",
+    placeholder: "Enter problem",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+];
+
+// fields for client intake form step 2
+export const cifStep2Fields: clientFormFields[] = [
+  {
     name: "homePhone",
     placeholder: "Home Phone",
     elementType: "input",
@@ -179,36 +247,10 @@ export const cifStep1Fields: clientFormFields[] = [
   },
 ];
 
-// checkboxes for client intake form step 2
-export const cifStep2CheckBoxes: clientFormFields[] = [
-  // {
-  //   name: "address",
-  //   placeholder: "Address",
-  //   elementType: "input",
-  //   type: "text",
-  // },
-  // { name: "phone", placeholder: "Phone", elementType: "input", type: "number" },
-
+// checkboxes for client intake form step 3
+export const cifStep3CheckBoxes: clientFormFields[] = [
   {
     name: "Weeks on leash",
-    label: "House breaking:",
-    elementType: "checkbox",
-    options: [
-      "Chewing",
-      "Going in Trash",
-      "Leash Green",
-      "Heel",
-      "Done",
-      "Sit Stay",
-      "Down stay",
-      "Release command",
-      "Behavior Problems",
-      "Respect for word 'NO'",
-      "Lifetime Consultation",
-    ],
-  },
-  {
-    name: "Weeks on/off leash",
     label: "House breaking:",
     elementType: "checkbox",
     options: [
@@ -233,141 +275,33 @@ export const cifStep2CheckBoxes: clientFormFields[] = [
   },
   {
     name: "Months Maintenance",
-    label: "",
+    label: "Maintenance",
     elementType: "checkbox",
     options: ["Maintain previously enrolled program"],
   },
-
-  // {
-  //   name: "trainingFee",
-  //   placeholder: "Training Fee",
-  //   elementType: "input",
-  //   type: "number",
-  //   colSpan: "col-span-12 md:col-span-2",
-  // },
-  // {
-  //   name: "notes",
-  //   placeholder: "Notes & Terms",
-  //   elementType: "textarea",
-  //   rows: 4,
-  //   colSpan: "col-span-12 md:col-span-2",
-  // },
-
-  // {
-  //   name: "ownerName",
-  //   placeholder: "Owner Name",
-  //   elementType: "input",
-  //   type: "text",
-  //   colSpan: "col-span-12 md:col-span-2",
-  // },
-  // { name: "date", placeholder: "Date", elementType: "input", type: "date" },
-  // {
-  //   name: "dogName",
-  //   placeholder: "Owner of Dog",
-  //   elementType: "input",
-  //   type: "text",
-  // },
-  // {
-  //   name: "trainingStart",
-  //   placeholder: "Training to start week of",
-  //   elementType: "input",
-  //   type: "date",
-  // },
 ];
 
-// fields for client intake form step 3
-export const cifStep3Fields: clientFormFields[] = [
+// date and time client intake form step 3
+export const cifStep3DateTime = [
   {
-    name: "name",
-    label: "Name",
-    type: "text",
-    placeholder: "Enter name",
-    colSpan: "col-span-12 md:col-span-6",
-  },
-  {
-    name: "date",
-    label: "Date",
+    label: "Start Date",
     type: "date",
-    placeholder: "Select date",
-    colSpan: "col-span-12 md:col-span-6",
+    name: "startDate",
   },
   {
-    name: "address",
-    label: "Address",
-    type: "text",
-    placeholder: "Enter address",
-    colSpan: "col-span-12 md:col-span-6",
-    endIcon: location,
+    label: "End Date",
+    type: "date",
+    name: "endDate",
   },
   {
-    name: "subdivision",
-    label: "Subdivision",
-    type: "text",
-    placeholder: "Enter subdivision",
-    colSpan: "col-span-12 md:col-span-6",
+    label: "Start Time",
+    type: "time",
+    name: "startTime",
   },
   {
-    name: "phone1",
-    label: "Phone #1",
-    type: "number",
-    placeholder: "Enter phone number",
-    colSpan: "col-span-12 md:col-span-6",
-  },
-  {
-    name: "phone2",
-    label: "Phone #2",
-    type: "number",
-    placeholder: "Enter phone number",
-    colSpan: "col-span-12 md:col-span-6",
-  },
-  {
-    name: "referral",
-    label: "Referral",
-    type: "text",
-    placeholder: "Enter referral source",
-    colSpan: "col-span-12 md:col-span-6",
-  },
-  {
-    name: "dogName",
-    label: "Dog name",
-    type: "text",
-    placeholder: "Enter dog's name",
-    colSpan: "col-span-12 md:col-span-6",
-  },
-  {
-    name: "breed",
-    label: "Breed",
-    type: "text",
-    placeholder: "Enter breed",
-    colSpan: "col-span-12 md:col-span-4",
-  },
-  {
-    name: "age",
-    label: "Age",
-    type: "number",
-    placeholder: "Enter age",
-    colSpan: "col-span-12 md:col-span-4",
-  },
-  {
-    name: "sex",
-    label: "Sex",
-    type: "text",
-    placeholder: "Enter sex",
-    colSpan: "col-span-12 md:col-span-4",
-  },
-  {
-    name: "problem",
-    label: "Problem",
-    type: "text",
-    placeholder: "Enter problem",
-    colSpan: "col-span-12 md:col-span-6",
-  },
-  {
-    name: "appointmentScheduled",
-    label: "Evaluation scheduled",
-    type: "text",
-    placeholder: "Enter appointment date",
-    colSpan: "col-span-12 md:col-span-6",
+    label: "End Time",
+    type: "time",
+    name: "endTime",
   },
 ];
 

@@ -1,9 +1,11 @@
 import React, { useRef } from "react";
 import Button from "../../buttons/Button";
-import { cifStep2CheckBoxes } from "../../../utils/arrays";
+import { cifStep3CheckBoxes, cifStep3DateTime } from "../../../utils/arrays";
 import Input from "../../fields/Input";
 import type { StepFormProps } from "../../../utils/interfaces";
 import SignatureCanvas from "react-signature-canvas";
+import { HiChevronDown } from "react-icons/hi";
+import TextArea from "../../fields/TextArea";
 
 const Step3: React.FC<StepFormProps> = ({
   defaultAllState,
@@ -37,7 +39,6 @@ const Step3: React.FC<StepFormProps> = ({
           Training Agreement
         </h1>
       </div>
-
       {/* Client Fields */}
       <div className="sm:grid sm:grid-cols-2 gap-2 md:gap-4 mt-6 md:mt-18 space-y-3 sm:space-y-0">
         <p className="col-span-2 xxs:text-xs xs:xxs:text-md md:text-xl">
@@ -67,41 +68,58 @@ const Step3: React.FC<StepFormProps> = ({
           setValue={(val) => handleFieldChange("Client Phone", val)}
         />
       </div>
-
       {/* Checkbox Fields */}
       <div className="my-8">
         <p className="col-span-2 xxs:text-xs xs:xxs:text-md md:text-xl">
           Consisting of the following checked below:
         </p>
-        {cifStep2CheckBoxes.map((field, index) => (
-          <div key={index} className="grid grid-cols-6 gap-2 sm:gap-5 my-6">
-            <div className="col-span-6 sm:col-span-2 lg:col-span-1 place-content-center">
-              <div className="bg-gray-300 rounded-lg p-3">
-                {field.name !== "8 Weeks on leash" && (
-                  <input
-                    value={formData[field.name] || ""}
-                    type="number"
-                    min="0"
-                    className="w-[60px] h-[26px] mr-2 bg-white rounded-md px-1 text-gray-750 border border-gray-300 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
-                    onChange={(e) =>
-                      handleFieldChange(field.name, e.target.value)
-                    }
-                  />
-                )}
-                <span className="font-medium xxs:text-md sm:text-base">
-                  {field.name}
-                </span>
-              </div>
-            </div>
-            <div
-              className={`col-span-6 sm:col-span-4 lg:col-span-5 place-content-center`}
+        <div className="mt-5">
+          <label className="font-bold">Weeks On Leash </label>
+          <div className="relative mt-2">
+            <select
+              required
+              className="appearance-none w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 xxs:text-sm sm:text-base focus:outline-none"
             >
+              <option value="" disabled selected hidden>
+                Select Weeks on Leash
+              </option>
+              {["0", "2", "3", "4", "other"].map((opt, i) => (
+                <option key={i} value={opt}>
+                  {opt}
+                </option>
+              ))}
+            </select>
+            <HiChevronDown className="w-5 h-5 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          </div>
+        </div>
+        <div className="mt-5">
+          <label className="font-bold">Weeks On/off Leash </label>
+          <div className="relative mt-2">
+            <select
+              required
+              className="appearance-none w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 xxs:text-sm sm:text-base focus:outline-none"
+            >
+              <option value="" disabled selected hidden>
+                Select Weeks on/off Leash
+              </option>
+              {["0", "2", "3", "4", "other"].map((opt, i) => (
+                <option key={i} value={opt}>
+                  {opt}
+                </option>
+              ))}
+            </select>
+            <HiChevronDown className="w-5 h-5 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          </div>
+        </div>
+        {cifStep3CheckBoxes.map((field, index) => (
+          <div key={index} className="space-y-4 my-6">
+            <div>
               {field.label && (
                 <p className="font-semibold sm:mb-2 xxs:text-md sm:text-base md:text-lg">
                   {field.label}
                 </p>
               )}
-              <div className="flex flex-wrap gap-x-4">
+              <div className="grid grid-cols-4 gap-x-4">
                 {field.options?.map((opt, i) => (
                   <label
                     key={i}
@@ -130,6 +148,21 @@ const Step3: React.FC<StepFormProps> = ({
         ))}
       </div>
 
+      <div className="grid sm:grid-cols-2 gap-2 sm:gap-4 my-3 sm:my-5">
+        {cifStep3DateTime.map((field, index) => (
+          <div key={index}>
+            <label className="font-bold">{field.label}</label>
+            <Input
+              type={field.type}
+              // value={formData[field.name] || ""}
+              placeholder=""
+              className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none"
+              // setValue={(val) => handleFieldChange(field.name, val)}
+            />
+          </div>
+        ))}
+      </div>
+
       <div className="space-y-4">
         <Input
           value={formData["trainingFee"] || ""}
@@ -138,15 +171,14 @@ const Step3: React.FC<StepFormProps> = ({
           className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
           setValue={(val) => handleFieldChange("trainingFee", val)}
         />{" "}
-        <Input
+        <TextArea
+          rows={5}
           value={formData["notesAndTerms"] || ""}
-          type="text"
           placeholder="Notes & Terms"
-          className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
+          className="w-full bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none pt-3"
           setValue={(val) => handleFieldChange("notesAndTerms", val)}
         />
       </div>
-
       {/* Agreement Text */}
       <div className="space-y-6 py-10 xxs:text-xs xs:xxs:text-xs xs:xxs:text-md md:text-xl">
         <section className="space-y-3">
@@ -213,7 +245,6 @@ const Step3: React.FC<StepFormProps> = ({
           </p>
         </section>
       </div>
-
       {/* Signature Fields */}
       <div className="pb-4 md:py-10 space-y-6">
         {/* Owner Agreement */}
@@ -310,7 +341,6 @@ const Step3: React.FC<StepFormProps> = ({
           </div>
         </div>
       </div>
-
       {/* Submit Button */}
       <Button
         name="Submit"

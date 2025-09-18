@@ -73,7 +73,7 @@ const clientsData: ClientCards[] = [
     image: client10,
   },
   {
-    name: " Albert Flores",
+    name: "Albert Flores",
     role: "Dog Owner",
     image: client11,
   },
@@ -130,26 +130,32 @@ function Clients() {
 
       {/* Clients Cards */}
       {filteredClients?.length > 0 ? (
-        <div className="grid xxs:grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6 pt-4 lg:pt-8">
-          {filteredClients.map(({ name, role, image }, index) => (
-            <div
-              key={name}
-              className="place-content-center h-[225px] border rounded-xl shadow-sm hover:shadow-md transition cursor-pointer"
-              onClick={() => setRenderPage("clientDetails")}
-            >
-              <img
+        <div className="grid xxs:grid-cols-1 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-10 gap-3 sm:gap-6 pt-4 lg:pt-8">
+          {filteredClients.map(({ name, role, image }, index) => {
+            const [fName, ...rest] = name.split(" "); // Split the name into first name and the rest (last name or multiple names)
+            const lName = rest.join(" "); // Join the remaining parts into a last name (if any)
+
+            return (
+              <div
+                key={name + index} // Ensure the key is unique by including the index
+                className="place-content-center h-[92px] border rounded-xl shadow-sm hover:shadow-md transition cursor-pointer"
+                onClick={() => setRenderPage("clientDetails")}
+              >
+                {/* Uncomment and adjust if you want to show the client's image */}
+                {/* <img
                 src={image}
                 alt={name + index}
                 className="w-[125px] h-[125px] rounded-full object-cover mb-3 justify-self-center"
-              />
-              <h3 className="xxs:text-sm sm:text-base font-semibold text-center">
-                {name}
-              </h3>
-              <p className="xxs:text-xs sm:text-sm text-gray-550 text-sm text-center">
-                {role}
-              </p>
-            </div>
-          ))}
+              /> */}
+                <h3 className="xxs:text-sm sm:text-base font-semibold text-center">
+                  {fName} {lName && <div>{lName}</div>}
+                </h3>
+                <p className="xxs:text-xs sm:text-sm text-gray-550 text-sm text-center">
+                  {role}
+                </p>
+              </div>
+            );
+          })}
         </div>
       ) : (
         <h3 className="xxs:text-sm sm:text-base text-red-400 py-5 font-semibold text-center">

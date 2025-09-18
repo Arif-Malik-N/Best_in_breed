@@ -12,6 +12,7 @@ import {
 import { client1, dog1, dog2, pdf } from "../assets/images";
 import Button from "./buttons/Button";
 import ReportForm from "./forms/clientIntakeForms/ReportForm";
+import { FaPlusCircle } from "react-icons/fa";
 
 const ClientDetails: React.FC<clientIntakeProp> = ({ setRenderPage }) => {
   const [isReportFormRender, setIsReportFormRender] = useState(false);
@@ -37,7 +38,7 @@ const ClientDetails: React.FC<clientIntakeProp> = ({ setRenderPage }) => {
       <NavigationTopBar name="Client Details" onClick={defaultAllState} />
 
       <div className="py-0 sm:py-10 pt-4 sm:pt-0 space-y-4 sm:space-y-7 mt-6 sm:mt-12">
-        <div className="rounded-xl border p-3 lg:p-6 space-y-4 sm:space-y-10 lg:space-y-18">
+        <div className="rounded-xl border p-3 lg:p-6 space-y-2 sm:space-y-5 lg:space-y-8">
           {/* Profile Header */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             {/* Left side: Profile */}
@@ -66,18 +67,28 @@ const ClientDetails: React.FC<clientIntakeProp> = ({ setRenderPage }) => {
                 </div>
                 igerrin@gmail.com
               </span>
-              <div className="flex items-center gap-2 cursor-pointer">
+              <button
+                className="flex items-center gap-1.5 bg-brand-blue text-white pl-1 pr-2 sm:pr-3 py-1 rounded-full text-sm outline-none"
+                onClick={() => setRenderPage("clientIntakeForm")}
+              >
+                <FaPlusCircle className="text-white w-6 h-6" />
+                <span>Add Dog</span>
+              </button>
+              {/* <div className="flex items-center gap-2 cursor-pointer">
                 <AiOutlinePlusCircle
                   className="w-8 h-8 sm:w-10 sm:h-10 text-brand-blue"
                   onClick={() => setRenderPage("clientIntakeForm")}
                 />
                 <span className="sm:hidden text-sm">Add New Dog</span>
-              </div>
+              </div> */}
             </div>
           </div>
 
           {/* About Dogs */}
-          {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <h2 className="text-base sm:text-lg md:text-xl font-bold">
+            Owned Dogs
+          </h2>
+          <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-4">
             {[
               {
                 name: "Penny",
@@ -90,23 +101,23 @@ const ClientDetails: React.FC<clientIntakeProp> = ({ setRenderPage }) => {
                 desc: "Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum. Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum. ",
               },
             ].map(({ name, img, desc }) => (
-              <div className="flex gap-2 sm:gap-4">
+              <div className="flex items-center gap-2 sm:gap-4">
                 <img
                   src={img}
                   alt={name}
-                  className="w-[65px] h-[65px] sm:w-[85px] sm:h-[85px] rounded-full"
+                  className="w-[50px] h-[50px] sm:w-[65px] sm:h-[65px] rounded-full"
                 />
                 <div>
                   <h3 className="text-xs sm:text-sm md:text-base font-semibold">
                     About {name}
                   </h3>
-                  <p className="text-xs sm:text-sm md:text-base text-gray-550">
+                  {/* <p className="text-xs sm:text-sm md:text-base text-gray-550">
                     {desc}
-                  </p>
+                  </p> */}
                 </div>
               </div>
             ))}
-          </div> */}
+          </div>
         </div>
 
         {/* Dog Accordion */}

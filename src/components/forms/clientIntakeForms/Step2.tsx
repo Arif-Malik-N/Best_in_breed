@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "../../buttons/Button";
-import { cifStep1Fields } from "../../../utils/arrays";
+import { cifStep2Fields } from "../../../utils/arrays";
 import Input from "../../fields/Input";
 import TextArea from "../../fields/TextArea";
 import type { StepFormProps } from "../../../utils/interfaces";
@@ -38,7 +38,7 @@ const Step2: React.FC<StepFormProps> = ({
           </div>
         </div>
         <div className="grid grid-cols-12 gap-2 sm:gap-4">
-          {cifStep1Fields.map((field, index) => {
+          {cifStep2Fields.map((field, index) => {
             switch (field.elementType) {
               case "input":
                 return (
