@@ -176,3 +176,15 @@ export interface StepFormProps {
   formData: Record<string, string>;
   handleFieldChange: (name: string, value: string) => void;
 }
+
+// for store
+// export interface authSliceState {
+//   token: null;
+//   userData: [];
+//   otp: null | string;
+// }
+
+export interface LoginDataTypes {
+  email: string;
+  password: string;
+}
