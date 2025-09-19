@@ -82,7 +82,7 @@ export const cifStep1Fields: clientFormFields[] = [
 ];
 
 // fields for client intake form step 2
-export const cifStep2Fields: clientFormFields[] = [
+export const cifStep2Fields = [
   {
     name: "homePhone",
     placeholder: "Home Phone",
@@ -109,7 +109,10 @@ export const cifStep2Fields: clientFormFields[] = [
     name: "breed",
     placeholder: "Select Breed",
     elementType: "select",
-    options: ["Breed 1", "Breed 2"],
+    options: [
+      { value: "breed1", label: "Breed 1" },
+      { value: "breed2", label: "Breed 2" },
+    ],
     colSpan: "col-span-12 md:col-span-3",
   },
   {
@@ -176,8 +179,11 @@ export const cifStep2Fields: clientFormFields[] = [
     elementType: "select",
     colSpan: "col-span-12 md:col-span-12",
     options: [
-      "House Breaking",
-      "Personal Protection (no bite work - treat training only)",
+      { value: "houseBreaking", label: "House Breaking" },
+      {
+        value: "PpersonalProtection",
+        label: "Personal Protection (no bite work - treat training only)",
+      },
     ],
   },
   {

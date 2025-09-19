@@ -6,6 +6,7 @@ import type { StepFormProps } from "../../../utils/interfaces";
 import SignatureCanvas from "react-signature-canvas";
 import { HiChevronDown } from "react-icons/hi";
 import TextArea from "../../fields/TextArea";
+import Select from "../../fields/Select";
 
 const Step3: React.FC<StepFormProps> = ({
   defaultAllState,
@@ -28,6 +29,15 @@ const Step3: React.FC<StepFormProps> = ({
       handleFieldChange(fieldName, dataURL); // Save signature as data URL
     }
   };
+
+  const weeksOptions = [
+    { value: "0", label: "0" },
+    { value: "2", label: "2" },
+    { value: "3", label: "3" },
+    { value: "4", label: "4" },
+    { value: "other", label: "Other" },
+  ];
+
   return (
     <div className="my-8 md:pt-10 xl:pt-18 pb-4">
       {/* Title */}
@@ -73,43 +83,25 @@ const Step3: React.FC<StepFormProps> = ({
         <p className="col-span-2 xxs:text-xs xs:xxs:text-md md:text-xl">
           Consisting of the following checked below:
         </p>
-        <div className="mt-5">
+        <div className="mt-5 space-y-2">
           <label className="font-bold">Weeks On Leash </label>
-          <div className="relative mt-2">
-            <select
-              required
-              className="appearance-none w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 xxs:text-sm sm:text-base focus:outline-none"
-            >
-              <option value="" disabled selected hidden>
-                Select Weeks on Leash
-              </option>
-              {["0", "2", "3", "4", "other"].map((opt, i) => (
-                <option key={i} value={opt}>
-                  {opt}
-                </option>
-              ))}
-            </select>
-            <HiChevronDown className="w-5 h-5 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-          </div>
+          <Select
+            options={weeksOptions}
+            value={formData["selectWeeksOnLeash"] || ""}
+            placeholder={"Select Weeks on Leash"}
+            className="appearance-none w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 xxs:text-sm sm:text-base focus:outline-none"
+            setValue={(val) => handleFieldChange("selectWeeksOnLeash", val)}
+          />
         </div>
-        <div className="mt-5">
+        <div className="mt-5 space-y-2">
           <label className="font-bold">Weeks On/off Leash </label>
-          <div className="relative mt-2">
-            <select
-              required
-              className="appearance-none w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 xxs:text-sm sm:text-base focus:outline-none"
-            >
-              <option value="" disabled selected hidden>
-                Select Weeks on/off Leash
-              </option>
-              {["0", "2", "3", "4", "other"].map((opt, i) => (
-                <option key={i} value={opt}>
-                  {opt}
-                </option>
-              ))}
-            </select>
-            <HiChevronDown className="w-5 h-5 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-          </div>
+          <Select
+            options={weeksOptions}
+            value={formData["selectWeeksOn/OffLeash"] || ""}
+            placeholder={"Weeks On/off Leash"}
+            className="appearance-none w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 xxs:text-sm sm:text-base focus:outline-none"
+            setValue={(val) => handleFieldChange("selectWeeksOn/OffLeash", val)}
+          />
         </div>
         {cifStep3CheckBoxes.map((field, index) => (
           <div key={index} className="space-y-4 my-6">

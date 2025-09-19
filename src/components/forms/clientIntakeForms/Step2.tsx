@@ -6,12 +6,15 @@ import TextArea from "../../fields/TextArea";
 import type { StepFormProps } from "../../../utils/interfaces";
 import { AiOutlineDown } from "react-icons/ai";
 import { HiChevronDown } from "react-icons/hi";
+import Select from "../../fields/Select";
 
 const Step2: React.FC<StepFormProps> = ({
   setStep,
   formData,
   handleFieldChange,
 }) => {
+  console.log(formData);
+
   return (
     <div>
       {/* All Fields */}
@@ -68,26 +71,14 @@ const Step2: React.FC<StepFormProps> = ({
 
               case "select":
                 return (
-                  <div key={index} className={`relative ${field.colSpan}`}>
-                    <select
-                      required
+                  <div key={index} className={`${field.colSpan}`}>
+                    <Select
+                      options={field.options}
                       value={formData[field.name] || ""}
-                      onChange={(e) =>
-                        handleFieldChange(field.name, e.target.value)
-                      }
+                      placeholder={field.placeholder}
                       className="appearance-none w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 xxs:text-sm sm:text-base focus:outline-none"
-                    >
-                      <option value="" disabled selected hidden>
-                        {field.placeholder}
-                      </option>
-                      {field.options?.map((opt, i) => (
-                        <option key={i} value={opt}>
-                          {opt}
-                        </option>
-                      ))}
-                    </select>
-                    <HiChevronDown className="w-5 h-5 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                    {/* <AiOutlineDown className="w-3 h-3 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" /> */}
+                      setValue={(val) => handleFieldChange(field.name, val)}
+                    />
                   </div>
                 );
 

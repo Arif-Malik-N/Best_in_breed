@@ -131,7 +131,9 @@ export interface DialogProps {
 
 // Props for an input field component
 export interface InputProps {
+  options?: [];
   value: string | number;
+  readOnly?: boolean;
   type: string;
   placeholder?: string;
   className?: string;
