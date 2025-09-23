@@ -11,9 +11,20 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import authSlices from "./auth/authReducer";
+import commonSlice from "./common/commonSlice";
+import sessionSlices from "./session/sessionReducer";
+import clientSlices from "./client/clientReducer";
+import {
+  useDispatch,
+  useSelector,
+  type TypedUseSelectorHook,
+} from "react-redux";
 
 const reducers = combineReducers({
+  commonSlice,
   authSlices,
+  clientSlices,
+  sessionSlices,
 });
 
 const persistConfig = {
@@ -41,5 +52,8 @@ export const store = configureStore({
 });
 
 export const persister = persistStore(store);
-export type RootState = ReturnType<typeof store.getState>;
-// export type AppDispatch = typeof store.dispatch;
+type RootState = ReturnType<typeof store.getState>;
+type AppDispatch = typeof store.dispatch;
+
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

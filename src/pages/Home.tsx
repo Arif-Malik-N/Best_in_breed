@@ -10,10 +10,12 @@ import ClientIntakeForm from "../components/forms/clientIntakeForms/ClientIntake
 import ClientDetails from "../components/ClientDetails";
 import Input from "../components/fields/Input";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useAppSelector } from "../store/store";
 
 function Home() {
   const [renderPage, setRenderPage] = useState("home");
   const [search, setSearch] = useState("");
+  const { metrices } = useAppSelector((state) => state.authSlices);
 
   const filteredClients = clientsSampleData.filter((client) =>
     columns.some(({ key }) =>
@@ -25,17 +27,17 @@ function Home() {
     {
       icon: group,
       name: "Active Clients",
-      number: 150,
+      number: metrices?.activeClients,
     },
     {
       icon: group,
       name: "Appointments",
-      number: 12,
+      number: metrices?.appointments,
     },
     {
       icon: group,
       name: "Pending Contracts",
-      number: 9,
+      number: metrices?.pendingContracts,
     },
   ];
 
@@ -84,7 +86,7 @@ function Home() {
           </div>
 
           {/* Client Table Section */}
-          <div className="bg-white rounded-xl py-10">
+          <div className="bg-white rounded-xl py-10 mt-5 sm:mt-10">
             <div className="flex justify-between place-items-center px-3">
               <div className="xxs:text-base xl:text-lg font-semibold ml-4">
                 Clients

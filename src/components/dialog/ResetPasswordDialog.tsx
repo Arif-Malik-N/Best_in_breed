@@ -31,7 +31,7 @@ const ResetPasswordDialog: React.FC<DialogProps> = ({
         {/* Okay Button */}
         <Button
           name="Okay"
-          className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-2xl text-white font-semibold text-base"
+          className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-2xl text-white font-semibold text-base outline-none"
           onClick={closeDialog}
         />
       </div>

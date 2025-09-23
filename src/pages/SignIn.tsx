@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import SignInBackground from "../components/SignInBackground";
 import { logo } from "../assets/images";
 import Input from "../components/fields/Input";
@@ -6,11 +6,13 @@ import Button from "../components/buttons/Button";
 import ResetPassword from "../components/ResetPassword";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import type { field } from "../utils/interfaces";
-import { AuthContext } from "../router/Index";
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { login } from "../store/auth/authAction";
+import { toast } from "react-toastify";
+import Loader from "../components/Loader";
 
 const SignIn = () => {
-  const { setIsAuthenticated } = useContext(AuthContext);
-
+  const dispatch = useAppDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -19,8 +21,23 @@ const SignIn = () => {
   // Function to toggle password visibility
   const togglePassword = () => setShowPassword((prev) => !prev);
 
+  const { isLoading } = useAppSelector((state) => state.commonSlice);
+
   // login function
-  const handleLogin = () => setIsAuthenticated(true);
+  const handleLogin = async () => {
+    try {
+      // object to send to api
+      const dataToSend = { email: email, password: password };
+      // api call through redux
+      const response = await dispatch(login(dataToSend)).unwrap();
+      // toaster after api success
+      if (response?.success) {
+        toast.success(`Welcome Back ${response?.data?.user?.name}`);
+      }
+    } catch (error) {
+      // Empty catch block (no error handling)
+    }
+  };
 
   const fields: field[] = [
     {
@@ -115,8 +132,11 @@ const SignIn = () => {
                 </div>
 
                 <Button
-                  name="Sign In"
-                  className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white"
+                  name={isLoading ? <Loader /> : "Sign In"}
+                  disabled={isLoading}
+                  className={`w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white outline-none ${
+                    isLoading && "cursor-not-allowed"
+                  }`}
                   onClick={handleLogin}
                 />
               </div>

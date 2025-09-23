@@ -3,8 +3,10 @@ import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { augustDataWithImage, septemberDataWithImage } from "../utils/arrays";
 import type { EventItem } from "../utils/interfaces";
 import EventList from "./EventList";
+import { useAppDispatch } from "../store/store";
 
-const UpcomminSession = () => {
+const UpcomminSession = React.memo(() => {
+  const dispatch = useAppDispatch();
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState(today.getMonth()); // in number
   const [currentYear, setCurrentYear] = useState(today.getFullYear()); // in number
@@ -12,6 +14,7 @@ const UpcomminSession = () => {
   const [weekIndex, setWeekIndex] = useState(0);
   const [isSelectFromPagination, setIsSelectFromPagination] = useState(false);
   const [events, setEvents] = useState<EventItem[]>([]);
+  console.log(selectedDate);
 
   // Get month name
   const monthName = new Date(currentYear, currentMonth).toLocaleString(
@@ -61,6 +64,8 @@ const UpcomminSession = () => {
 
   // Get events for selected date
   useEffect(() => {
+    // dispatch(getSelection());
+
     if (!isSelectFromPagination) {
       const events =
         augustDataWithImage?.[
@@ -210,6 +215,6 @@ const UpcomminSession = () => {
       />
     </div>
   );
-};
+});
 
 export default UpcomminSession;

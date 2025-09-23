@@ -3,16 +3,30 @@ import Button from "./buttons/Button";
 import Input from "./fields/Input";
 import ResetPasswordDialog from "./dialog/ResetPasswordDialog";
 import type { ResetPsdProps } from "../utils/interfaces";
+import { resetPassword } from "../store/auth/authAction";
+import { useAppDispatch } from "../store/store";
+import { toast } from "react-toastify";
 
 const ResetPassword: React.FC<ResetPsdProps> = ({
   email,
   setEmail,
   setFormType,
 }) => {
+  const dispatch = useAppDispatch();
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  const openDialog = () => {
-    dialogRef.current?.showModal(); // open modal
+  const handleResetPsd = async () => {
+    try {
+      // api call through redux
+      const response = await dispatch(resetPassword(email)).unwrap();
+
+      // reset modal after api success
+      if (response?.success) {
+        dialogRef.current?.showModal(); // open modal
+      }
+    } catch (error) {
+      // Empty catch block (no error handling)
+    }
   };
 
   const closeDialog = () => {
@@ -44,14 +58,14 @@ const ResetPassword: React.FC<ResetPsdProps> = ({
       {/* reset button */}
       <Button
         name="Get Reset Link"
-        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white my-4"
-        onClick={openDialog}
+        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white my-4 outline-none"
+        onClick={handleResetPsd}
       />
 
       {/* back button */}
       <Button
         name="Back To Login"
-        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-pink rounded-lg text-brand-blue"
+        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-pink rounded-lg text-brand-blue outline-none"
         onClick={() => setFormType("login")}
       />
 

@@ -1,13 +1,55 @@
 import React, { useState } from "react";
 import Button from "../buttons/Button";
-import { check, location } from "../../assets/images";
+import { check, location, profile2 } from "../../assets/images";
 import Input from "../fields/Input";
 import type { field, Props } from "../../utils/interfaces";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import { toast } from "react-toastify";
+import { updateProfile, updateProfileImg } from "../../store/auth/authAction";
+import { FaRegEdit } from "react-icons/fa";
+import NavigationTopBar from "../NavigationTopBar";
 
 const EditProfile: React.FC<Props> = ({ setType }) => {
-  const [email, setEmail] = useState("brucenelson@demomail.com");
-  const [loc, setLoc] = useState("Theron Branch Suite 920");
-  const [phoneNo, setPhoneNo] = useState("+1 (027) 266-7137");
+  const dispatch = useAppDispatch();
+  const { userData, profileImg } = useAppSelector((state) => state.authSlices);
+  const { isLoading } = useAppSelector((state) => state.commonSlice);
+
+  const [email, setEmail] = useState(userData?.email);
+  const [loc, setLoc] = useState(userData?.location);
+  const [phoneNo, setPhoneNo] = useState(userData?.phone);
+
+  const handleProfileImgUpdate = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+      const response = await dispatch(updateProfileImg(formData));
+      console.log(response);
+      if (response?.payload?.success) {
+        toast.success(`Profile Updated`);
+      }
+    }
+  };
+
+  const handleProfileUpdate = async () => {
+    try {
+      // Object to send to API
+      const dataToSend = {
+        email: email,
+        phoneNumber: phoneNo,
+        location: loc,
+      };
+
+      // API call through Redux
+      const response = await dispatch(updateProfile(dataToSend)).unwrap();
+      // Toaster after API success
+      if (response?.success) {
+        toast.success("Profile Updated");
+      }
+    } catch (error) {
+      // Empty catch block (no error handling)
+    }
+  };
 
   const fields: field[] = [
     {
@@ -41,7 +83,41 @@ const EditProfile: React.FC<Props> = ({ setType }) => {
 
   return (
     <div>
-      <div className="my-[50px]">
+      {/* Top Bar */}
+      <NavigationTopBar name="Profile Update" onClick={() => setType("menu")} />
+
+      {/* Profile Image */}
+      <div className="place-items-center">
+        <div className="bg-brand-blue xxs:w-[100px] xxs:h-[100px] md:w-[144px] md:h-[144px] rounded-full relative">
+          <img
+            src={profileImg}
+            className="xxs:w-[100px] xxs:h-[100px] md:w-[144px] md:h-[144px] rounded-full"
+          />
+
+          {/* Edit Icon with file input */}
+          <div className="absolute top-0 right-[calc(50%-65px)]">
+            <label htmlFor="profile-upload" className="cursor-pointer">
+              <div className="bg-white rounded-full p-1">
+                <div className="bg-brand-blue rounded-full p-1.5">
+                  <FaRegEdit className="text-white w-5 h-5" />
+                </div>
+              </div>
+            </label>
+            <input
+              id="profile-upload"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleProfileImgUpdate}
+            />
+          </div>
+        </div>
+        <div className="xxs:text-lg sm:text-xl lg:text-2xl font-bold mt-3">
+          {userData?.name}
+        </div>
+      </div>
+
+      <div className="my-8 sm:my-[50px]">
         <div className="grid xxs:grid-cols-1 sm:grid-cols-2 xxs:gap-4 sm:gap-5">
           {fields.map(({ value, name, type, className, setValue, endIcon }) => (
             <div key={name}>
@@ -64,8 +140,11 @@ const EditProfile: React.FC<Props> = ({ setType }) => {
 
       <Button
         name="Save Changes"
-        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white"
-        onClick={() => setType("menu")}
+        disabled={isLoading}
+        className={`w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white outline-none ${
+          isLoading && "cursor-not-allowed"
+        }`}
+        onClick={handleProfileUpdate}
       />
     </div>
   );

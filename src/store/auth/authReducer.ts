@@ -4,6 +4,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   token: null,
   userData: {},
+  metrices: {},
+  profileImg: {},
   otp: null,
 };
 
@@ -17,10 +19,22 @@ const authSlices = createSlice({
     saveUserData: (state, { payload }) => {
       state.userData = payload;
     },
+    saveMetrices: (state, { payload }) => {
+      state.metrices = payload;
+    },
+    setProfileImg: (state, { payload }) => {
+      state.profileImg = payload;
+    },
     resetUserState: () => initialState,
   },
 });
 
-export const { setToken, resetUserState, saveUserData } = authSlices.actions;
+export const {
+  setToken,
+  resetUserState,
+  saveUserData,
+  saveMetrices,
+  setProfileImg,
+} = authSlices.actions;
 
 export default authSlices.reducer;

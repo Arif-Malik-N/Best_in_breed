@@ -2,10 +2,14 @@ import { Link } from "react-router-dom";
 import { notification, profile } from "../assets/images";
 import { AiOutlineDown } from "react-icons/ai";
 import type { ProfileAndNotProps } from "../utils/interfaces";
+import { useAppSelector } from "../store/store";
 
 const ProfileAndNotification: React.FC<ProfileAndNotProps> = ({
   className = "",
 }) => {
+  const { profileImg } = useAppSelector((state) => state.authSlices);
+  // console.log(profileImg);
+
   return (
     <>
       {/* Profile */}
@@ -13,7 +17,7 @@ const ProfileAndNotification: React.FC<ProfileAndNotProps> = ({
         <Link to="/profile">
           <div className="flex cursor-pointer">
             <div className="bg-gray-200 rounded-full">
-              <img src={profile} alt="profile" />
+              <img src={profileImg} alt="profile" className="w-12 h-w-12" />
             </div>
             <AiOutlineDown className="ml-1 mt-4" />
           </div>

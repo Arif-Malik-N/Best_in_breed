@@ -1,17 +1,17 @@
 import axios from "axios";
+import { store } from "../store/store";
+import { toast } from "react-toastify";
 
-const baseURL = "http://localhost:5001/api";
+const baseURL = "https://best-in-breed-v1.onrender.com/api";
 
 export const userRequest = axios.create({
   baseURL: baseURL,
 });
 
-// const token = state.userSlices.token;
-
-// Add a request interceptor to include the Authorization header with the token
 userRequest.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = store.getState().authSlices?.token; // ✅ safe outside components
+
     if (token) {
       config.headers.authorization = `Bearer ${token}`;
     }
@@ -22,38 +22,18 @@ userRequest.interceptors.request.use(
   }
 );
 
-// userRequest.interceptors.response.use(
-//   (response) => {
-//     console.log("response");
-//     return response;
-//   },
-//   (error) => {
-//     console.log("error in api routes ", error);
-//     const is401 = error.message === "Request failed with status code 401";
-//     const is500 = error.message === "Request failed with status code 500";
-//     const isTooManyReq = error?.response?.status === 429;
-//     if (isTooManyReq) {
-//       notification.error({
-//         message: "Too Many Request",
-//         description:
-//           "You have exceeded the limit. Please try again after 15 minutes.",
-//         placement: "topRight",
-//         className: "font-inter font-medium",
-//         duration: 0,
-//       });
-//     } else if (is401 || is500) {
-//       // Check for token expiration
-//       // Redirect to the sign-out page
-//       localStorage.removeItem("username");
-//       localStorage.removeItem("token");
-//       sessionStorage.clear();
+userRequest.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    console.log(error);
 
-//       // is401
-//       //   ? toast.error("Session Expire Need to Signin Again")
-//       //   : toast.error("Internal Server Error try later");
-
-//       window.location.href = "https://ad.oee-tracker.com/signin/";
-//     }
-//     return Promise.reject(error);
-//   }
-// );
+    toast.error(error?.response?.data?.error?.message);
+    // toast.error("error?.response?.data?.error?.messagefdshfisdhfihdfndsif");
+    // if (error?.response?.data?.statusCode === 401) {
+    //   store.dispatch({ type: "LOGOUT" });
+    // }
+    return Promise.reject(error);
+  }
+);

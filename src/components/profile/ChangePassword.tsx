@@ -5,8 +5,12 @@ import Input from "../fields/Input";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import type { field, Props } from "../../utils/interfaces";
 import NavigationTopBar from "../NavigationTopBar";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import { toast } from "react-toastify";
+import { changePassword } from "../../store/auth/authAction";
 
 const ChangePassword: React.FC<Props> = ({ setType }) => {
+  const dispatch = useAppDispatch();
   const [currentPsd, setCurrentPsd] = useState("");
   const [newPsd, setNewPsd] = useState("");
   const [confirmPsd, setConfirmPsd] = useState("");
@@ -15,6 +19,8 @@ const ChangePassword: React.FC<Props> = ({ setType }) => {
     1: false,
     2: false,
   });
+
+  const { isLoading } = useAppSelector((state) => state.commonSlice);
 
   // Function to toggle password visibility
   const togglePassword = (index: number) =>
@@ -25,6 +31,7 @@ const ChangePassword: React.FC<Props> = ({ setType }) => {
 
   const fields: field[] = [
     {
+      value: currentPsd,
       name: "Current Password",
       placeholder: "Current Password",
       className:
@@ -33,6 +40,7 @@ const ChangePassword: React.FC<Props> = ({ setType }) => {
       startIcon: lock2,
     },
     {
+      value: newPsd,
       name: "New Password",
       placeholder: "New Password",
       className:
@@ -41,6 +49,7 @@ const ChangePassword: React.FC<Props> = ({ setType }) => {
       startIcon: lock2,
     },
     {
+      value: confirmPsd,
       name: "Confirm New Password",
       placeholder: "Retype New Password",
       className:
@@ -49,6 +58,30 @@ const ChangePassword: React.FC<Props> = ({ setType }) => {
       startIcon: lock2,
     },
   ];
+
+  const handleChangePsd = async () => {
+    try {
+      // Object to send to API
+      const dataToSend = {
+        currentPassword: currentPsd,
+        newPassword: newPsd,
+        confirmNewPassword: confirmPsd,
+      };
+
+      // API call through Redux
+      const response = await dispatch(changePassword(dataToSend)).unwrap();
+
+      // Toaster after API success
+      if (response?.success) {
+        toast.success(response?.data?.message);
+        setCurrentPsd("");
+        setNewPsd("");
+        setConfirmPsd("");
+      }
+    } catch (error) {
+      // Empty catch block (no error handling)
+    }
+  };
 
   return (
     <div>
@@ -60,13 +93,17 @@ const ChangePassword: React.FC<Props> = ({ setType }) => {
       <div className="my-[50px]">
         <div className="grid xxs:grid-cols-1 sm:grid-cols-2 xxs:gap-4 sm:gap-5">
           {fields.map(
-            ({ name, placeholder, className, setValue, startIcon }, index) => (
+            (
+              { value, name, placeholder, className, setValue, startIcon },
+              index
+            ) => (
               <div key={name}>
                 <div className="xxs:mb-1 sm:mb-3 mx-1 font-bold xxs:text-sm sm:text-base">
                   {name}
                 </div>
                 <div className="relative">
                   <Input
+                    value={value}
                     type={showPassword[index] ? "text" : "password"}
                     placeholder={placeholder}
                     className={className}
@@ -93,8 +130,11 @@ const ChangePassword: React.FC<Props> = ({ setType }) => {
 
       <Button
         name="Save Changes"
-        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white"
-        onClick={() => setType("menu")}
+        disabled={isLoading}
+        className={`w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white outline-none ${
+          isLoading && "cursor-not-allowed"
+        }`}
+        onClick={handleChangePsd}
       />
     </div>
   );

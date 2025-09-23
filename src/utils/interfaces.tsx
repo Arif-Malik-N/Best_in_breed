@@ -118,6 +118,7 @@ export interface TableProps {
 // Props for a reusable button component
 export interface ButtonProps {
   name: string | React.ReactNode;
+  disabled?: boolean;
   className?: string;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
@@ -164,6 +165,10 @@ export interface clientIntakeProp {
   renderPage?: string;
   setRenderPage: React.Dispatch<React.SetStateAction<string>>;
 }
+export interface clientDetailProp {
+  selectedClientInfo?: string;
+  setSelectedClientInfo: React.Dispatch<React.SetStateAction<string>>;
+}
 
 export interface NavigationTopBarProp {
   name: string;
@@ -177,6 +182,9 @@ export interface StepFormProps {
   handleFieldChange: (name: string, value: string) => void;
 }
 
+export interface LoaderProps {
+  isNormal?: boolean; // Optional, defaults to true
+}
 // for store
 // export interface authSliceState {
 //   token: null;
@@ -184,7 +192,43 @@ export interface StepFormProps {
 //   otp: null | string;
 // }
 
-export interface LoginDataTypes {
+// for auth directory
+export interface LoginRedux {
   email: string;
   password: string;
+}
+
+export interface ChangePsdRedux {
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
+
+export interface ResetPsdRedux {
+  email: string;
+}
+
+export interface UpdateProfileRedux {
+  email: string;
+  phoneNumber: string;
+  location: string;
+}
+
+// for session directory
+export interface SessionParamsRedux {
+  startDate: string;
+  endDate: string;
+}
+
+// for client intake form directory
+export interface ClientCreateRedux {
+  name: string;
+  date: string;
+  address: string;
+  subdivision: string;
+  phone1: string;
+  phone2?: string;
+  referral?: string;
+  evaluationSchedule: string;
+  problem: string;
 }

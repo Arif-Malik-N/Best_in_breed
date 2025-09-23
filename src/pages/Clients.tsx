@@ -1,106 +1,37 @@
-import React, { useState } from "react";
-import type { ClientCards } from "../utils/interfaces";
-import {
-  client1,
-  client2,
-  client3,
-  client4,
-  client5,
-  client6,
-  client7,
-  client8,
-  client9,
-  client10,
-  client11,
-  client12,
-  client13,
-  client14,
-} from "../assets/images";
+import React, { useEffect, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import Input from "../components/fields/Input";
 import ClientDetails from "../components/ClientDetails";
 import ClientIntakeForm from "../components/forms/clientIntakeForms/ClientIntakeForm";
-
-const clientsData: ClientCards[] = [
-  {
-    name: "Kristin Watson",
-    role: "Dog Owner",
-    image: client1,
-  },
-  {
-    name: "Guy Hawkins",
-    role: "Dog Owner",
-    image: client2,
-  },
-  {
-    name: "Cody Fisher",
-    role: "Dog Owner",
-    image: client3,
-  },
-  {
-    name: "Darrell Steward",
-    role: "Dog Owner",
-    image: client4,
-  },
-  {
-    name: "Esther Howard",
-    role: "Dog Owner",
-    image: client5,
-  },
-  {
-    name: "Jane Cooper",
-    role: "Dog Owner",
-    image: client6,
-  },
-  {
-    name: "Devon Lane",
-    role: "Dog Owner",
-    image: client7,
-  },
-  {
-    name: "Dianne Russell",
-    role: "Dog Owner",
-    image: client8,
-  },
-  {
-    name: "Jacob Jones",
-    role: "Dog Owner",
-    image: client9,
-  },
-  {
-    name: "Kathryn Murphy",
-    role: "Dog Owner",
-    image: client10,
-  },
-  {
-    name: "Albert Flores",
-    role: "Dog Owner",
-    image: client11,
-  },
-  {
-    name: "Courtney Henry",
-    role: "Dog Owner",
-    image: client12,
-  },
-  {
-    name: "Floyd Miles",
-    role: "Dog Owner",
-    image: client13,
-  },
-  {
-    name: "Jerome Bell",
-    role: "Dog Owner",
-    image: client14,
-  },
-];
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { getClients, getClientWithDog } from "../store/client/clientAction";
+import Loader from "../components/Loader";
 
 function Clients() {
+  const dispatch = useAppDispatch();
+  const { isLoading } = useAppSelector((state) => state.commonSlice);
+  const { clients } = useAppSelector((state) => state.clientSlices);
+
   const [renderPage, setRenderPage] = useState("client");
+  const [selectedClientInfo, setSelectedClientInfo] = useState({});
   const [search, setSearch] = useState("");
 
-  const filteredClients = clientsData.filter((client) =>
-    client.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const handleClientClick = async (_id: string) => {
+    const response = await dispatch(getClientWithDog(_id)).unwrap();
+
+    if (response?.success) {
+      setSelectedClientInfo(response?.data);
+      setRenderPage("clientDetails");
+    }
+  };
+
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      dispatch(getClients(search));
+    }, 300);
+
+    return () => clearTimeout(delayDebounce); // Cleanup function to cleartimeout on unmount
+  }, [search, dispatch]);
 
   React.useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" }); // to render every step component at the top
@@ -109,7 +40,10 @@ function Clients() {
   return renderPage === "clientIntakeForm" ? (
     <ClientIntakeForm renderPage={renderPage} setRenderPage={setRenderPage} />
   ) : renderPage === "clientDetails" ? (
-    <ClientDetails renderPage={renderPage} setRenderPage={setRenderPage} />
+    <ClientDetails
+      selectedClientInfo={selectedClientInfo}
+      setSelectedClientInfo={setSelectedClientInfo}
+    />
   ) : (
     <div className="bg-white rounded-xl px-4 py-10">
       {/* Search Bar */}
@@ -129,29 +63,25 @@ function Clients() {
       </div>
 
       {/* Clients Cards */}
-      {filteredClients?.length > 0 ? (
+      {isLoading ? (
+        <Loader isNormal={true} />
+      ) : clients?.result?.length > 0 ? (
         <div className="grid xxs:grid-cols-1 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-10 gap-3 sm:gap-6 pt-4 lg:pt-8">
-          {filteredClients.map(({ name, role, image }, index) => {
+          {clients?.result?.map(({ _id, name, role }) => {
             const [fName, ...rest] = name.split(" "); // Split the name into first name and the rest (last name or multiple names)
             const lName = rest.join(" "); // Join the remaining parts into a last name (if any)
 
             return (
               <div
-                key={name + index} // Ensure the key is unique by including the index
+                key={_id}
                 className="place-content-center h-[92px] border rounded-xl shadow-sm hover:shadow-md transition cursor-pointer"
-                onClick={() => setRenderPage("clientDetails")}
+                onClick={() => handleClientClick(_id)}
               >
-                {/* Uncomment and adjust if you want to show the client's image */}
-                {/* <img
-                src={image}
-                alt={name + index}
-                className="w-[125px] h-[125px] rounded-full object-cover mb-3 justify-self-center"
-              /> */}
                 <h3 className="xxs:text-sm sm:text-base font-semibold text-center">
                   {fName} {lName && <div>{lName}</div>}
                 </h3>
                 <p className="xxs:text-xs sm:text-sm text-gray-550 text-sm text-center">
-                  {role}
+                  {role || "Dog Owner"}
                 </p>
               </div>
             );
