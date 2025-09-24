@@ -5,7 +5,7 @@ const initialState = {
   token: null,
   userData: {},
   metrices: {},
-  profileImg: {},
+  profileImg: "",
   otp: null,
 };
 

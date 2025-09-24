@@ -1,5 +1,70 @@
 import type { JSX } from "react";
 
+export interface ClientForm {
+  name: string;
+  date: string;
+  address: string;
+  subdivision: string;
+  phone1: string;
+  phone2?: string;
+  email: string;
+  referral: string;
+  evaluationSchedule: string;
+  problem: string;
+  clientPhotoUploadId: string;
+}
+
+export interface DogForm {
+  mailingAddress: string;
+  homePhone: string;
+  cellPhone: string;
+  workPhone?: string;
+  breed: string;
+  dogName: string;
+  sex: "male" | "female";
+  age: number;
+  vetName: string;
+  whereDidYouGetDog: string;
+  previousTraining: string;
+  whoWillDoMostTraining: string;
+  selectProblems: string[];
+  bestTimeForTrainingSessions: string;
+  others?: string;
+  whatCorrectionsAreUsed: string;
+  isDogHousebroken: boolean;
+  correctionForAccident: string;
+  confinementDay: string;
+  confinementNight: string;
+  trainingGoalsForDog: string;
+  evaluatorsRemarks: string;
+  dogPhotoUploadId: string;
+}
+
+export interface ContractForm {
+  mailingAddress: string;
+  homePhone: string;
+  cellPhone: string;
+  workPhone?: string;
+  weeksOnLeash: number;
+  weeksOnOffLeash: number;
+  houseBreakingChecklist1: string[];
+  houseBreakingChecklist2: string[];
+  personalProtectionOptions: string[];
+  maintenanceMonths: number;
+  maintainPreviouslyEnrolled: boolean;
+  startDate: string;
+  endDate: string;
+  startTime: string;
+  endTime: string;
+  trainingFee: number;
+  notesAndTerms: string;
+  ownerOfDogName: string;
+  ownerSignatureName: string;
+  ownerAgreementDate: string;
+  trainingToStartWeekOf: string;
+  representativeSignatureName: string;
+  policiesAccepted: boolean;
+}
 // ============================================= interface for array
 
 // Represents a simple link item with optional CSS classes
@@ -67,10 +132,27 @@ export interface field {
   elementType?: "input" | "textarea";
 }
 
+interface FieldOption {
+  value: string | number;
+  label: string;
+}
+
+export interface Step2Field {
+  name: keyof DogForm;
+  label?: string;
+  placeholder: string;
+  type?: string;
+  elementType?: "input" | "select" | "textarea";
+  colSpan: string;
+  endIcon?: React.ReactNode;
+  options?: FieldOption[]; // only for selects
+  rows?: number; // only for textarea
+}
+
 // It is only for client intake forms fields
-export interface clientFormFields {
+export interface Step3Field {
   value?: string | number;
-  name: string;
+  name: keyof ContractForm; // 👈 restricts to valid form keys
   type?: string;
   className?: string;
   placeholder?: string;
@@ -79,9 +161,9 @@ export interface clientFormFields {
   endIcon?: React.ReactNode;
   elementType?: "input" | "textarea" | "select" | "checkbox";
   colSpan?: string;
-  options?: string[]; // for select
+  options?: string[]; // for select or checkbox
   rows?: number; // for textarea
-  label?: string; // dor check box label
+  label?: string; // for checkboxes
 }
 
 // Route definition for application routing
@@ -132,16 +214,17 @@ export interface DialogProps {
 
 // Props for an input field component
 export interface InputProps {
-  options?: [];
-  value: string | number;
+  options?: FieldOption[];
+  value: string | number | Date | boolean | string[];
   readOnly?: boolean;
-  type: string;
+  type?: string;
   placeholder?: string;
   className?: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
   startIcon?: string | React.ReactNode;
   endIcon?: string | React.ReactNode;
   rows?: number;
+  error?: string;
 }
 
 // Generic props with a setter for type switching
@@ -175,11 +258,47 @@ export interface NavigationTopBarProp {
   onClick: () => void;
 }
 
+export interface ClientIntakeForm {
+  client: Partial<ClientForm>;
+  dog: Partial<DogForm>;
+  contract: Partial<ContractForm>;
+}
+
+// for step 1 and 2
 export interface StepFormProps {
-  setStep?: React.Dispatch<React.SetStateAction<number>>; // for step 1 and 2
-  defaultAllState?: () => void; // for step 3
-  formData: Record<string, string>;
-  handleFieldChange: (name: string, value: string) => void;
+  setStep: React.Dispatch<React.SetStateAction<number>>;
+  formData: ClientIntakeForm;
+  handleFieldChange: (
+    section: keyof ClientIntakeForm,
+    name: string,
+    value: any
+  ) => void;
+  image: string;
+  handleImageUpdate: (
+    e: React.ChangeEvent<HTMLInputElement>,
+    name: string
+  ) => void;
+
+  errors: Record<string, string>;
+  validateStep: (step: number) => boolean;
+}
+
+// for step 3
+export interface Step3FormProps {
+  handleSubmit: () => void;
+  formData: ClientIntakeForm;
+  handleFieldChange: (
+    section: keyof ClientIntakeForm,
+    name: string,
+    value: any
+  ) => void;
+  errors: Record<string, string>;
+}
+
+export interface ImageUploadProps {
+  image: string;
+  name?: string;
+  handleImageUpdate: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface LoaderProps {
@@ -231,4 +350,9 @@ export interface ClientCreateRedux {
   referral?: string;
   evaluationSchedule: string;
   problem: string;
+}
+
+export interface UploadImgRedux {
+  formData: FormData;
+  name: string;
 }

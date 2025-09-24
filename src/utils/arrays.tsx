@@ -7,19 +7,35 @@ import {
   location,
 } from "../assets/images";
 import type {
-  clientFormFields,
+  ClientForm,
   Column,
   EventItem,
   rowData,
+  Step2Field,
+  Step3Field,
 } from "./interfaces";
 
 // fields for client intake form step 1
-export const cifStep1Fields: clientFormFields[] = [
+export const cifStep1Fields: {
+  name: keyof ClientForm;
+  label: string;
+  placeholder: string;
+  type?: string;
+  colSpan: string;
+  endIcon?: React.ReactNode;
+}[] = [
   {
     name: "name",
     label: "Name",
     type: "text",
     placeholder: "Enter name",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+  {
+    name: "email",
+    label: "Email",
+    type: "text",
+    placeholder: "Enter Email",
     colSpan: "col-span-12 md:col-span-6",
   },
   {
@@ -66,7 +82,7 @@ export const cifStep1Fields: clientFormFields[] = [
     colSpan: "col-span-12 md:col-span-6",
   },
   {
-    name: "appointmentScheduled",
+    name: "evaluationSchedule",
     label: "Evaluation scheduled",
     type: "text",
     placeholder: "Enter appointment date",
@@ -82,7 +98,7 @@ export const cifStep1Fields: clientFormFields[] = [
 ];
 
 // fields for client intake form step 2
-export const cifStep2Fields = [
+export const cifStep2Fields: Step2Field[] = [
   {
     name: "homePhone",
     placeholder: "Home Phone",
@@ -116,7 +132,7 @@ export const cifStep2Fields = [
     colSpan: "col-span-12 md:col-span-3",
   },
   {
-    name: "name",
+    name: "dogName",
     placeholder: "Name",
     elementType: "input",
     type: "text",
@@ -136,24 +152,23 @@ export const cifStep2Fields = [
     type: "number",
     colSpan: "col-span-12 md:col-span-3",
   },
-
-  {
-    name: "referral",
-    placeholder: "Referral",
-    elementType: "input",
-    type: "text",
-    colSpan: "col-span-12 md:col-span-6",
-  },
+  // {
+  //   name: "referral",
+  //   placeholder: "Referral",
+  //   elementType: "input",
+  //   type: "text",
+  //   colSpan: "col-span-12 md:col-span-6",
+  // },
   {
     name: "vetName",
     placeholder: "Name of Vet",
     elementType: "input",
     type: "text",
-    colSpan: "col-span-12 md:col-span-6",
+    colSpan: "col-span-12",
   },
 
   {
-    name: "whereDog",
+    name: "whereDidYouGetDog",
     placeholder: "Where did you get dog",
     elementType: "input",
     type: "text",
@@ -167,14 +182,14 @@ export const cifStep2Fields = [
     colSpan: "col-span-12 md:col-span-12",
   },
   {
-    name: "trainer",
+    name: "whoWillDoMostTraining",
     placeholder: "Who will be doing most of the training",
     elementType: "input",
     type: "text",
     colSpan: "col-span-12 md:col-span-12",
   },
   {
-    name: "problems",
+    name: "selectProblems",
     placeholder: "Problem 1/2",
     elementType: "select",
     colSpan: "col-span-12 md:col-span-12",
@@ -187,7 +202,7 @@ export const cifStep2Fields = [
     ],
   },
   {
-    name: "bestTime",
+    name: "bestTimeForTrainingSessions",
     placeholder: "Best time for training sessions",
     elementType: "input",
     type: "text",
@@ -201,21 +216,21 @@ export const cifStep2Fields = [
     colSpan: "col-span-12 md:col-span-12",
   },
   {
-    name: "corrections",
+    name: "whatCorrectionsAreUsed",
     placeholder: "What corrections are used",
     elementType: "input",
     type: "text",
     colSpan: "col-span-12 md:col-span-12",
   },
   {
-    name: "housebroken",
+    name: "isDogHousebroken",
     placeholder: "Is/Are dog housebroken",
     elementType: "input",
     type: "text",
     colSpan: "col-span-12 md:col-span-12",
   },
   {
-    name: "accident",
+    name: "correctionForAccident",
     placeholder: "Correction for accident",
     elementType: "input",
     type: "text",
@@ -238,14 +253,14 @@ export const cifStep2Fields = [
   },
 
   {
-    name: "trainingGoals",
+    name: "trainingGoalsForDog",
     placeholder: "Training goals for dog",
     elementType: "textarea",
     rows: 3,
     colSpan: "col-span-12 md:col-span-12",
   },
   {
-    name: "remarks",
+    name: "evaluatorsRemarks",
     placeholder: "Evaluator's remarks",
     elementType: "textarea",
     rows: 3,
@@ -254,9 +269,9 @@ export const cifStep2Fields = [
 ];
 
 // checkboxes for client intake form step 3
-export const cifStep3CheckBoxes: clientFormFields[] = [
+export const cifStep3CheckBoxes: Step3Field[] = [
   {
-    name: "Weeks on leash",
+    name: "houseBreakingChecklist1",
     label: "House breaking:",
     elementType: "checkbox",
     options: [
@@ -274,13 +289,13 @@ export const cifStep3CheckBoxes: clientFormFields[] = [
     ],
   },
   {
-    name: "8 Weeks on leash",
+    name: "personalProtectionOptions",
     label: "Personal Protection (NO bite work—treat training only)",
     elementType: "checkbox",
     options: ["Watch", "Out", "Lifetime consultation"],
   },
   {
-    name: "Months Maintenance",
+    name: "maintainPreviouslyEnrolled",
     label: "Maintenance",
     elementType: "checkbox",
     options: ["Maintain previously enrolled program"],
@@ -288,7 +303,7 @@ export const cifStep3CheckBoxes: clientFormFields[] = [
 ];
 
 // date and time client intake form step 3
-export const cifStep3DateTime = [
+export const cifStep3DateTime: Step3Field[] = [
   {
     label: "Start Date",
     type: "date",

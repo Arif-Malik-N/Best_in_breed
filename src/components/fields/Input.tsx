@@ -4,11 +4,13 @@ import type { InputProps } from "../../utils/interfaces";
 const Input: React.FC<InputProps> = ({
   value,
   type,
+  readOnly,
   placeholder = "",
   className = "",
   setValue,
   startIcon = undefined,
   endIcon = undefined,
+  error,
 }) => {
   return (
     <div className="relative">
@@ -24,6 +26,7 @@ const Input: React.FC<InputProps> = ({
         value={value}
         min="0"
         type={type}
+        readOnly={readOnly}
         placeholder={placeholder}
         className={className}
         onChange={(e) => setValue(e.target.value)}
@@ -36,6 +39,9 @@ const Input: React.FC<InputProps> = ({
           className="absolute right-4 top-1/2 transform -translate-y-1/2"
         />
       )}
+
+      {/* Error message */}
+      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
     </div>
   );
 };

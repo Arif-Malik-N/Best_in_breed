@@ -8,6 +8,7 @@ const Select: React.FC<InputProps> = ({
   placeholder,
   className,
   setValue,
+  error,
 }) => {
   return (
     <div className="relative">
@@ -22,13 +23,15 @@ const Select: React.FC<InputProps> = ({
             {placeholder}
           </option>
         )}
-        {options.map(({ value, label, fontColor }, index) => (
-          <option key={index} value={value} className={fontColor}>
+        {options.map(({ value, label }, index) => (
+          <option key={index} value={value}>
             {label}
           </option>
         ))}
       </select>
       <HiChevronDown className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+      {/* Error message */}
+      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
     </div>
   );
 };

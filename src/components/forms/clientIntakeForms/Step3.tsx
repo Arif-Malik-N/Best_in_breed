@@ -2,22 +2,28 @@ import React, { useRef } from "react";
 import Button from "../../buttons/Button";
 import { cifStep3CheckBoxes, cifStep3DateTime } from "../../../utils/arrays";
 import Input from "../../fields/Input";
-import type { StepFormProps } from "../../../utils/interfaces";
+import type { Step3FormProps } from "../../../utils/interfaces";
 import SignatureCanvas from "react-signature-canvas";
-import { HiChevronDown } from "react-icons/hi";
 import TextArea from "../../fields/TextArea";
 import Select from "../../fields/Select";
 
-const Step3: React.FC<StepFormProps> = ({
-  defaultAllState,
+const Step3: React.FC<Step3FormProps> = ({
+  handleSubmit,
   formData,
   handleFieldChange,
+  errors,
 }) => {
   const ownerSigRef = useRef(null);
   const repSigRef = useRef(null);
 
-  const clearSignature = (ref: React.RefObject<SignatureCanvas | null>) => {
-    if (ref.current) ref.current.clear();
+  const clearSignature = (
+    ref: React.RefObject<SignatureCanvas | null>,
+    fieldName: string
+  ) => {
+    if (ref.current) {
+      ref.current.clear();
+      handleFieldChange("contract", fieldName, ""); // Save signature as data URL
+    }
   };
 
   const saveSignature = (
@@ -25,8 +31,22 @@ const Step3: React.FC<StepFormProps> = ({
     fieldName: string
   ) => {
     if (ref.current && !ref.current.isEmpty()) {
-      const dataURL = ref.current.getTrimmedCanvas().toDataURL("image/png");
-      handleFieldChange(fieldName, dataURL); // Save signature as data URL
+      const dataURL = ref.current.getCanvas().toDataURL("image/png");
+
+      // Convert base64 -> Blob/ file type
+      const byteString = atob(dataURL.split(",")[1]);
+      const mimeString = dataURL.split(",")[0].split(":")[1].split(";")[0];
+      const ab = new ArrayBuffer(byteString.length);
+      const ia = new Uint8Array(ab);
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      const blob = new Blob([ab], { type: mimeString });
+
+      // Optional: Convert to File (if you need file-like upload)
+      const file = new File([blob], `${fieldName}.png`, { type: mimeString });
+
+      handleFieldChange("contract", fieldName, file); // Store File instead of base64
     }
   };
 
@@ -57,25 +77,28 @@ const Step3: React.FC<StepFormProps> = ({
         </p>
         <div className="col-span-2">
           <Input
-            value={formData["Client Name"] || ""}
+            value={formData?.client?.["name"] || ""}
             type="text"
-            className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
-            setValue={(val) => handleFieldChange("Client Name", val)}
+            readOnly={true}
+            className={`w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none`}
+            setValue={(val) => handleFieldChange("contract", "name", val)}
           />
         </div>
         <Input
-          value={formData["Client Address"] || ""}
+          value={formData?.client?.["address"] || ""}
           type="text"
+          readOnly={true}
           placeholder="Address"
-          className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
-          setValue={(val) => handleFieldChange("Client Address", val)}
+          className={`w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none`}
+          setValue={(val) => handleFieldChange("contract", "address", val)}
         />{" "}
         <Input
-          value={formData["Client Phone"] || ""}
+          value={formData?.client?.["phone1"] || ""}
           type="number"
+          readOnly={true}
           placeholder="Phone"
-          className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
-          setValue={(val) => handleFieldChange("Client Phone", val)}
+          className={`w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none`}
+          setValue={(val) => handleFieldChange("contract", "phone1", val)}
         />
       </div>
       {/* Checkbox Fields */}
@@ -87,20 +110,26 @@ const Step3: React.FC<StepFormProps> = ({
           <label className="font-bold">Weeks On Leash </label>
           <Select
             options={weeksOptions}
-            value={formData["selectWeeksOnLeash"] || ""}
+            value={formData?.contract?.["weeksOnLeash"] || ""}
             placeholder={"Select Weeks on Leash"}
             className="appearance-none w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 xxs:text-sm sm:text-base focus:outline-none"
-            setValue={(val) => handleFieldChange("selectWeeksOnLeash", val)}
+            setValue={(val) =>
+              handleFieldChange("contract", "weeksOnLeash", val)
+            }
+            error={errors["weeksOnLeash"]}
           />
         </div>
         <div className="mt-5 space-y-2">
           <label className="font-bold">Weeks On/off Leash </label>
           <Select
             options={weeksOptions}
-            value={formData["selectWeeksOn/OffLeash"] || ""}
+            value={formData?.contract?.["weeksOnOffLeash"] || ""}
             placeholder={"Weeks On/off Leash"}
             className="appearance-none w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 xxs:text-sm sm:text-base focus:outline-none"
-            setValue={(val) => handleFieldChange("selectWeeksOn/OffLeash", val)}
+            setValue={(val) =>
+              handleFieldChange("contract", "weeksOnOffLeash", val)
+            }
+            error={errors["weeksOnOffLeash"]}
           />
         </div>
         {cifStep3CheckBoxes.map((field, index) => (
@@ -119,22 +148,52 @@ const Step3: React.FC<StepFormProps> = ({
                   >
                     <input
                       type="checkbox"
-                      checked={formData[field.name]?.includes(opt) || false}
+                      checked={
+                        field.name === "maintainPreviouslyEnrolled"
+                          ? Boolean(formData.contract?.[field.name])
+                          : Array.isArray(formData.contract?.[field.name]) &&
+                            (
+                              formData.contract?.[field.name] as string[]
+                            ).includes(opt)
+                      }
                       className="outline-none"
                       onChange={(e) => {
-                        const current = formData[field.name] || [];
-                        handleFieldChange(
-                          field.name,
-                          e.target.checked
-                            ? [...current, opt]
-                            : current.filter((o: string) => o !== opt)
-                        );
+                        if (field.name === "maintainPreviouslyEnrolled") {
+                          //  single boolean
+                          handleFieldChange(
+                            "contract",
+                            field.name,
+                            e.target.checked
+                          );
+                        } else {
+                          // multi checkbox group (string[])
+                          const current = Array.isArray(
+                            formData.contract?.[field.name]
+                          )
+                            ? (formData.contract?.[field.name] as string[])
+                            : [];
+
+                          handleFieldChange(
+                            "contract",
+                            field.name,
+                            e.target.checked
+                              ? [...current, opt]
+                              : current.filter((o: string) => o !== opt)
+                          );
+                        }
                       }}
                     />
+
                     {opt}
                   </label>
                 ))}
               </div>
+              {/* Error message */}
+              {errors[field.name] && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors[field.name]}
+                </p>
+              )}
             </div>
           </div>
         ))}
@@ -146,10 +205,11 @@ const Step3: React.FC<StepFormProps> = ({
             <label className="font-bold">{field.label}</label>
             <Input
               type={field.type}
-              // value={formData[field.name] || ""}
+              value={formData.contract?.[field.name] || ""}
               placeholder=""
               className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none"
-              // setValue={(val) => handleFieldChange(field.name, val)}
+              setValue={(val) => handleFieldChange("contract", field.name, val)}
+              error={errors[field.name]}
             />
           </div>
         ))}
@@ -157,18 +217,24 @@ const Step3: React.FC<StepFormProps> = ({
 
       <div className="space-y-4">
         <Input
-          value={formData["trainingFee"] || ""}
+          value={formData?.contract?.["trainingFee"] || ""}
           type="number"
           placeholder="Training Fee"
-          className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
-          setValue={(val) => handleFieldChange("trainingFee", val)}
+          className={`w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none  ${
+            errors["trainingFee"] && "border border-red-500"
+          }`}
+          setValue={(val) => handleFieldChange("contract", "trainingFee", val)}
+          error={errors["trainingFee"]}
         />{" "}
         <TextArea
           rows={5}
-          value={formData["notesAndTerms"] || ""}
+          value={formData?.contract?.["notesAndTerms"] || ""}
           placeholder="Notes & Terms"
           className="w-full bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none pt-3"
-          setValue={(val) => handleFieldChange("notesAndTerms", val)}
+          setValue={(val) =>
+            handleFieldChange("contract", "notesAndTerms", val)
+          }
+          error={errors["notesAndTerms"]}
         />
       </div>
       {/* Agreement Text */}
@@ -246,10 +312,15 @@ const Step3: React.FC<StepFormProps> = ({
           </label>
           <div className="w-[100%] md:w-[50%] lg:w-[60%]">
             <Input
-              value={formData["ownerName"] || ""}
+              value={formData?.contract?.["ownerOfDogName"] || ""}
               type="text"
-              className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
-              setValue={(val) => handleFieldChange("ownerName", val)}
+              className={`w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none  ${
+                errors["ownerOfDogName"] && "border border-red-500"
+              }`}
+              setValue={(val) =>
+                handleFieldChange("contract", "ownerOfDogName", val)
+              }
+              error={errors["ownerOfDogName"]}
             />
           </div>
           <span className="xxs:text-xs sm:text-md md:text-base">
@@ -264,10 +335,15 @@ const Step3: React.FC<StepFormProps> = ({
           </label>
           <div className="w-[100%]">
             <Input
-              value={formData["date"] || ""}
+              value={formData?.contract?.["ownerAgreementDate"] || ""}
               type="date"
-              className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
-              setValue={(val) => handleFieldChange("date", val)}
+              className={`w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none  ${
+                errors["ownerAgreementDate"] && "border border-red-500"
+              }`}
+              setValue={(val) =>
+                handleFieldChange("contract", "ownerAgreementDate", val)
+              }
+              error={errors["ownerAgreementDate"]}
             />
           </div>
         </div>
@@ -286,11 +362,11 @@ const Step3: React.FC<StepFormProps> = ({
             }}
             onEnd={() => saveSignature(ownerSigRef, "ownerSignature")}
           />
-          <div className="absolute right-2 top-[40px] md:top-1/2 transform -translate-y-1/2">
+          <div className="absolute right-2 top-[40px] md:top-[40%] transform -translate-y-1/2">
             <Button
               name="Clear"
-              className="w-[45px] md:w-[60px] bg-red-400 rounded-lg text-white font-semibold text-xs md:text-base py-0.5 md:py-1"
-              onClick={() => clearSignature(ownerSigRef)}
+              className="w-[45px] md:w-[60px] bg-red-400 rounded-lg text-white font-semibold text-xs md:text-sm py-0.5 md:py-1 outline-none"
+              onClick={() => clearSignature(ownerSigRef, "ownerSignature")}
             />
           </div>
         </div>
@@ -302,10 +378,15 @@ const Step3: React.FC<StepFormProps> = ({
           </label>
           <div className="w-[100%]">
             <Input
-              value={formData["trainigStart"] || ""}
+              value={formData?.contract?.["trainingToStartWeekOf"] || ""}
               type="date"
-              className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none"
-              setValue={(val) => handleFieldChange("trainigStart", val)}
+              className={`w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none  ${
+                errors["trainingToStartWeekOf"] && "border border-red-500"
+              }`}
+              setValue={(val) =>
+                handleFieldChange("contract", "trainingToStartWeekOf", val)
+              }
+              error={errors["trainingToStartWeekOf"]}
             />
           </div>
         </div>
@@ -324,11 +405,11 @@ const Step3: React.FC<StepFormProps> = ({
             }}
             onEnd={() => saveSignature(repSigRef, "repSignature")}
           />
-          <div className="absolute right-2 top-[40px] md:top-1/2 transform -translate-y-1/2">
+          <div className="absolute right-2 top-[40px] md:top-[40%] transform -translate-y-1/2">
             <Button
               name="Clear"
-              className="w-[45px] md:w-[60px] bg-red-400 rounded-lg text-white font-semibold text-xs md:text-base py-0.5 md:py-1"
-              onClick={() => clearSignature(repSigRef)}
+              className="w-[45px] md:w-[60px] bg-red-400 rounded-lg text-white font-semibold text-xs md:text-sm py-0.5 md:py-1 outline-none"
+              onClick={() => clearSignature(repSigRef, "repSignature")}
             />
           </div>
         </div>
@@ -336,8 +417,8 @@ const Step3: React.FC<StepFormProps> = ({
       {/* Submit Button */}
       <Button
         name="Submit"
-        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-xl text-white font-semibold"
-        onClick={() => defaultAllState()}
+        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-xl text-white font-semibold outline-none"
+        onClick={handleSubmit}
       />
     </div>
   );
