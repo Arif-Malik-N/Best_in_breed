@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { group } from "../assets/images";
 import CardWithDog from "../components/cards/CardWithDog";
 import Button from "../components/buttons/Button";
-import Table from "../components/Table";
+import Table from "../components/table/Table";
 import type { card } from "../utils/interfaces";
 import { clientsSampleData, columns } from "../utils/arrays";
 import UpcomminSession from "../components/UpcomminSession";
@@ -10,12 +10,14 @@ import ClientIntakeForm from "../components/forms/clientIntakeForms/ClientIntake
 import ClientDetails from "../components/ClientDetails";
 import Input from "../components/fields/Input";
 import { AiOutlineSearch } from "react-icons/ai";
-import { useAppSelector } from "../store/store";
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { getMetrices } from "../store/session/sessionAction";
 
 function Home() {
+  const dispatch = useAppDispatch();
   const [renderPage, setRenderPage] = useState("home");
   const [search, setSearch] = useState("");
-  const { metrices } = useAppSelector((state) => state.authSlices);
+  const { metrics } = useAppSelector((state) => state.sessionSlices);
 
   const filteredClients = clientsSampleData.filter((client) =>
     columns.some(({ key }) =>
@@ -27,19 +29,23 @@ function Home() {
     {
       icon: group,
       name: "Active Clients",
-      number: metrices?.activeClients,
+      number: metrics?.activeClients,
     },
     {
       icon: group,
       name: "Appointments",
-      number: metrices?.appointments,
+      number: metrics?.appointments,
     },
     {
       icon: group,
       name: "Pending Contracts",
-      number: metrices?.pendingContracts,
+      number: metrics?.pendingContracts,
     },
   ];
+
+  useEffect(() => {
+    dispatch(getMetrices());
+  }, []);
 
   React.useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" }); // to render every step component at the top

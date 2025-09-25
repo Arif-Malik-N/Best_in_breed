@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { updateProfile, updateProfileImg } from "../../store/auth/authAction";
 import NavigationTopBar from "../NavigationTopBar";
 import ImageUpload from "../forms/ImageUpload";
+import Loader from "../Loader";
 
 const EditProfile: React.FC<Props> = ({ setType }) => {
   const dispatch = useAppDispatch();
@@ -115,7 +116,7 @@ const EditProfile: React.FC<Props> = ({ setType }) => {
       </div>
 
       <Button
-        name="Save Changes"
+        name={isLoading ? <Loader /> : "Save Changes"}
         disabled={isLoading}
         className={`w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white outline-none ${
           isLoading && "cursor-not-allowed"

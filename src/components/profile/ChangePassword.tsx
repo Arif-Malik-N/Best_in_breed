@@ -8,6 +8,7 @@ import NavigationTopBar from "../NavigationTopBar";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { toast } from "react-toastify";
 import { changePassword } from "../../store/auth/authAction";
+import Loader from "../Loader";
 
 const ChangePassword: React.FC<Props> = ({ setType }) => {
   const dispatch = useAppDispatch();
@@ -129,7 +130,7 @@ const ChangePassword: React.FC<Props> = ({ setType }) => {
       </div>
 
       <Button
-        name="Save Changes"
+        name={isLoading ? <Loader /> : "Save Changes"}
         disabled={isLoading}
         className={`w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white outline-none ${
           isLoading && "cursor-not-allowed"

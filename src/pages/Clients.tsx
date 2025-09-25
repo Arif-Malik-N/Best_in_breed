@@ -6,8 +6,10 @@ import ClientIntakeForm from "../components/forms/clientIntakeForms/ClientIntake
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { getClients, getClientWithDog } from "../store/client/clientAction";
 import Loader from "../components/Loader";
+import { useLocation } from "react-router-dom";
 
 function Clients() {
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const { isLoading } = useAppSelector((state) => state.commonSlice);
   const { clients } = useAppSelector((state) => state.clientSlices);
@@ -26,6 +28,11 @@ function Clients() {
   };
 
   useEffect(() => {
+    const { data } = location.state || {};
+    setSelectedClientInfo(data);
+  }, [location]);
+
+  useEffect(() => {
     const delayDebounce = setTimeout(() => {
       dispatch(getClients(search));
     }, 300);
@@ -38,11 +45,16 @@ function Clients() {
   }, []);
 
   return renderPage === "clientIntakeForm" ? (
-    <ClientIntakeForm renderPage={renderPage} setRenderPage={setRenderPage} />
-  ) : renderPage === "clientDetails" ? (
+    <ClientIntakeForm
+      renderPage={renderPage}
+      setRenderPage={setRenderPage}
+      selectedClientInfo={selectedClientInfo}
+    />
+  ) : selectedClientInfo && Object.keys(selectedClientInfo)?.length > 0 ? (
     <ClientDetails
       selectedClientInfo={selectedClientInfo}
       setSelectedClientInfo={setSelectedClientInfo}
+      setRenderPage={setRenderPage}
     />
   ) : (
     <div className="bg-white rounded-xl px-4 py-10">

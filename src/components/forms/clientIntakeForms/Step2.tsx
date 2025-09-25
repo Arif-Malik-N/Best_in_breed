@@ -17,6 +17,18 @@ const Step2: React.FC<StepFormProps> = ({
   errors,
   validateStep,
 }) => {
+  const handleNext = () => {
+    if (image) {
+      if (validateStep(2)) {
+        setStep((prev: number) => prev + 1);
+      } else {
+        toast.error("Please fill all required fields");
+      }
+    } else {
+      toast.error("Please select image");
+    }
+  };
+
   return (
     <div>
       {/* All Fields */}
@@ -120,17 +132,7 @@ const Step2: React.FC<StepFormProps> = ({
       <Button
         name="Next"
         className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-xl text-white text-base outline-none"
-        onClick={() => {
-          if (image) {
-            if (validateStep(2)) {
-              setStep((prev: number) => prev + 1);
-            } else {
-              toast.error("Please fill all required fields");
-            }
-          } else {
-            toast.error("Please select image");
-          }
-        }}
+        onClick={handleNext}
       />
     </div>
   );

@@ -121,7 +121,7 @@ export interface Column {
 
 // Field array interface
 export interface field {
-  value?: string | number;
+  value?: string | number | boolean;
   name: string;
   type?: string;
   className: string;
@@ -133,7 +133,7 @@ export interface field {
 }
 
 interface FieldOption {
-  value: string | number;
+  value: string | number | boolean;
   label: string;
 }
 
@@ -247,10 +247,12 @@ export interface ResetPsdProps {
 export interface clientIntakeProp {
   renderPage?: string;
   setRenderPage: React.Dispatch<React.SetStateAction<string>>;
+  selectedClientInfo?: {};
 }
 export interface clientDetailProp {
-  selectedClientInfo?: string;
+  selectedClientInfo?: {};
   setSelectedClientInfo: React.Dispatch<React.SetStateAction<string>>;
+  setRenderPage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export interface NavigationTopBarProp {
@@ -262,26 +264,32 @@ export interface ClientIntakeForm {
   client: Partial<ClientForm>;
   dog: Partial<DogForm>;
   contract: Partial<ContractForm>;
+  clientId?: string;
 }
 
 // for step 1 and 2
 export interface StepFormProps {
   setStep: React.Dispatch<React.SetStateAction<number>>;
   formData: ClientIntakeForm;
+  image: string;
+
   handleFieldChange: (
     section: keyof ClientIntakeForm,
     name: string,
     value: any
   ) => void;
-  image: string;
   handleImageUpdate: (
     e: React.ChangeEvent<HTMLInputElement>,
     name: string
   ) => void;
 
+  selectedClientInfo: {};
   errors: Record<string, string>;
   validateStep: (step: number) => boolean;
 }
+
+type SignerType = "dogOwner" | "representative";
+type SignType = Record<SignerType, any>;
 
 // for step 3
 export interface Step3FormProps {
@@ -293,6 +301,8 @@ export interface Step3FormProps {
     value: any
   ) => void;
   errors: Record<string, string>;
+  sign: SignType;
+  setSign: React.Dispatch<React.SetStateAction<SignType>>;
 }
 
 export interface ImageUploadProps {
@@ -353,6 +363,6 @@ export interface ClientCreateRedux {
 }
 
 export interface UploadImgRedux {
-  formData: FormData;
+  formDataImg: FormData;
   name: string;
 }

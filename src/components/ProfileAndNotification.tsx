@@ -8,7 +8,6 @@ const ProfileAndNotification: React.FC<ProfileAndNotProps> = ({
   className = "",
 }) => {
   const { profileImg } = useAppSelector((state) => state.authSlices);
-  // console.log(profileImg);
 
   return (
     <>

@@ -1,32 +1,50 @@
 import React, { useRef } from "react";
 import Button from "../../buttons/Button";
-import { cifStep3CheckBoxes, cifStep3DateTime } from "../../../utils/arrays";
+import {
+  cifStep3CheckBoxes,
+  cifStep3DateTime,
+  weeksOptions,
+} from "../../../utils/arrays";
 import Input from "../../fields/Input";
 import type { Step3FormProps } from "../../../utils/interfaces";
 import SignatureCanvas from "react-signature-canvas";
 import TextArea from "../../fields/TextArea";
 import Select from "../../fields/Select";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
+import { uploadSignatureImg } from "../../../store/client/clientAction";
+import { toast } from "react-toastify";
+import Loader from "../../Loader";
 
 const Step3: React.FC<Step3FormProps> = ({
   handleSubmit,
   formData,
   handleFieldChange,
   errors,
+  sign,
+  setSign,
 }) => {
+  const dispatch = useAppDispatch();
   const ownerSigRef = useRef(null);
   const repSigRef = useRef(null);
+  const { isLoading } = useAppSelector((state) => state.commonSlice);
 
-  const clearSignature = (
+  // to make sign empty
+  const handleClearSign = (
     ref: React.RefObject<SignatureCanvas | null>,
     fieldName: string
   ) => {
     if (ref.current) {
       ref.current.clear();
-      handleFieldChange("contract", fieldName, ""); // Save signature as data URL
+      setSign((prev) => ({
+        ...prev,
+        [fieldName]: { file: {}, url: "" },
+      }));
+      handleFieldChange("contract", `${fieldName}SignaturePictureId`, "");
     }
   };
 
-  const saveSignature = (
+  // to stored image url and its file after converting into blob
+  const onEndSign = (
     ref: React.RefObject<SignatureCanvas | null>,
     fieldName: string
   ) => {
@@ -44,19 +62,48 @@ const Step3: React.FC<Step3FormProps> = ({
       const blob = new Blob([ab], { type: mimeString });
 
       // Optional: Convert to File (if you need file-like upload)
-      const file = new File([blob], `${fieldName}.png`, { type: mimeString });
+      const file = new File([blob], `${fieldName}Signature.png`, {
+        type: mimeString,
+      });
 
-      handleFieldChange("contract", fieldName, file); // Store File instead of base64
+      setSign((prev) => ({
+        ...prev,
+        [fieldName]: { file: file, url: dataURL },
+      })); // Store File instead of base64
     }
   };
 
-  const weeksOptions = [
-    { value: "0", label: "0" },
-    { value: "2", label: "2" },
-    { value: "3", label: "3" },
-    { value: "4", label: "4" },
-    { value: "other", label: "Other" },
-  ];
+  // to up,load sign image in db
+  const handleSignUpload = async (name: string) => {
+    const file = sign?.[name]?.file;
+    if (file) {
+      const formDataImg = new FormData();
+      formDataImg.append("file", file);
+
+      const response = await dispatch(
+        uploadSignatureImg({ formDataImg, name })
+      ).unwrap();
+
+      if (response?.success) {
+        handleFieldChange(
+          "contract",
+          `${name}SignaturePictureId`,
+          response?.data?.uploadId
+        );
+        toast.success(response?.data?.message);
+      }
+    }
+  };
+
+  // to get the sign if user change the form step
+  React.useEffect(() => {
+    if (sign?.dogOwner?.url && ownerSigRef.current) {
+      ownerSigRef.current.fromDataURL(sign?.dogOwner?.url);
+    }
+    if (sign?.representative?.url && repSigRef.current) {
+      repSigRef.current.fromDataURL(sign?.representative?.url);
+    }
+  }, []);
 
   return (
     <div className="my-8 md:pt-10 xl:pt-18 pb-4">
@@ -360,13 +407,24 @@ const Step3: React.FC<Step3FormProps> = ({
               className:
                 "w-full h-[115px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none",
             }}
-            onEnd={() => saveSignature(ownerSigRef, "ownerSignature")}
+            onEnd={() => onEndSign(ownerSigRef, "dogOwner")}
           />
-          <div className="absolute right-2 top-[40px] md:top-[40%] transform -translate-y-1/2">
+          <div className="absolute right-2 top-[40px] md:top-[35%] transform -translate-y-1/2">
             <Button
               name="Clear"
               className="w-[45px] md:w-[60px] bg-red-400 rounded-lg text-white font-semibold text-xs md:text-sm py-0.5 md:py-1 outline-none"
-              onClick={() => clearSignature(ownerSigRef, "ownerSignature")}
+              onClick={() => handleClearSign(ownerSigRef, "dogOwner")}
+            />
+          </div>
+
+          <div className="absolute right-2 top-[120px] md:top-[85%] transform -translate-y-1/2">
+            <Button
+              name="Save"
+              disabled={isLoading}
+              className={`w-[45px] md:w-[60px] bg-brand-blue rounded-lg text-white font-semibold text-xs md:text-sm py-0.5 md:py-1 outline-none ${
+                isLoading && "cursor-not-allowed"
+              }`}
+              onClick={() => handleSignUpload("dogOwner")}
             />
           </div>
         </div>
@@ -403,21 +461,34 @@ const Step3: React.FC<Step3FormProps> = ({
               className:
                 "w-full h-[115px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-xs xs:text-sm sm:text-base focus:outline-none",
             }}
-            onEnd={() => saveSignature(repSigRef, "repSignature")}
+            onEnd={() => onEndSign(repSigRef, "representative")}
           />
           <div className="absolute right-2 top-[40px] md:top-[40%] transform -translate-y-1/2">
             <Button
               name="Clear"
               className="w-[45px] md:w-[60px] bg-red-400 rounded-lg text-white font-semibold text-xs md:text-sm py-0.5 md:py-1 outline-none"
-              onClick={() => clearSignature(repSigRef, "repSignature")}
+              onClick={() => handleClearSign(repSigRef, "representative")}
+            />
+          </div>
+          <div className="absolute right-2 top-[120px] md:top-[85%] transform -translate-y-1/2">
+            <Button
+              name="Save"
+              disabled={isLoading}
+              className={`w-[45px] md:w-[60px] bg-brand-blue rounded-lg text-white font-semibold text-xs md:text-sm py-0.5 md:py-1 outline-none ${
+                isLoading && "cursor-not-allowed"
+              }`}
+              onClick={() => handleSignUpload("representative")}
             />
           </div>
         </div>
       </div>
       {/* Submit Button */}
       <Button
-        name="Submit"
-        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-xl text-white font-semibold outline-none"
+        name={isLoading ? <Loader /> : "Submit"}
+        disabled={isLoading}
+        className={`w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-xl text-white font-semibold outline-none ${
+          isLoading && "cursor-not-allowed"
+        }`}
         onClick={handleSubmit}
       />
     </div>

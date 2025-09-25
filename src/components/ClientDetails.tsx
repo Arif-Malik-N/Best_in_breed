@@ -8,7 +8,7 @@ import {
   AiOutlinePhone,
   AiOutlineUp,
 } from "react-icons/ai";
-import { client1, dog1, dog2, pdf } from "../assets/images";
+import { pdf } from "../assets/images";
 import Button from "./buttons/Button";
 import ReportForm from "./forms/clientIntakeForms/ReportForm";
 import { FaPlusCircle } from "react-icons/fa";
@@ -16,13 +16,16 @@ import { FaPlusCircle } from "react-icons/fa";
 const ClientDetails: React.FC<clientDetailProp> = ({
   selectedClientInfo,
   setSelectedClientInfo,
+  setRenderPage,
 }) => {
   const [isReportFormRender, setIsReportFormRender] = useState(false);
-  const [openDog, setOpenDog] = useState<string | null>("Penny");
+  const [openDog, setOpenDog] = useState<string | null>(
+    selectedClientInfo?.dogs[0]?._id
+  );
   console.log(selectedClientInfo);
 
-  const toggleDog = (name: string) => {
-    setOpenDog(openDog === name ? null : name);
+  const toggleDog = (_id: string) => {
+    setOpenDog(openDog === _id ? null : _id);
   };
 
   const defaultAllState = () => {
@@ -47,8 +50,8 @@ const ClientDetails: React.FC<clientDetailProp> = ({
             {/* Left side: Profile */}
             <div className="flex items-center gap-2 sm:gap-5">
               <img
-                src={client1}
-                alt="profile"
+                src={selectedClientInfo?.client?.imageUrl}
+                // alt="profile"
                 className="w-[65px] h-[65px] sm:w-[85px] sm:h-[85px] rounded-full"
               />
               <h2 className="text-base sm:text-lg md:text-xl font-bold">
@@ -68,7 +71,7 @@ const ClientDetails: React.FC<clientDetailProp> = ({
                 <div className="w-9 h-9 p-2 rounded-lg bg-gray-350">
                   <AiOutlineMail className="w-5 h-5" />
                 </div>
-                igerrin@gmail.com
+                {selectedClientInfo?.client?.email}
               </span>
               <button
                 className="flex items-center gap-1.5 bg-brand-blue text-white pl-1 pr-2 sm:pr-3 py-1 rounded-full text-sm outline-none"
@@ -77,13 +80,6 @@ const ClientDetails: React.FC<clientDetailProp> = ({
                 <FaPlusCircle className="text-white w-6 h-6" />
                 <span>Add Dog</span>
               </button>
-              {/* <div className="flex items-center gap-2 cursor-pointer">
-                <AiOutlinePlusCircle
-                  className="w-8 h-8 sm:w-10 sm:h-10 text-brand-blue"
-                  onClick={() => setRenderPage("clientIntakeForm")}
-                />
-                <span className="sm:hidden text-sm">Add New Dog</span>
-              </div> */}
             </div>
           </div>
 
@@ -92,11 +88,10 @@ const ClientDetails: React.FC<clientDetailProp> = ({
             Owned Dogs
           </h2>
           <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-4">
-            {selectedClientInfo?.dogs.map(({ name, img, desc }) => (
+            {selectedClientInfo?.dogs?.map(({ name, imageUrl, desc }) => (
               <div className="flex items-center gap-2 sm:gap-4">
                 <img
-                  src={img}
-                  alt={name}
+                  src={imageUrl}
                   className="w-[50px] h-[50px] sm:w-[65px] sm:h-[65px] rounded-full"
                 />
                 <div>
@@ -113,90 +108,100 @@ const ClientDetails: React.FC<clientDetailProp> = ({
         </div>
 
         {/* Dog Accordion */}
-        {selectedClientInfo?.dogs.map(({ name, age, breed }) => (
-          <div
-            key={name}
-            className="bg-white rounded-xl border px-2 sm:px-4 lg:px-6"
-          >
+        {selectedClientInfo?.dogs?.map(
+          ({ _id, name, age, breed, contract }) => (
             <div
-              onClick={() => toggleDog(name)}
-              className="w-full text-left py-4 flex justify-between items-center font-medium cursor-pointer"
+              key={_id}
+              className="bg-white rounded-xl border px-2 sm:px-4 lg:px-6"
             >
-              <div className="sm:flex space-y-2 sm:space-y-0 sm:space-x-2 lg:space-x-6 text-xs sm:text-sm md:text-base">
-                <div>
-                  Dog name: <b>{name}</b>
-                </div>{" "}
-                <div>
-                  Dog Age: <b>{age}</b>
-                </div>{" "}
-                <div>
-                  {" "}
-                  Breed: <b>{breed}</b>
+              <div
+                onClick={() => toggleDog(_id)}
+                className="w-full text-left py-4 flex justify-between items-center font-medium cursor-pointer"
+              >
+                <div className="sm:flex space-y-2 sm:space-y-0 sm:space-x-2 lg:space-x-6 text-xs sm:text-sm md:text-base">
+                  <div>
+                    Dog name: <b>{name}</b>
+                  </div>{" "}
+                  <div>
+                    Dog Age: <b>{age}</b>
+                  </div>{" "}
+                  <div>
+                    {" "}
+                    Breed: <b>{breed}</b>
+                  </div>
                 </div>
+                <span>
+                  {openDog === name ? (
+                    <AiOutlineUp className="text-bold" />
+                  ) : (
+                    <AiOutlineDown />
+                  )}
+                </span>
               </div>
-              <span>
-                {openDog === name ? (
-                  <AiOutlineUp className="text-bold" />
-                ) : (
-                  <AiOutlineDown />
-                )}
-              </span>
-            </div>
 
-            {openDog === name && (
-              <div className="pb-3 sm:pb-6 space-y-6">
-                {/* Contract */}
-                <div>
-                  <h4 className="font-semibold mb-2 text-xs sm:text-sm md:text-base">
-                    Contract
-                  </h4>
-                  <div className="flex items-center gap-3 border rounded-lg p-2 sm:p-3">
-                    <img src={pdf} />
-                    <div>
-                      <div className="text-xs sm:text-sm md:text-base">
-                        Contract 04-08-25.pdf
-                      </div>
-                      <div className="text-xs sm:text-sm text-gray-250 mt-1">
-                        94 KB
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Feedback Reports */}
-                <div>
-                  <div className="flex justify-between items-center my-6">
-                    <h4 className="font-semibold text-xs sm:text-sm md:text-base">
-                      Feedback Reports
+              {openDog === _id && (
+                <div className="pb-3 sm:pb-6 space-y-6">
+                  {/* Contract */}
+                  <div>
+                    <h4 className="font-semibold mb-2 text-xs sm:text-sm md:text-base">
+                      Contract
                     </h4>
-                    <Button
-                      name="Add new report"
-                      className="w-[110px] sm:w-[200px] xxs:h-[45px] sm:h-[56px] text-xs sm:text-base bg-brand-blue rounded-xl text-white font-semibold"
-                      onClick={() => setIsReportFormRender(true)}
-                    />
-                  </div>
-                  {selectedClientInfo?.dogs?.reports?.map((i) => (
                     <div
-                      key={i}
-                      className="flex items-center gap-3 border rounded-lg p-2 sm:p-3 mb-2"
+                      className="flex items-center gap-3 border rounded-lg p-2 sm:p-3 cursor-pointer"
+                      onClick={() => {
+                        if (contract?.agreementPdfUrl) {
+                          window.open(contract.agreementPdfUrl, "_blank");
+                        }
+                      }}
                     >
                       <img src={pdf} />
                       <div>
                         <div className="text-xs sm:text-sm md:text-base">
-                          Report {i}.pdf
+                          Contract {contract?.createdAt?.split("T")[0]}.pdf
+                          {/* Contract 04-08-25.pdf */}
                         </div>
                         <div className="text-xs sm:text-sm text-gray-250 mt-1">
                           94 KB
                         </div>
                       </div>
-                      <AiOutlineDelete className="ml-auto cursor-pointer" />
                     </div>
-                  ))}
+                  </div>
+
+                  {/* Feedback Reports */}
+                  <div>
+                    <div className="flex justify-between items-center my-6">
+                      <h4 className="font-semibold text-xs sm:text-sm md:text-base">
+                        Feedback Reports
+                      </h4>
+                      <Button
+                        name="Add new report"
+                        className="w-[110px] sm:w-[200px] xxs:h-[45px] sm:h-[56px] text-xs sm:text-base bg-brand-blue rounded-xl text-white font-semibold"
+                        onClick={() => setIsReportFormRender(true)}
+                      />
+                    </div>
+                    {selectedClientInfo?.dogs?.reports?.map((i) => (
+                      <div
+                        key={i}
+                        className="flex items-center gap-3 border rounded-lg p-2 sm:p-3 mb-2"
+                      >
+                        <img src={pdf} />
+                        <div>
+                          <div className="text-xs sm:text-sm md:text-base">
+                            Report {i}.pdf
+                          </div>
+                          <div className="text-xs sm:text-sm text-gray-250 mt-1">
+                            94 KB
+                          </div>
+                        </div>
+                        <AiOutlineDelete className="ml-auto cursor-pointer" />
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
-        ))}
+              )}
+            </div>
+          )
+        )}
       </div>
     </div>
   );

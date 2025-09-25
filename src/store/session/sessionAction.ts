@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { setLoading } from "../common/commonSlice";
-import { saveSession } from "./sessionReducer";
+import { saveMetrics, saveSession } from "./sessionReducer";
 import { userRequest } from "../../apiRoutes/apiRoutes";
 import type { SessionParamsRedux } from "../../utils/interfaces";
 
@@ -22,7 +22,28 @@ export const getSessions = createAsyncThunk(
         return res?.data;
       }
     } catch (error) {
-      // Handle error if needed
+      console.error(error);
+      return { error: "Failed to fetch sessions" };
+    } finally {
+      dispatch(setLoading(false));
+    }
+  }
+);
+
+export const getMetrices = createAsyncThunk(
+  "session/getMetrices",
+  async (_, { dispatch }) => {
+    dispatch(setLoading(true));
+    try {
+      const res = await userRequest.get("metrics/dashboard");
+      if (res?.data?.success) {
+        dispatch(saveMetrics(res?.data?.data));
+        return res?.data;
+      } else {
+        return res?.data;
+      }
+    } catch (error) {
+      console.error(error);
       return { error: "Failed to fetch sessions" };
     } finally {
       dispatch(setLoading(false));

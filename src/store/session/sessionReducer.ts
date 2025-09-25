@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   sessions: [],
+  metrics: [],
 };
 
 const sessionSlices = createSlice({
@@ -12,9 +13,12 @@ const sessionSlices = createSlice({
     saveSession: (state, { payload }) => {
       state.sessions = payload;
     },
+    saveMetrics: (state, { payload }) => {
+      state.metrics = payload;
+    },
   },
 });
 
-export const { saveSession } = sessionSlices.actions;
+export const { saveSession, saveMetrics } = sessionSlices.actions;
 
 export default sessionSlices.reducer;

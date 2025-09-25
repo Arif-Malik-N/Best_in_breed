@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import Input from "../components/fields/Input";
 import { clientsSampleData, contractColumns } from "../utils/arrays";
-import Table from "../components/Table";
+import Table from "../components/table/Table";
 import ClientIntakeForm from "../components/forms/clientIntakeForms/ClientIntakeForm";
 import ClientDetails from "../components/ClientDetails";
 

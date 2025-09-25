@@ -84,7 +84,8 @@ export const cifStep1Fields: {
   {
     name: "evaluationSchedule",
     label: "Evaluation scheduled",
-    type: "text",
+    // type: "date",
+    type: "datetime-local",
     placeholder: "Enter appointment date",
     colSpan: "col-span-12 md:col-span-6",
   },
@@ -225,8 +226,14 @@ export const cifStep2Fields: Step2Field[] = [
   {
     name: "isDogHousebroken",
     placeholder: "Is/Are dog housebroken",
-    elementType: "input",
-    type: "text",
+    elementType: "select",
+    options: [
+      { value: false, label: "No" },
+      {
+        value: true,
+        label: "Yes",
+      },
+    ],
     colSpan: "col-span-12 md:col-span-12",
   },
   {
@@ -324,6 +331,14 @@ export const cifStep3DateTime: Step3Field[] = [
     type: "time",
     name: "endTime",
   },
+];
+
+export const weeksOptions = [
+  { value: 0, label: "0" },
+  { value: 2, label: "2" },
+  { value: 3, label: "3" },
+  { value: 4, label: "4" },
+  // { value: "other", label: "Other" },
 ];
 
 // columns for home and client page table
