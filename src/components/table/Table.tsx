@@ -1,24 +1,13 @@
-import React, { useMemo, useState } from "react";
-import type { TableProps } from "../utils/interfaces";
+import React from "react";
 import Pagination from "./Pagination";
+import type { TableProps } from "../../utils/interfaces";
 
 const Table: React.FC<TableProps> = React.memo(
-  ({ columns, dataSource, setRenderPage }) => {
-    const [page, setPage] = useState(1);
-    const perPage = 7;
-
+  ({ columns, dataSource, pagination }) => {
     const totalMinWidth = columns.reduce(
       (sum, col) => (col.minWidth ? sum + col.minWidth : sum + 0),
       0
     );
-
-    // dataSource.length => totalCount
-    const totalPages = Math.ceil(dataSource.length / perPage);
-
-    const paginatedData = useMemo(() => {
-      const start = (page - 1) * perPage;
-      return dataSource.slice(start, start + perPage);
-    }, [dataSource, page]);
 
     return (
       <div className="w-full">
@@ -41,20 +30,20 @@ const Table: React.FC<TableProps> = React.memo(
             ))}
           </div>
           {/* Body */}
-          {paginatedData.map((row, rowIndex) => (
+          {dataSource.map((row, rowIndex) => (
             <div
               key={rowIndex}
               className="flex bg-gray-100 rounded-xl px-5 py-3 my-1 items-center text-sm min-w-max xl:min-w-full"
               style={{ minWidth: `${totalMinWidth}px` }}
             >
-              {columns.map(({ key, minWidth, isIcon, isClickable }) => (
+              {columns.map(({ key, minWidth, isIcon }) => (
                 <div
                   key={key}
                   style={{ minWidth: `${minWidth}px` }}
                   className={`xl:flex-1 ${
-                    isIcon ? "flex items-center gap-2 cursor-pointer" : ""
+                    isIcon ? "flex items-center gap-2" : ""
                   }`}
-                  onClick={() => isIcon && setRenderPage("clientDetails")}
+                  // onClick={() => isIcon && setRenderPage("clientDetails")}
                 >
                   {isIcon ? (
                     <>
@@ -67,12 +56,16 @@ const Table: React.FC<TableProps> = React.memo(
                         {row[key]}
                       </span>
                     </>
-                  ) : isClickable ? (
+                  ) : key === "contractPdfUrl" ? (
                     <div
                       className="text-brand-blue underline cursor-pointer"
-                      onClick={() => setRenderPage("clientIntakeForm")}
+                      onClick={() => {
+                        if (row[key]) {
+                          window.open(row[key], "_blank");
+                        }
+                      }}
                     >
-                      {row[key]}
+                      View
                     </div>
                   ) : (
                     row[key]
@@ -85,9 +78,8 @@ const Table: React.FC<TableProps> = React.memo(
 
         {/* Pagination */}
         <Pagination
-          currentPage={page}
-          totalPages={totalPages}
-          onPageChange={setPage}
+          currentPage={pagination?.page}
+          totalPages={pagination?.totalPages}
         />
       </div>
     );

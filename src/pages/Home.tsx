@@ -4,7 +4,6 @@ import CardWithDog from "../components/cards/CardWithDog";
 import Button from "../components/buttons/Button";
 import Table from "../components/table/Table";
 import type { card } from "../utils/interfaces";
-import { clientsSampleData, columns } from "../utils/arrays";
 import UpcomminSession from "../components/UpcomminSession";
 import ClientIntakeForm from "../components/forms/clientIntakeForms/ClientIntakeForm";
 import ClientDetails from "../components/ClientDetails";
@@ -12,18 +11,19 @@ import Input from "../components/fields/Input";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { getMetrices } from "../store/session/sessionAction";
+import { getClientsWithContract } from "../store/client/clientAction";
+import { clientcolumns } from "../utils/arrays";
+import Loader from "../components/Loader";
 
 function Home() {
   const dispatch = useAppDispatch();
+  const { isLoading } = useAppSelector((state) => state.commonSlice);
+
   const [renderPage, setRenderPage] = useState("home");
   const [search, setSearch] = useState("");
-  const { metrics } = useAppSelector((state) => state.sessionSlices);
 
-  const filteredClients = clientsSampleData.filter((client) =>
-    columns.some(({ key }) =>
-      client[key].toLowerCase().includes(search.toLowerCase())
-    )
-  );
+  const { metrics } = useAppSelector((state) => state.sessionSlices);
+  const { clientsWithContract } = useAppSelector((state) => state.clientSlices);
 
   const cards: card[] = [
     {
@@ -44,12 +44,18 @@ function Home() {
   ];
 
   useEffect(() => {
-    dispatch(getMetrices());
-  }, []);
+    const delayDebounce = setTimeout(() => {
+      const data = { searchName: search, page: 1, perPage: 10 };
+      dispatch(getClientsWithContract(data));
+    }, 500);
 
-  React.useEffect(() => {
+    return () => clearTimeout(delayDebounce); // Cleanup function to cleartimeout on unmount
+  }, [search]);
+
+  useEffect(() => {
+    dispatch(getMetrices());
     window.scrollTo({ top: 0, behavior: "smooth" }); // to render every step component at the top
-  }, [renderPage]);
+  }, []);
 
   return (
     <div>
@@ -58,8 +64,6 @@ function Home() {
           renderPage={renderPage}
           setRenderPage={setRenderPage}
         />
-      ) : renderPage === "clientDetails" ? (
-        <ClientDetails renderPage={renderPage} setRenderPage={setRenderPage} />
       ) : (
         <div>
           {/* Top Section */}
@@ -120,11 +124,14 @@ function Home() {
             </div>
 
             {/* Clients Table */}
-            {filteredClients?.length > 0 ? (
+            {isLoading ? (
+              <Loader isBlue={true} padding={10} />
+            ) : clientsWithContract?.result?.length > 0 ? (
               <Table
-                columns={columns}
-                dataSource={filteredClients}
-                setRenderPage={setRenderPage}
+                columns={clientcolumns}
+                dataSource={clientsWithContract?.result}
+                pagination={clientsWithContract?.pagination}
+                // setRenderPage={setRenderPage}
               />
             ) : (
               <h3 className="xxs:text-sm sm:text-base text-red-400 py-5 font-semibold text-center">

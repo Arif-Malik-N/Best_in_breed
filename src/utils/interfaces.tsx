@@ -97,13 +97,13 @@ export interface card {
 
 // Example row structure for table data
 export interface rowData {
-  name: string;
+  clientName: string;
   email: string;
   phone: string;
   dogName: string;
   breed: string;
-  dogAge: string;
-  contract: string;
+  age: string;
+  contractPdfUrl: string;
   date?: string;
 }
 
@@ -188,13 +188,27 @@ export interface EventItem {
   date?: string;
 }
 
+export interface EventListProps {
+  selectedDate?: Date | string;
+  events: EventItem[];
+  emptyMessage: string;
+  scrollable?: boolean;
+  className: string;
+}
+
 // ============================================= interface for props
 
 // Props for a reusable table component
 export interface TableProps {
   columns: Column[];
   dataSource: Record<string, any>[]; // Can handle any object shape
-  setRenderPage: React.Dispatch<React.SetStateAction<string>>;
+  pagination: {
+    searchName: string;
+    page: number;
+    perPage: number;
+    totalPages: number;
+  };
+  // setRenderPage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 // Props for a reusable button component
@@ -215,7 +229,7 @@ export interface DialogProps {
 // Props for an input field component
 export interface InputProps {
   options?: FieldOption[];
-  value: string | number | Date | boolean | string[];
+  value?: string | number | Date | boolean | string[];
   readOnly?: boolean;
   type?: string;
   placeholder?: string;
@@ -251,8 +265,13 @@ export interface clientIntakeProp {
 }
 export interface clientDetailProp {
   selectedClientInfo?: {};
-  setSelectedClientInfo: React.Dispatch<React.SetStateAction<string>>;
+  setSelectedClientInfo?: React.Dispatch<React.SetStateAction<string>>;
   setRenderPage: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface ReportFormProps {
+  openDogId: string;
+  setIsReportFormRender: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface NavigationTopBarProp {
@@ -260,7 +279,7 @@ export interface NavigationTopBarProp {
   onClick: () => void;
 }
 
-export interface ClientIntakeForm {
+export interface ClientIntakeFormProp {
   client: Partial<ClientForm>;
   dog: Partial<DogForm>;
   contract: Partial<ContractForm>;
@@ -270,11 +289,11 @@ export interface ClientIntakeForm {
 // for step 1 and 2
 export interface StepFormProps {
   setStep: React.Dispatch<React.SetStateAction<number>>;
-  formData: ClientIntakeForm;
+  formData: ClientIntakeFormProp;
   image: string;
 
   handleFieldChange: (
-    section: keyof ClientIntakeForm,
+    section: keyof ClientIntakeFormProp,
     name: string,
     value: any
   ) => void;
@@ -294,9 +313,9 @@ type SignType = Record<SignerType, any>;
 // for step 3
 export interface Step3FormProps {
   handleSubmit: () => void;
-  formData: ClientIntakeForm;
+  formData: ClientIntakeFormProp;
   handleFieldChange: (
-    section: keyof ClientIntakeForm,
+    section: keyof ClientIntakeFormProp,
     name: string,
     value: any
   ) => void;
@@ -312,7 +331,8 @@ export interface ImageUploadProps {
 }
 
 export interface LoaderProps {
-  isNormal?: boolean; // Optional, defaults to true
+  isBlue?: boolean;
+  padding?: number;
 }
 // for store
 // export interface authSliceState {
@@ -350,6 +370,12 @@ export interface SessionParamsRedux {
 }
 
 // for client intake form directory
+export interface ClientGetRedux {
+  searchName: string;
+  page: number;
+  perPage: number;
+}
+
 export interface ClientCreateRedux {
   name: string;
   date: string;
@@ -365,4 +391,11 @@ export interface ClientCreateRedux {
 export interface UploadImgRedux {
   formDataImg: FormData;
   name: string;
+}
+
+export interface AddReportRedux {
+  dogId: string;
+  goal: string;
+  behavior: string;
+  sessionNotes: string;
 }

@@ -15,27 +15,34 @@ function Clients() {
   const { clients } = useAppSelector((state) => state.clientSlices);
 
   const [renderPage, setRenderPage] = useState("client");
+  const [isClientClicked, setIsClientClicked] = useState(false);
+  const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedClientInfo, setSelectedClientInfo] = useState({});
   const [search, setSearch] = useState("");
 
   const handleClientClick = async (_id: string) => {
-    const response = await dispatch(getClientWithDog(_id)).unwrap();
-
-    if (response?.success) {
-      setSelectedClientInfo(response?.data);
-      setRenderPage("clientDetails");
-    }
+    setSelectedClientId(_id);
+    setIsClientClicked(!isClientClicked);
   };
 
   useEffect(() => {
-    const { data } = location.state || {};
-    setSelectedClientInfo(data);
-  }, [location]);
+    (async () => {
+      if (selectedClientId) {
+        const response = await dispatch(
+          getClientWithDog(selectedClientId)
+        ).unwrap();
+        if (response?.success) {
+          setSelectedClientInfo(response?.data);
+          setRenderPage("clientDetails");
+        }
+      }
+    })();
+  }, [location, dispatch, selectedClientId, isClientClicked]);
 
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       dispatch(getClients(search));
-    }, 300);
+    }, 500);
 
     return () => clearTimeout(delayDebounce); // Cleanup function to cleartimeout on unmount
   }, [search, dispatch]);
@@ -76,12 +83,12 @@ function Clients() {
 
       {/* Clients Cards */}
       {isLoading ? (
-        <Loader isNormal={true} />
+        <Loader isBlue={true} padding={10} />
       ) : clients?.result?.length > 0 ? (
         <div className="grid xxs:grid-cols-1 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-10 gap-3 sm:gap-6 pt-4 lg:pt-8">
           {clients?.result?.map(({ _id, name, role }) => {
-            const [fName, ...rest] = name.split(" "); // Split the name into first name and the rest (last name or multiple names)
-            const lName = rest.join(" "); // Join the remaining parts into a last name (if any)
+            const [fName, ...rest] = name?.split(" "); // Split the name into first name and the rest (last name or multiple names)
+            const lName = rest?.join(" "); // Join the remaining parts into a last name (if any)
 
             return (
               <div

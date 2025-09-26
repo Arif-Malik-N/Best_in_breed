@@ -80,7 +80,7 @@ const ChangePassword: React.FC<Props> = ({ setType }) => {
         setConfirmPsd("");
       }
     } catch (error) {
-      // Empty catch block (no error handling)
+      console.error(error);
     }
   };
 

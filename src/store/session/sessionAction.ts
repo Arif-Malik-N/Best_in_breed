@@ -15,8 +15,7 @@ export const getSessions = createAsyncThunk(
       const res = await userRequest.get(url);
 
       if (res?.data?.success) {
-        // dispatch(saveSession(res?.data?.data?.token));
-
+        dispatch(saveSession(res?.data?.data?.result));
         return res?.data;
       } else {
         return res?.data;

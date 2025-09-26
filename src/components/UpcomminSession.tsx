@@ -1,9 +1,9 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import { augustDataWithImage, septemberDataWithImage } from "../utils/arrays";
 import type { EventItem } from "../utils/interfaces";
 import EventList from "./EventList";
 import { useAppDispatch } from "../store/store";
+import { getSessions } from "../store/session/sessionAction";
 
 const UpcomminSession = React.memo(() => {
   const dispatch = useAppDispatch();
@@ -14,7 +14,6 @@ const UpcomminSession = React.memo(() => {
   const [weekIndex, setWeekIndex] = useState(0);
   const [isSelectFromPagination, setIsSelectFromPagination] = useState(false);
   const [events, setEvents] = useState<EventItem[]>([]);
-  console.log(selectedDate);
 
   // Get month name
   const monthName = new Date(currentYear, currentMonth).toLocaleString(
@@ -64,20 +63,22 @@ const UpcomminSession = React.memo(() => {
 
   // Get events for selected date
   useEffect(() => {
-    // dispatch(getSelection());
+    const date = selectedDate.toLocaleDateString("en-GB").split("/").join("-");
 
-    if (!isSelectFromPagination) {
+    (async () => {
+      const res = await dispatch(
+        getSessions({ startDate: date, endDate: date })
+      ).unwrap();
+
       const events =
-        augustDataWithImage?.[
-          `${selectedDate.getDate()}-${monthName.toLowerCase()}`
-        ] || [];
+        res?.data?.result?.[`${selectedDate.getDate()}-${monthName}`] || [];
       setEvents(events);
-    } else {
-      const events =
-        septemberDataWithImage?.[`1-${monthName.toLowerCase()}`] || [];
-      setEvents(events);
-      setSelectedDate(weeks[0]?.filter((date) => date)[0]);
-    }
+
+      if (isSelectFromPagination) {
+        setSelectedDate(weeks[0]?.filter((date) => date)[0]);
+      }
+    })();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentMonth, selectedDate, monthName]);
 
@@ -86,7 +87,7 @@ const UpcomminSession = React.memo(() => {
   const nextWeek = () =>
     setWeekIndex((prev) => Math.min(prev + 1, weeks.length - 1));
 
-  // Handle month navigation
+  // Handle month navigation prev
   const prevMonth = () => {
     setIsSelectFromPagination(true);
     setCurrentMonth((prev) => {
@@ -98,6 +99,7 @@ const UpcomminSession = React.memo(() => {
     });
     setWeekIndex(0);
   };
+  // Handle month navigation next
   const nextMonth = () => {
     setIsSelectFromPagination(true);
     setCurrentMonth((prev) => {
@@ -211,7 +213,7 @@ const UpcomminSession = React.memo(() => {
         events={events}
         scrollable
         className="gap-3 p-2 bg-gray-400"
-        emptyMessage="No sessions for this date."
+        emptyMessage="No session available for selected date."
       />
     </div>
   );

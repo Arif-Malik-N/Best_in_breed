@@ -1,10 +1,40 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { setLoading } from "../common/commonSlice";
-import { saveClients } from "./clientReducer";
+import { saveClients, saveClientsWithContract } from "./clientReducer";
 import { userRequest } from "../../apiRoutes/apiRoutes";
-import type { ClientIntakeForm, UploadImgRedux } from "../../utils/interfaces";
+import type {
+  AddReportRedux,
+  ClientGetRedux,
+  ClientIntakeFormProp,
+  UploadImgRedux,
+} from "../../utils/interfaces";
 
-// ===> for get clients
+// ===> for get clients for client and contract table
+export const getClientsWithContract = createAsyncThunk(
+  "client/getClientsWithContract",
+  async (data: ClientGetRedux, { dispatch }) => {
+    dispatch(setLoading(true));
+    try {
+      // Dynamically construct the query parameters based on search name
+      const url = data?.searchName
+        ? `clients/contracts?search=${data?.searchName}&page=${data?.page}&perPage=${data?.perPage}`
+        : `clients/contracts?page=${data?.page}&perPage=${data?.perPage}`;
+
+      const res = await userRequest.get(url);
+
+      if (res?.data?.success) {
+        dispatch(saveClientsWithContract(res?.data?.data));
+        return res?.data;
+      } else {
+        return res?.data;
+      }
+    } finally {
+      dispatch(setLoading(false));
+    }
+  }
+);
+
+// ===> for get clients for client page
 export const getClients = createAsyncThunk(
   "client/getClients",
   async (searchName: string, { dispatch }) => {
@@ -81,7 +111,7 @@ export const uploadSignatureImg = createAsyncThunk(
 // for create client instake creation
 export const createClientIntake = createAsyncThunk(
   "client/createClientIntake",
-  async (data: ClientIntakeForm, { dispatch }) => {
+  async (data: ClientIntakeFormProp, { dispatch }) => {
     dispatch(setLoading(true));
     try {
       const res = await userRequest.post("client-intake-form-merged", data);
@@ -95,13 +125,43 @@ export const createClientIntake = createAsyncThunk(
 // add dog against already created client
 export const addDogAgaintsClient = createAsyncThunk(
   "client/addDogAgaintsClient",
-  async (data: ClientIntakeForm, { dispatch }) => {
+  async (data: ClientIntakeFormProp, { dispatch }) => {
     dispatch(setLoading(true));
     try {
-      const res = await userRequest.post(`dogs/client/${data?.clientId}/add`, {
-        dog: data?.dog,
-        contract: data?.contract,
-      });
+      const { clientId, ...dogData } = data; // extract clientId, keep dog data
+      const res = await userRequest.post(
+        `dogs/client/${clientId}/add`,
+        dogData
+      );
+      return res?.data;
+    } finally {
+      dispatch(setLoading(false));
+    }
+  }
+);
+
+// add report against dog
+export const addReport = createAsyncThunk(
+  "client/addReport",
+  async (data: AddReportRedux, { dispatch }) => {
+    dispatch(setLoading(true));
+    try {
+      const { dogId, ...reportData } = data; // extract dogId, keep report data
+      const res = await userRequest.post(`reports/dog/${dogId}`, reportData);
+      return res?.data;
+    } finally {
+      dispatch(setLoading(false));
+    }
+  }
+);
+
+// delete report against dog
+export const deleteReport = createAsyncThunk(
+  "client/deleteReport",
+  async (dogId: string, { dispatch }) => {
+    dispatch(setLoading(true));
+    try {
+      const res = await userRequest.delete(`reports/${dogId}`);
       return res?.data;
     } finally {
       dispatch(setLoading(false));

@@ -3,7 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   sessions: [],
-  metrics: [],
+  metrics: {
+    activeClients: 0,
+    appointments: 0,
+    pendingContracts: 0,
+  },
 };
 
 const sessionSlices = createSlice({

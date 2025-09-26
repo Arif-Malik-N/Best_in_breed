@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import type {
   clientIntakeProp,
-  ClientIntakeForm,
+  ClientIntakeFormProp,
 } from "../../../utils/interfaces";
 import NavigationTopBar from "../../NavigationTopBar";
 import Stepper from "../../Stepper";
@@ -41,7 +41,7 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
     const navigate = useNavigate();
     const [step, setStep] = useState(1);
     const [errors, setErrors] = useState<Record<string, string>>({});
-    const [formData, setFormData] = useState<ClientIntakeForm>({
+    const [formData, setFormData] = useState<ClientIntakeFormProp>({
       client: {},
       dog: {},
       contract: {},
@@ -236,11 +236,9 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
           client: updatedClient,
         }));
       }
-    }, []);
 
-    useEffect(() => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }, [step]);
+      window.scrollTo({ top: 0, behavior: "smooth" }); // to render every step component at the top
+    }, []);
 
     return (
       <div>

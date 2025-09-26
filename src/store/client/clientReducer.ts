@@ -3,8 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   homeClients: [],
   contractClients: [],
+  clientsWithContract: {
+    pagination: { searchName: "", page: 0, perPage: 0, totalPages: 0 },
+    result: [],
+  },
   clients: {
-    pagination: [],
+    pagination: {},
     result: [],
   },
 };
@@ -16,10 +20,14 @@ const clientSlices = createSlice({
     saveClients: (state, { payload }) => {
       state.clients = payload;
     },
+    saveClientsWithContract: (state, { payload }) => {
+      state.clientsWithContract = payload;
+    },
     resetUserState: () => initialState,
   },
 });
 
-export const { saveClients, resetUserState } = clientSlices.actions;
+export const { saveClients, resetUserState, saveClientsWithContract } =
+  clientSlices.actions;
 
 export default clientSlices.reducer;
