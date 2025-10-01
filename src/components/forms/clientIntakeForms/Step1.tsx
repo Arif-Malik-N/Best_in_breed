@@ -20,15 +20,15 @@ const Step1: React.FC<StepFormProps> = React.memo(
     const isAddDog = selectedClientInfo?.client?._id; // add the time of new dog added against already created cleint
 
     const handleNext = () => {
-      if (image || isAddDog) {
-        if (validateStep(1)) {
-          setStep((prev: number) => prev + 1);
-        } else {
-          toast.error("Please fill all required fields");
-        }
-      } else {
-        toast.error("Please select image");
-      }
+      // if (image || isAddDog) {
+      //   if (validateStep(1)) {
+      setStep((prev: number) => prev + 1);
+      //   } else {
+      //     toast.error("Please fill all required fields");
+      //   }
+      // } else {
+      //   toast.error("Please select image");
+      // }
     };
 
     return (

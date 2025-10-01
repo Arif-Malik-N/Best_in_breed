@@ -8,6 +8,7 @@ import Button from "./buttons/Button";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { getSessions } from "../store/session/sessionAction";
 import Loader from "./Loader";
+import { formatTimeRangeTo12Hour } from "../utils/utilityFunctions";
 
 type CalendarEvent = {
   title: string;
@@ -116,11 +117,11 @@ const Calendar = React.memo(() => {
         <div className="flex justify-between">
           <span
             className={`rounded p-1 ${
-              dayAndYear ? "text-[7.5px]" : "font-bold text-[9px]"
+              dayAndYear ? "text-[6.5px]" : "font-bold text-[8px]"
             }`}
             style={{ background: color, color: "white" }}
           >
-            {eventInfo.timeText}
+            {formatTimeRangeTo12Hour(eventInfo.timeText)}
           </span>
           {/* Avatar */}
           {image && (

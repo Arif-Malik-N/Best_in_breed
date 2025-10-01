@@ -6,14 +6,17 @@ import Table from "../components/table/Table";
 import type { card } from "../utils/interfaces";
 import UpcomminSession from "../components/UpcomminSession";
 import ClientIntakeForm from "../components/forms/clientIntakeForms/ClientIntakeForm";
-import ClientDetails from "../components/ClientDetails";
 import Input from "../components/fields/Input";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { getMetrices } from "../store/session/sessionAction";
-import { getClientsWithContract } from "../store/client/clientAction";
+import {
+  getClientsWithContract,
+  getClientWithDog,
+} from "../store/client/clientAction";
 import { clientcolumns } from "../utils/arrays";
 import Loader from "../components/Loader";
+import ClientDetails from "../components/ClientDetails";
 
 function Home() {
   const dispatch = useAppDispatch();
@@ -21,6 +24,9 @@ function Home() {
 
   const [renderPage, setRenderPage] = useState("home");
   const [search, setSearch] = useState("");
+  const [selectedClientInfo, setSelectedClientInfo] = useState({});
+  const [isClientClicked, setIsClientClicked] = useState(false);
+  const [selectedClientId, setSelectedClientId] = useState("");
 
   const { metrics } = useAppSelector((state) => state.sessionSlices);
   const { clientsWithContract } = useAppSelector((state) => state.clientSlices);
@@ -43,6 +49,25 @@ function Home() {
     },
   ];
 
+  const handleClientClick = async (_id: string) => {
+    setSelectedClientId(_id);
+    setIsClientClicked(!isClientClicked);
+  };
+
+  useEffect(() => {
+    (async () => {
+      if (selectedClientId) {
+        const response = await dispatch(
+          getClientWithDog(selectedClientId)
+        ).unwrap();
+        if (response?.success) {
+          setSelectedClientInfo(response?.data);
+          setRenderPage("clientDetails");
+        }
+      }
+    })();
+  }, [selectedClientId, isClientClicked]);
+
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       const data = { searchName: search, page: 1, perPage: 10 };
@@ -62,6 +87,13 @@ function Home() {
       {renderPage === "clientIntakeForm" ? (
         <ClientIntakeForm
           renderPage={renderPage}
+          setRenderPage={setRenderPage}
+          selectedClientInfo={selectedClientInfo}
+        />
+      ) : selectedClientInfo && Object.keys(selectedClientInfo)?.length > 0 ? (
+        <ClientDetails
+          selectedClientInfo={selectedClientInfo}
+          setSelectedClientInfo={setSelectedClientInfo}
           setRenderPage={setRenderPage}
         />
       ) : (
@@ -98,13 +130,16 @@ function Home() {
           {/* Client Table Section */}
           <div className="bg-white rounded-xl py-10 mt-5 sm:mt-10">
             <div className="flex justify-between place-items-center px-3">
-              <div className="xxs:text-base xl:text-lg font-semibold ml-4">
+              <div className="xxs:text-base xl:text-lg font-semibold ml-1.5">
                 Clients
               </div>
               <Button
                 name="View All"
-                className="w-[65px] h-[40px] bg-gray-100 rounded-xl font-semibold text-xs text-brand-blue"
-                onClick={() => {}}
+                className="w-[65px] h-[40px] bg-gray-100 rounded-xl font-semibold text-xs text-brand-blue outline-none"
+                onClick={() => {
+                  const data = { searchName: search };
+                  dispatch(getClientsWithContract(data));
+                }}
               />
             </div>
             {/* Search Bar */}
@@ -112,7 +147,7 @@ function Home() {
               <Input
                 value={search}
                 type={"text"}
-                placeholder="Search Client or Dog"
+                placeholder="Search By Client or Dog Name"
                 className={
                   "w-full xxs:h-[50px] sm:h-[56px] bg-gray-150 rounded-lg pr-2 pl-12 xxs:text-sm sm:text-base text-gray-750 placeholder-gray-700 border border-gray-300 focus:outline-none"
                 }
@@ -131,6 +166,7 @@ function Home() {
                 columns={clientcolumns}
                 dataSource={clientsWithContract?.result}
                 pagination={clientsWithContract?.pagination}
+                handleClientClick={handleClientClick}
                 // setRenderPage={setRenderPage}
               />
             ) : (

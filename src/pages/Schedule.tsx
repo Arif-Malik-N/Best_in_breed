@@ -37,7 +37,7 @@ const Schedule = () => {
 
       {/* Upcoming Sessions List */}
       <div className="shadow rounded-lg border bg-gray-150 p-3 sm:p-5 overflow-auto sm:max-h-[540px]">
-        <h1 className="text-lg sm:text-xl font-semibold">Upcoming Sessions</h1>
+        <h1 className="text-lg sm:text-xl font-semibold">Today's Sessions</h1>
         <EventList
           events={events}
           emptyMessage="No session available for today."

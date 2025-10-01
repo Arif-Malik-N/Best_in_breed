@@ -9,8 +9,11 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { toast } from "react-toastify";
 import { changePassword } from "../../store/auth/authAction";
 import Loader from "../Loader";
+import { resetUserState } from "../../store/auth/authReducer";
+import { useNavigate } from "react-router-dom";
 
 const ChangePassword: React.FC<Props> = ({ setType }) => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [currentPsd, setCurrentPsd] = useState("");
   const [newPsd, setNewPsd] = useState("");
@@ -74,10 +77,9 @@ const ChangePassword: React.FC<Props> = ({ setType }) => {
 
       // Toaster after API success
       if (response?.success) {
-        toast.success(response?.data?.message);
-        setCurrentPsd("");
-        setNewPsd("");
-        setConfirmPsd("");
+        toast.success(`${response?.data?.message} Login Again`);
+        dispatch(resetUserState());
+        navigate("/");
       }
     } catch (error) {
       console.error(error);

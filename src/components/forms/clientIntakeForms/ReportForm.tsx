@@ -17,6 +17,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { isLoading } = useAppSelector((state) => state.commonSlice);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const [goal, setGoal] = useState("");
   const [behavior, setBehavior] = useState("");

@@ -86,25 +86,35 @@ function Clients() {
         <Loader isBlue={true} padding={10} />
       ) : clients?.result?.length > 0 ? (
         <div className="grid xxs:grid-cols-1 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-10 gap-3 sm:gap-6 pt-4 lg:pt-8">
-          {clients?.result?.map(({ _id, name, role }) => {
-            const [fName, ...rest] = name?.split(" "); // Split the name into first name and the rest (last name or multiple names)
-            const lName = rest?.join(" "); // Join the remaining parts into a last name (if any)
+          {clients?.result?.map(
+            ({
+              _id,
+              name,
+              role,
+            }: {
+              _id: string;
+              name?: string;
+              role?: string;
+            }) => {
+              const [fName, ...rest] = (name ?? "").split(" ");
+              const lName = rest.join(" ");
 
-            return (
-              <div
-                key={_id}
-                className="place-content-center h-[92px] border rounded-xl shadow-sm hover:shadow-md transition cursor-pointer"
-                onClick={() => handleClientClick(_id)}
-              >
-                <h3 className="xxs:text-sm sm:text-base font-semibold text-center">
-                  {fName} {lName && <div>{lName}</div>}
-                </h3>
-                <p className="xxs:text-xs sm:text-sm text-gray-550 text-sm text-center">
-                  {role || "Dog Owner"}
-                </p>
-              </div>
-            );
-          })}
+              return (
+                <div
+                  key={_id}
+                  className="place-content-center h-[92px] border rounded-xl shadow-sm hover:shadow-md transition cursor-pointer"
+                  onClick={() => handleClientClick(_id)}
+                >
+                  <h3 className="xxs:text-sm sm:text-base font-semibold text-center">
+                    {fName} {lName && <div>{lName}</div>}
+                  </h3>
+                  <p className="xxs:text-xs sm:text-sm text-gray-550 text-sm text-center">
+                    {role || "Dog Owner"}
+                  </p>
+                </div>
+              );
+            }
+          )}
         </div>
       ) : (
         <h3 className="xxs:text-sm sm:text-base text-red-400 py-5 font-semibold text-center">

@@ -16,9 +16,12 @@ export const getClientsWithContract = createAsyncThunk(
     dispatch(setLoading(true));
     try {
       // Dynamically construct the query parameters based on search name
+
       const url = data?.searchName
         ? `clients/contracts?search=${data?.searchName}&page=${data?.page}&perPage=${data?.perPage}`
-        : `clients/contracts?page=${data?.page}&perPage=${data?.perPage}`;
+        : data?.page && data?.perPage
+        ? `clients/contracts?page=${data?.page}&perPage=${data?.perPage}`
+        : "clients/contracts";
 
       const res = await userRequest.get(url);
 

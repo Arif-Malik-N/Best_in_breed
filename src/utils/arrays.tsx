@@ -147,10 +147,10 @@ export const cifStep2Fields: Step2Field[] = [
     colSpan: "col-span-12 md:col-span-3",
   },
   {
-    name: "age",
-    placeholder: "Age",
+    name: "dateOfBirth",
+    placeholder: "Date Of Birth",
     elementType: "input",
-    type: "number",
+    type: "date",
     colSpan: "col-span-12 md:col-span-3",
   },
   // {
@@ -333,6 +333,24 @@ export const cifStep3DateTime: Step3Field[] = [
   },
 ];
 
+// for validation
+export const requiredContractFields = [
+  "weeksOnLeash",
+  "weeksOnOffLeash",
+  "houseBreakingChecklist1",
+  "personalProtectionOptions",
+  "maintainPreviouslyEnrolled",
+  "startDate",
+  "endDate",
+  "startTime",
+  "endTime",
+  "trainingFee",
+  "notesAndTerms",
+  "ownerOfDogName",
+  "ownerAgreementDate",
+  "trainingToStartWeekOf",
+];
+
 export const weeksOptions = [
   { value: 0, label: "0" },
   { value: 2, label: "2" },
@@ -346,9 +364,9 @@ export const clientcolumns: Column[] = [
   { key: "clientName", title: "Name", minWidth: 180, isIcon: true },
   { key: "email", title: "Email", minWidth: 220 },
   { key: "phone", title: "Phone", minWidth: 140 },
-  { key: "dogName", title: "Dog Name", minWidth: 120 },
-  { key: "breed", title: "Breed", minWidth: 200 },
-  { key: "age", title: "Dog Age", minWidth: 90 },
+  { key: "dogName", title: "Dog Name", minWidth: 150 },
+  { key: "breed", title: "Breed", minWidth: 150 },
+  { key: "age", title: "Dog Age", minWidth: 150 },
   { key: "contractPdfUrl", title: "Contract", minWidth: 90, isClickable: true },
 ];
 

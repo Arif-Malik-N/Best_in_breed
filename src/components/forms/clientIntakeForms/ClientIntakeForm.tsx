@@ -13,27 +13,16 @@ import { useAppDispatch } from "../../../store/store";
 import {
   addDogAgaintsClient,
   createClientIntake,
+  getClientsWithContract,
   uploadClientAndDogImg,
 } from "../../../store/client/clientAction";
-import { cifStep1Fields, cifStep2Fields } from "../../../utils/arrays";
+import {
+  cifStep1Fields,
+  cifStep2Fields,
+  requiredContractFields,
+} from "../../../utils/arrays";
 import { useNavigate } from "react-router-dom";
-
-const requiredContractFields = [
-  "weeksOnLeash",
-  "weeksOnOffLeash",
-  "houseBreakingChecklist1",
-  "personalProtectionOptions",
-  "maintainPreviouslyEnrolled",
-  "startDate",
-  "endDate",
-  "startTime",
-  "endTime",
-  "trainingFee",
-  "notesAndTerms",
-  "ownerOfDogName",
-  "ownerAgreementDate",
-  "trainingToStartWeekOf",
-];
+import { getMetrices } from "../../../store/session/sessionAction";
 
 const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
   ({ setRenderPage, selectedClientInfo }) => {
@@ -70,7 +59,7 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
           [name]:
             name === "selectProblems"
               ? [value]
-              : ["age", "trainingFee"].includes(name)
+              : ["trainingFee"].includes(name)
               ? Number(value)
               : value,
         },
@@ -179,20 +168,22 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
           : await dispatch(createClientIntake(formData)).unwrap();
 
         if (response?.success) {
-          toast.success(
-            isEditMode
-              ? "Dog added successfully!"
-              : "Form submitted successfully!"
-          );
-
           defaultAllState();
           if (isEditMode) {
             navigate("/clients", {
               state: { data: response?.data },
             });
           } else {
+            const data = { searchName: "", page: 1, perPage: 10 };
+            await dispatch(getClientsWithContract(data)); // get updated clients
+            await dispatch(getMetrices()); // get updated metrics
             navigate("/");
           }
+          toast.success(
+            isEditMode
+              ? "Dog added successfully!"
+              : "Form submitted successfully!"
+          );
         }
       } catch (error) {
         console.error("Submission failed:", error);

@@ -38,6 +38,7 @@ export interface DogForm {
   trainingGoalsForDog: string;
   evaluatorsRemarks: string;
   dogPhotoUploadId: string;
+  dateOfBirth: string;
 }
 
 export interface ContractForm {
@@ -208,6 +209,7 @@ export interface TableProps {
     perPage: number;
     totalPages: number;
   };
+  handleClientClick?: (_id: string) => void;
   // setRenderPage: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -372,8 +374,8 @@ export interface SessionParamsRedux {
 // for client intake form directory
 export interface ClientGetRedux {
   searchName: string;
-  page: number;
-  perPage: number;
+  page?: number;
+  perPage?: number;
 }
 
 export interface ClientCreateRedux {

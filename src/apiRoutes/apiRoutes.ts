@@ -27,10 +27,9 @@ userRequest.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log(error);
+    // console.log("error", error?.response?.data?.error?.message);
 
     toast.error(error?.response?.data?.error?.message);
-    // toast.error("error?.response?.data?.error?.messagefdshfisdhfihdfndsif");
     // if (error?.response?.data?.statusCode === 401) {
     //   store.dispatch({ type: "LOGOUT" });
     // }

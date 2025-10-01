@@ -3,7 +3,7 @@ import Pagination from "./Pagination";
 import type { TableProps } from "../../utils/interfaces";
 
 const Table: React.FC<TableProps> = React.memo(
-  ({ columns, dataSource, pagination }) => {
+  ({ columns, dataSource, pagination, handleClientClick }) => {
     const totalMinWidth = columns.reduce(
       (sum, col) => (col.minWidth ? sum + col.minWidth : sum + 0),
       0
@@ -52,7 +52,10 @@ const Table: React.FC<TableProps> = React.memo(
                       alt={row.name || ""}
                       className="w-8 h-8 rounded-full"
                     /> */}
-                      <span className="text-brand-blue underline">
+                      <span
+                        className="text-brand-blue underline cursor-pointer"
+                        onClick={() => handleClientClick?.(row?.clientId)}
+                      >
                         {row[key]}
                       </span>
                     </>

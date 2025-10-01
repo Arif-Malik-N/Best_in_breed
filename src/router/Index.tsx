@@ -22,6 +22,7 @@ import { useAppSelector } from "../store/store";
 
 const Routing = React.memo(() => {
   const token = useAppSelector((state) => state.authSlices?.token);
+
   // const token = true;
 
   const routes: AppRoute[] = [

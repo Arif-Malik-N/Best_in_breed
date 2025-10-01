@@ -34,7 +34,7 @@ const ClientDetails: React.FC<clientDetailProp> = React.memo(
     };
 
     const defaultAllState = () => {
-      setSelectedClientInfo({});
+      setSelectedClientInfo?.({});
     };
 
     const handleDeleteReport = async (dogId: string) => {
