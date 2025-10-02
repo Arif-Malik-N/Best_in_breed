@@ -23,6 +23,7 @@ import {
 } from "../../../utils/arrays";
 import { useNavigate } from "react-router-dom";
 import { getMetrices } from "../../../store/session/sessionAction";
+import { emailRegex, phoneRegex } from "../../../utils/utilities";
 
 const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
   ({ setRenderPage, selectedClientInfo }) => {
@@ -69,11 +70,33 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
       if (errors[name]) {
         setErrors((prev) => {
           const newErrors = { ...prev };
-          delete newErrors[name];
+          if (
+            ![
+              "email",
+              "phone2",
+              "phone1",
+              "cellPhone",
+              "homePhone",
+              "workPhone",
+            ]?.includes(name)
+          ) {
+            delete newErrors[name];
+          } else {
+            // for phone
+            if (name !== "email" && phoneRegex.test(value))
+              delete newErrors[name];
+
+            // for email
+            if (name === "email" && emailRegex.test(value))
+              delete newErrors[name];
+          }
+
           return newErrors;
         });
       }
     };
+    console.log(errors);
+    console.log(formData?.dog);
 
     // to handle field empty validation
     const validateStep = (step: number): boolean => {
@@ -81,17 +104,47 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
 
       if (step === 1) {
         cifStep1Fields.forEach(({ name }) => {
+          const client = formData.client;
+          const matchingKey = Object.keys(client).find(
+            (key) => client[key] === formData.client?.[name]
+          );
+
           if (!formData.client?.[name]) {
             newErrors[name] = `This field is required`;
-          }
+          } // empty validation
+          if (
+            ["phone2", "phone1"]?.includes(matchingKey) &&
+            !phoneRegex.test(formData.client?.[name])
+          ) {
+            newErrors[name] = `This field is required`;
+          } // number validation
+          if (
+            matchingKey === "email" &&
+            !emailRegex.test(formData.client?.[name])
+          ) {
+            newErrors[name] = `This field is required`;
+          } // email validation
         });
       }
 
       if (step === 2) {
         cifStep2Fields.forEach(({ name }) => {
+          const dog = formData.dog;
+          const matchingKey = Object.keys(dog).find(
+            (key) => dog[key] === formData.dog?.[name]
+          );
+
           if (!formData.dog?.[name]) {
             newErrors[name] = `This field is required`;
-          }
+          } // empty validation
+          if (
+            ["cellPhone", "homePhone", "workPhone"]?.includes(matchingKey) &&
+            !phoneRegex.test(formData.dog?.[name])
+          ) {
+            console.log(name);
+
+            newErrors[name] = `This field is required`;
+          } // number validation
         });
       }
 
@@ -158,8 +211,9 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
         const isEditMode = Boolean(clientId);
 
         const payload = {
-          ...formData,
           clientId,
+          dog: formData?.dog,
+          contract: formData?.contract,
         };
 
         // is editmode means new dog is edit against already created client
@@ -187,7 +241,7 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
         }
       } catch (error) {
         console.error("Submission failed:", error);
-        toast.error("Something went wrong. Please try again.");
+        // toast.error("There is a network issue. Please try again.");
       }
     };
 

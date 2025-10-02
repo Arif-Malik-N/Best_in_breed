@@ -9,12 +9,14 @@ import { updateProfile, updateProfileImg } from "../../store/auth/authAction";
 import NavigationTopBar from "../NavigationTopBar";
 import ImageUpload from "../forms/ImageUpload";
 import Loader from "../Loader";
+import { addressRegex, emailRegex, phoneRegex } from "../../utils/utilities";
 
 const EditProfile: React.FC<Props> = ({ setType }) => {
   const dispatch = useAppDispatch();
   const { userData, profileImg } = useAppSelector((state) => state.authSlices);
   const { isLoading } = useAppSelector((state) => state.commonSlice);
 
+  const [errors, setErrors] = useState("");
   const [email, setEmail] = useState(userData?.email);
   const [loc, setLoc] = useState(userData?.location);
   const [phoneNo, setPhoneNo] = useState(userData?.phone);
@@ -27,28 +29,40 @@ const EditProfile: React.FC<Props> = ({ setType }) => {
       formData.append("file", file);
       const response = await dispatch(updateProfileImg(formData));
       if (response?.payload?.success) {
-        toast.success(`Profile Updated`);
+        toast.success(`Profile picture updated successfully`);
       }
     }
   };
 
   const handleProfileUpdate = async () => {
+    // Email/ address/ number validation
+    if (
+      !email ||
+      !emailRegex.test(email) ||
+      !phoneNo ||
+      !phoneRegex.test(phoneNo) ||
+      !loc ||
+      !addressRegex.test(loc)
+    ) {
+      setErrors("error");
+      return;
+    }
+
     try {
-      // Object to send to API
       const dataToSend = {
         email: email,
         phoneNumber: phoneNo,
         location: loc,
       };
+      setErrors("");
 
-      // API call through Redux
       const response = await dispatch(updateProfile(dataToSend)).unwrap();
-      // Toaster after API success
       if (response?.success) {
-        toast.success("Profile Updated");
+        toast.success("Profile updated successfully.");
+        setType("menu");
       }
     } catch (error) {
-      // Empty catch block (no error handling)
+      // Optional: show toast error here
     }
   };
 
@@ -85,7 +99,7 @@ const EditProfile: React.FC<Props> = ({ setType }) => {
   return (
     <div>
       {/* Top Bar */}
-      <NavigationTopBar name="Profile Update" onClick={() => setType("menu")} />
+      <NavigationTopBar name="Edit Profile" onClick={() => setType("menu")} />
 
       {/* Profile Image */}
       <ImageUpload
@@ -105,7 +119,25 @@ const EditProfile: React.FC<Props> = ({ setType }) => {
                 <Input
                   value={value}
                   type={type}
-                  className={className}
+                  className={`${className} ${
+                    !value && errors ? "border-red-500" : "border-gray-300"
+                  }`}
+                  // error={!value && errors ? `${name} is required` : undefined}
+                  error={
+                    !value && errors
+                      ? `${name} is required`
+                      : errors &&
+                        name === "Email Address" &&
+                        !emailRegex.test(email)
+                      ? "Invalid email format"
+                      : errors &&
+                        name === "Phone Number" &&
+                        !phoneRegex.test(phoneNo)
+                      ? "Invalid phone number format"
+                      : errors && name === "Location" && !addressRegex.test(loc)
+                      ? "Invalid address format"
+                      : undefined
+                  }
                   setValue={setValue}
                   endIcon={endIcon}
                 />

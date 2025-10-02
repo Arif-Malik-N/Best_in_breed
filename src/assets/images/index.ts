@@ -45,6 +45,7 @@ import lock2 from "../icons/lock2.png";
 import group from "../icons/group.png";
 import client1Icon from "../icons/client1Icon.png";
 import pdf from "../icons/pdf.png";
+import deleteIcon from "../icons/deleteIcon.png";
 
 // svg
 import tabIcon from "../icons/tabIcon.svg";
@@ -97,6 +98,7 @@ export {
   group,
   client1Icon,
   pdf,
+  deleteIcon,
 
   // svg
   tabIcon,

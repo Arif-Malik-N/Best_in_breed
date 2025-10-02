@@ -11,10 +11,13 @@ import { changePassword } from "../../store/auth/authAction";
 import Loader from "../Loader";
 import { resetUserState } from "../../store/auth/authReducer";
 import { useNavigate } from "react-router-dom";
+import { passwordRegex } from "../../utils/utilities";
 
 const ChangePassword: React.FC<Props> = ({ setType }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const [errors, setErrors] = useState("");
   const [currentPsd, setCurrentPsd] = useState("");
   const [newPsd, setNewPsd] = useState("");
   const [confirmPsd, setConfirmPsd] = useState("");
@@ -64,6 +67,32 @@ const ChangePassword: React.FC<Props> = ({ setType }) => {
   ];
 
   const handleChangePsd = async () => {
+    // Basic checks
+    if (!currentPsd || !newPsd || !confirmPsd) {
+      setErrors("Please fill out all fields.");
+      return;
+    }
+
+    // Current and new password can't be the same
+    if (currentPsd === newPsd) {
+      setErrors("New password cannot be the same as current password.");
+      return;
+    }
+
+    // Check new password against policy
+    if (!passwordRegex.test(newPsd)) {
+      setErrors(
+        "Password must be at least 8 characters long and include upper/lowercase, number, and special character."
+      );
+      return;
+    }
+
+    // Confirm password mismatch
+    if (newPsd !== confirmPsd) {
+      setErrors("New Password do not match with the older one.");
+      return;
+    }
+
     try {
       // Object to send to API
       const dataToSend = {
@@ -71,10 +100,10 @@ const ChangePassword: React.FC<Props> = ({ setType }) => {
         newPassword: newPsd,
         confirmNewPassword: confirmPsd,
       };
+      setErrors("");
 
       // API call through Redux
       const response = await dispatch(changePassword(dataToSend)).unwrap();
-
       // Toaster after API success
       if (response?.success) {
         toast.success(`${response?.data?.message} Login Again`);
@@ -109,13 +138,49 @@ const ChangePassword: React.FC<Props> = ({ setType }) => {
                     value={value}
                     type={showPassword[index] ? "text" : "password"}
                     placeholder={placeholder}
-                    className={className}
+                    className={`${className} ${
+                      !value && errors ? "border-red-500" : "border-gray-300"
+                    }`}
+                    // error={!value && errors ? `${name} is required` : undefined}
+                    error={
+                      errors
+                        ? (!value && `${name} is required`) ||
+                          (name === "Current Password" &&
+                            errors.includes("Current password") &&
+                            errors) ||
+                          (name === "New Password" &&
+                            errors.includes("Password must") &&
+                            errors) ||
+                          (name === "New Password" &&
+                            errors.includes("same as current") &&
+                            errors) ||
+                          (name === "Confirm New Password" &&
+                            errors.includes("do not match") &&
+                            errors)
+                        : undefined
+                    }
                     setValue={setValue}
                     startIcon={startIcon}
                   />
                   {/* Eye endIcon to toggle password visibility */}
                   <div
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                    className={`absolute right-4 
+                    ${
+                      (name === "Current Password" &&
+                        errors.includes("Current password") &&
+                        errors) ||
+                      (name === "New Password" &&
+                        errors.includes("Password must") &&
+                        errors) ||
+                      (name === "New Password" &&
+                        errors.includes("same as current") &&
+                        errors) ||
+                      (name === "Confirm New Password" &&
+                        errors.includes("do not match") &&
+                        errors)
+                        ? "top-8"
+                        : "top-1/2"
+                    } transform -translate-y-1/2 cursor-pointer`}
                     onClick={() => togglePassword(index)}
                   >
                     {showPassword[index] ? (

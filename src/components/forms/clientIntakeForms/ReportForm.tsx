@@ -17,13 +17,18 @@ const ReportForm: React.FC<ReportFormProps> = ({
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { isLoading } = useAppSelector((state) => state.commonSlice);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState("");
 
   const [goal, setGoal] = useState("");
   const [behavior, setBehavior] = useState("");
   const [sessionNotes, setSessionNotes] = useState("");
 
   const handleAddReport = async () => {
+    // show error if any field is none
+    if (!goal || !behavior || !sessionNotes) {
+      setErrors("error");
+      return;
+    }
     try {
       // Object to send to API
       const dataToSend = {
@@ -121,7 +126,12 @@ const ReportForm: React.FC<ReportFormProps> = ({
                       value={value}
                       rows={10}
                       placeholder={placeholder}
-                      className="w-full bg-white rounded-lg px-4 placeholder-gray-750 border border-gray-300 xxs:text-sm sm:text-base focus:outline-none pt-3"
+                      className={`w-full bg-white rounded-lg px-4 placeholder-gray-750 border border-gray-300 xxs:text-sm sm:text-base focus:outline-none pt-3  ${
+                        !value && errors ? "border-red-500" : "border-gray-300"
+                      }`}
+                      error={
+                        !value && errors ? `${name} is required` : undefined
+                      }
                       setValue={setValue}
                     />
                   ) : (
@@ -129,7 +139,12 @@ const ReportForm: React.FC<ReportFormProps> = ({
                       value={value}
                       type={type}
                       placeholder={placeholder}
-                      className={className}
+                      className={`${className} ${
+                        !value && errors ? "border-red-500" : "border-gray-300"
+                      }`}
+                      error={
+                        !value && errors ? `${name} is required` : undefined
+                      }
                       setValue={setValue}
                     />
                   )}

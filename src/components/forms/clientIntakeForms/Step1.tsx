@@ -5,6 +5,9 @@ import Button from "../../buttons/Button";
 import type { StepFormProps } from "../../../utils/interfaces";
 import ImageUpload from "../ImageUpload";
 import { toast } from "react-toastify";
+import { emailRegex, phoneRegex } from "../../../utils/utilities";
+import { useAppSelector } from "../../../store/store";
+import Loader from "../../Loader";
 
 const Step1: React.FC<StepFormProps> = React.memo(
   ({
@@ -17,15 +20,17 @@ const Step1: React.FC<StepFormProps> = React.memo(
     errors,
     validateStep,
   }) => {
+    const { isLoading } = useAppSelector((state) => state.commonSlice);
+
     const isAddDog = selectedClientInfo?.client?._id; // add the time of new dog added against already created cleint
 
     const handleNext = () => {
       // if (image || isAddDog) {
-      //   if (validateStep(1)) {
+      // if (validateStep(1)) {
       setStep((prev: number) => prev + 1);
-      //   } else {
-      //     toast.error("Please fill all required fields");
-      //   }
+      // } else {
+      //   toast.error("Please fill all required fields with format");
+      // }
       // } else {
       //   toast.error("Please select image");
       // }
@@ -40,6 +45,8 @@ const Step1: React.FC<StepFormProps> = React.memo(
               className="bg-brand-blue rounded-full xxs:w-[100px] xxs:h-[100px] md:w-[144px] md:h-[144px]"
             />
           </div>
+        ) : isLoading ? (
+          <Loader isBlue={true} padding={10} />
         ) : (
           <ImageUpload
             image={image}
@@ -63,7 +70,17 @@ const Step1: React.FC<StepFormProps> = React.memo(
                   errors[field.name] ? "border-red-500" : "border-gray-300"
                 }`}
                 setValue={(val) => handleFieldChange("client", field.name, val)}
-                error={errors[field.name]}
+                error={
+                  errors[field.name] &&
+                  ["phone2", "phone1"]?.includes(field.name) &&
+                  !phoneRegex.test(formData.client?.[field.name])
+                    ? "Invalid phone number format"
+                    : errors[field.name] &&
+                      field.name === "email" &&
+                      !emailRegex.test(formData.client?.[field.name])
+                    ? "Invalid email format"
+                    : errors[field.name]
+                }
               />
             </div>
           ))}

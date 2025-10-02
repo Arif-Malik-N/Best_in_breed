@@ -13,6 +13,8 @@ import Loader from "../components/Loader";
 
 const SignIn = () => {
   const dispatch = useAppDispatch();
+
+  const [errors, setErrors] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -25,6 +27,12 @@ const SignIn = () => {
 
   // login function
   const handleLogin = async () => {
+    // show error if any field is none
+    if (!email || !password) {
+      setErrors("error");
+      return;
+    }
+
     try {
       // object to send to api
       const dataToSend = { email: email, password: password };
@@ -41,6 +49,7 @@ const SignIn = () => {
 
   const fields: field[] = [
     {
+      value: email,
       name: "Email",
       type: "email",
       placeholder: "Enter Your Email",
@@ -50,6 +59,7 @@ const SignIn = () => {
       endIcon: undefined,
     },
     {
+      value: password,
       name: "Password",
       type: showPassword ? "text" : "password",
       placeholder: "Enter Your Password",
@@ -88,6 +98,7 @@ const SignIn = () => {
                 <div>
                   {fields.map(
                     ({
+                      value,
                       name,
                       type,
                       placeholder,
@@ -103,13 +114,22 @@ const SignIn = () => {
                           <Input
                             type={type}
                             placeholder={placeholder}
-                            className={className}
+                            className={`${className} ${
+                              !value && errors ? "border border-red-500" : ""
+                            }`}
+                            error={
+                              !value && errors
+                                ? `${name} is required`
+                                : undefined
+                            }
                             setValue={setValue}
                           />
                           {/* Eye endIcon to toggle password visibility */}
                           {name === "Password" && (
                             <div
-                              className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                              className={`absolute right-4 ${
+                                !value && errors ? "top-8" : "top-1/2"
+                              } transform -translate-y-1/2 cursor-pointer`}
                               onClick={togglePassword}
                             >
                               {endIcon}

@@ -8,7 +8,7 @@ import Button from "./buttons/Button";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { getSessions } from "../store/session/sessionAction";
 import Loader from "./Loader";
-import { formatTimeRangeTo12Hour } from "../utils/utilityFunctions";
+import { formatTimeRangeTo12Hour } from "../utils/utilities";
 
 type CalendarEvent = {
   title: string;

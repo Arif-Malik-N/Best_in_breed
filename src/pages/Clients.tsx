@@ -85,7 +85,7 @@ function Clients() {
       {isLoading ? (
         <Loader isBlue={true} padding={10} />
       ) : clients?.result?.length > 0 ? (
-        <div className="grid xxs:grid-cols-1 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-10 gap-3 sm:gap-6 pt-4 lg:pt-8">
+        <div className="grid xxs:grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 3xl:grid-cols-8 gap-3 sm:gap-4 lg:gap-6 pt-4 lg:pt-8">
           {clients?.result?.map(
             ({
               _id,

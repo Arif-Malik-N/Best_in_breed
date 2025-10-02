@@ -16,7 +16,11 @@ const ProfileAndNotification: React.FC<ProfileAndNotProps> = ({
         <Link to="/profile">
           <div className="flex cursor-pointer">
             <div className="bg-gray-200 rounded-full">
-              <img src={profileImg} alt="profile" className="w-12 h-w-12" />
+              <img
+                src={profileImg}
+                alt="profile"
+                className="w-12 h-w-12 rounded-full"
+              />
             </div>
             <AiOutlineDown className="ml-1 mt-4" />
           </div>

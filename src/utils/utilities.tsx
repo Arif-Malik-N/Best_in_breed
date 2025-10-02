@@ -19,3 +19,10 @@ export const formatTimeRangeTo12Hour = (range: string): string => {
     ? `${formatTimeTo12Hour(start)} - ${formatTimeTo12Hour(end)}`
     : range;
 };
+
+// regix
+export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const phoneRegex = /^(\+1\s?)?(\(?\d{3}\)?[\s.-]?)?\d{3}[\s.-]?\d{4}$/;
+export const addressRegex = /^\d+\s[A-z]+\s[A-z]+.*$/;
+export const passwordRegex =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;

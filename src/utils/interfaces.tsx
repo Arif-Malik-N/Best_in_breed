@@ -240,7 +240,7 @@ export interface InputProps {
   startIcon?: string | React.ReactNode;
   endIcon?: string | React.ReactNode;
   rows?: number;
-  error?: string;
+  error?: string | false;
 }
 
 // Generic props with a setter for type switching
@@ -282,7 +282,7 @@ export interface NavigationTopBarProp {
 }
 
 export interface ClientIntakeFormProp {
-  client: Partial<ClientForm>;
+  client?: Partial<ClientForm>;
   dog: Partial<DogForm>;
   contract: Partial<ContractForm>;
   clientId?: string;
@@ -336,12 +336,18 @@ export interface LoaderProps {
   isBlue?: boolean;
   padding?: number;
 }
-// for store
-// export interface authSliceState {
-//   token: null;
-//   userData: [];
-//   otp: null | string;
-// }
+export interface ModalProps {
+  title: string;
+  description: string;
+  buttonText: string;
+  buttonColor: string;
+  onConfirm: () => void;
+  icon: string;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+// ================> for store redux
 
 // for auth directory
 export interface LoginRedux {

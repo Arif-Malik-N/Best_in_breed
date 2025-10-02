@@ -7,6 +7,9 @@ import type { StepFormProps } from "../../../utils/interfaces";
 import Select from "../../fields/Select";
 import ImageUpload from "../ImageUpload";
 import { toast } from "react-toastify";
+import { phoneRegex } from "../../../utils/utilities";
+import { useAppSelector } from "../../../store/store";
+import Loader from "../../Loader";
 
 const Step2: React.FC<StepFormProps> = ({
   setStep,
@@ -17,13 +20,15 @@ const Step2: React.FC<StepFormProps> = ({
   errors,
   validateStep,
 }) => {
+  const { isLoading } = useAppSelector((state) => state.commonSlice);
+
   const handleNext = () => {
     // if (image) {
-    //   if (validateStep(2)) {
-    setStep((prev: number) => prev + 1);
-    //   } else {
-    //     toast.error("Please fill all required fields");
-    //   }
+    if (validateStep(2)) {
+      setStep((prev: number) => prev + 1);
+    } else {
+      toast.error("Please fill all required fields");
+    }
     // } else {
     //   toast.error("Please select image");
     // }
@@ -38,10 +43,14 @@ const Step2: React.FC<StepFormProps> = ({
           Best in Breed Dog Training
         </h1>
         <div className="my-5 sm:my-10">
-          <ImageUpload
-            image={image}
-            handleImageUpdate={(e) => handleImageUpdate(e, "dog")}
-          />
+          {isLoading ? (
+            <Loader isBlue={true} padding={10} />
+          ) : (
+            <ImageUpload
+              image={image}
+              handleImageUpdate={(e) => handleImageUpdate(e, "dog")}
+            />
+          )}
         </div>
         <div className="grid sm:grid-cols-4 gap-2 sm:gap-4 items-center xxs:mt-6 sm:mt-0 mb-1 sm:my-8 lg:my-12">
           {/* Left: Address text */}
@@ -80,7 +89,16 @@ const Step2: React.FC<StepFormProps> = ({
                       setValue={(val) =>
                         handleFieldChange("dog", field.name, val)
                       }
-                      error={errors[field.name]}
+                      // error={errors[field.name]}
+                      error={
+                        errors[field.name] &&
+                        ["cellPhone", "homePhone", "workPhone"]?.includes(
+                          field.name
+                        ) &&
+                        !phoneRegex.test(formData.dog?.[field.name])
+                          ? "Invalid phone number format"
+                          : errors[field.name]
+                      }
                     />
                   </div>
                 );

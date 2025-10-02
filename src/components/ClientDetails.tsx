@@ -8,7 +8,7 @@ import {
   AiOutlinePhone,
   AiOutlineUp,
 } from "react-icons/ai";
-import { pdf } from "../assets/images";
+import { deleteIcon, pdf } from "../assets/images";
 import Button from "./buttons/Button";
 import ReportForm from "./forms/clientIntakeForms/ReportForm";
 import { FaPlusCircle } from "react-icons/fa";
@@ -17,12 +17,14 @@ import { deleteReport } from "../store/client/clientAction";
 import { toast } from "react-toastify";
 import Loader from "./Loader";
 import { useNavigate } from "react-router-dom";
+import Modal from "./modal/Modal";
 
 const ClientDetails: React.FC<clientDetailProp> = React.memo(
   ({ selectedClientInfo, setSelectedClientInfo, setRenderPage }) => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const { isLoading } = useAppSelector((state) => state.commonSlice);
+    const [isModalOpen, setIsModalOpen] = useState(false); // for modal
 
     const [isReportFormRender, setIsReportFormRender] = useState(false);
     const [openDogId, setOpenDogId] = useState<string | null>(
@@ -49,6 +51,8 @@ const ClientDetails: React.FC<clientDetailProp> = React.memo(
               response?.data?.message || "Report Deleted Successfully"
             );
           }, 1000);
+        } else {
+          toast.success("Unable to delete the report. Please try again later.");
         }
       } catch (error) {
         console.error(error);
@@ -237,9 +241,20 @@ const ClientDetails: React.FC<clientDetailProp> = React.memo(
                             ) : (
                               <AiOutlineDelete
                                 className="cursor-pointer"
-                                onClick={() => handleDeleteReport(_id)}
+                                color="red"
+                                onClick={() => setIsModalOpen(true)}
                               />
                             )}
+                            <Modal
+                              isOpen={isModalOpen}
+                              onClose={() => setIsModalOpen(false)}
+                              title="Delete Report?"
+                              description="Are you sure you want to delete this report? This action cannot be undone."
+                              buttonText="Yes, Delete Report"
+                              buttonColor="bg-red-600"
+                              onConfirm={() => handleDeleteReport(_id)}
+                              icon={deleteIcon}
+                            />
                           </div>
                         </div>
                       ))}
