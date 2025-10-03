@@ -7,7 +7,6 @@ import type { StepFormProps } from "../../../utils/interfaces";
 import Select from "../../fields/Select";
 import ImageUpload from "../ImageUpload";
 import { toast } from "react-toastify";
-import { phoneRegex } from "../../../utils/utilities";
 import { useAppSelector } from "../../../store/store";
 import Loader from "../../Loader";
 
@@ -23,15 +22,15 @@ const Step2: React.FC<StepFormProps> = ({
   const { isLoading } = useAppSelector((state) => state.commonSlice);
 
   const handleNext = () => {
-    // if (image) {
-    if (validateStep(2)) {
-      setStep((prev: number) => prev + 1);
+    if (image) {
+      if (validateStep(2)) {
+        setStep((prev: number) => prev + 1);
+      } else {
+        toast.error("Please fill all required fields");
+      }
     } else {
-      toast.error("Please fill all required fields");
+      toast.error("Please select image");
     }
-    // } else {
-    //   toast.error("Please select image");
-    // }
   };
 
   return (
@@ -89,16 +88,7 @@ const Step2: React.FC<StepFormProps> = ({
                       setValue={(val) =>
                         handleFieldChange("dog", field.name, val)
                       }
-                      // error={errors[field.name]}
-                      error={
-                        errors[field.name] &&
-                        ["cellPhone", "homePhone", "workPhone"]?.includes(
-                          field.name
-                        ) &&
-                        !phoneRegex.test(formData.dog?.[field.name])
-                          ? "Invalid phone number format"
-                          : errors[field.name]
-                      }
+                      error={errors[field.name]}
                     />
                   </div>
                 );

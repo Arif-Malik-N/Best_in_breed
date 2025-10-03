@@ -1,7 +1,7 @@
 import React from "react";
 import { FaRegEdit } from "react-icons/fa";
 import type { ImageUploadProps } from "../../utils/interfaces";
-import { client1 } from "../../assets/images";
+import { avatar, client1 } from "../../assets/images";
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
   image,
@@ -12,7 +12,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     <div className="place-items-center">
       <div className="bg-brand-blue xxs:w-[100px] xxs:h-[100px] md:w-[144px] md:h-[144px] rounded-full relative">
         <img
-          src={image || null}
+          src={image || avatar}
           className="xxs:w-[100px] xxs:h-[100px] md:w-[144px] md:h-[144px] rounded-full object-cover"
         />
 

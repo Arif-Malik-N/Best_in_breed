@@ -19,7 +19,7 @@ const TextArea: React.FC<InputProps> = ({
         onChange={(e) => setValue(e.target.value)}
       />
       {/* Error message */}
-      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+      {error && <p className="text-red-500 text-xs mt-[-2px]">{error}</p>}
     </>
   );
 };

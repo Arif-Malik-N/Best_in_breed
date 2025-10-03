@@ -2,6 +2,7 @@ import React from "react";
 import type { InputProps } from "../../utils/interfaces";
 
 const Input: React.FC<InputProps> = ({
+  ref,
   value,
   type,
   readOnly,
@@ -24,6 +25,7 @@ const Input: React.FC<InputProps> = ({
         )}
 
         <input
+          ref={ref}
           value={value}
           min="0"
           type={type}

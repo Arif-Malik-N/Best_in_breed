@@ -23,7 +23,12 @@ import {
 } from "../../../utils/arrays";
 import { useNavigate } from "react-router-dom";
 import { getMetrices } from "../../../store/session/sessionAction";
-import { emailRegex, phoneRegex } from "../../../utils/utilities";
+import {
+  emailRegex,
+  isPastDate,
+  mailingAddressRegex,
+  phoneRegex,
+} from "../../../utils/utilities";
 
 const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
   ({ setRenderPage, selectedClientInfo }) => {
@@ -49,7 +54,7 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
 
     // to run when user type in fields (along with images (after they uploaded))
     const handleFieldChange = (
-      section: keyof ClientIntakeForm,
+      section: ClientIntakeFormProp,
       name: string,
       value: string | number | Date | boolean | string[]
     ) => {
@@ -67,11 +72,52 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
       }));
 
       // clear error if exists
-      if (errors[name]) {
+      if (value) {
         setErrors((prev) => {
           const newErrors = { ...prev };
+
+          const startDate =
+            name === "startDate" ? value : formData?.contract?.startDate;
+          const endDate =
+            name === "endDate" ? value : formData?.contract?.endDate;
+          const startTime =
+            name === "startTime" ? value : formData?.contract?.startTime;
+          const endTime =
+            name === "endTime" ? value : formData?.contract?.endTime;
+
+          if (["startDate", "endDate"].includes(name)) {
+            if (isPastDate(value as string)) {
+              newErrors[name] = "Date cannot be in the past";
+            } else {
+              delete newErrors[name];
+            }
+          }
+
+          if (["startDate", "endDate", "startTime", "endTime"].includes(name)) {
+            // 1. Check if End Date is before Start Date
+            if (startDate > endDate) {
+              newErrors["endDate"] =
+                "End Date cannot be earlier than Start Date";
+            } else {
+              delete newErrors["endDate"];
+            }
+
+            // 2. Check if End Time is before Start Time (only if dates match)
+            if (startTime > endTime) {
+              newErrors["endTime"] =
+                "End Time cannot be earlier than Start Time";
+            } else {
+              delete newErrors["endTime"];
+            }
+          }
+
           if (
             ![
+              "startDate",
+              "endDate",
+              "startTime",
+              "endTime",
+              "mailingAddress",
               "email",
               "phone2",
               "phone1",
@@ -82,21 +128,45 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
           ) {
             delete newErrors[name];
           } else {
-            // for phone
-            if (name !== "email" && phoneRegex.test(value))
-              delete newErrors[name];
-
-            // for email
-            if (name === "email" && emailRegex.test(value))
-              delete newErrors[name];
+            if (name === "email") {
+              if (emailRegex.test(value)) {
+                delete newErrors[name];
+              } else {
+                newErrors[name] = "Invalid email address";
+              }
+            } else if (name === "mailingAddress") {
+              if (mailingAddressRegex.test(value)) {
+                delete newErrors[name];
+              } else {
+                newErrors[name] = "Invalid mailing address";
+              }
+            } else if (
+              [
+                "phone2",
+                "phone1",
+                "cellPhone",
+                "homePhone",
+                "workPhone",
+              ]?.includes(name)
+            ) {
+              if (phoneRegex.test(value)) {
+                delete newErrors[name];
+              } else {
+                newErrors[name] = "Invalid phone number";
+              }
+            }
           }
 
           return newErrors;
         });
+      } else {
+        setErrors((prev) => {
+          const newErrors = { ...prev };
+          newErrors[name] = `This field is required`;
+          return newErrors;
+        });
       }
     };
-    console.log(errors);
-    console.log(formData?.dog);
 
     // to handle field empty validation
     const validateStep = (step: number): boolean => {
@@ -104,47 +174,23 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
 
       if (step === 1) {
         cifStep1Fields.forEach(({ name }) => {
-          const client = formData.client;
-          const matchingKey = Object.keys(client).find(
-            (key) => client[key] === formData.client?.[name]
-          );
-
           if (!formData.client?.[name]) {
             newErrors[name] = `This field is required`;
           } // empty validation
-          if (
-            ["phone2", "phone1"]?.includes(matchingKey) &&
-            !phoneRegex.test(formData.client?.[name])
-          ) {
-            newErrors[name] = `This field is required`;
-          } // number validation
-          if (
-            matchingKey === "email" &&
-            !emailRegex.test(formData.client?.[name])
-          ) {
-            newErrors[name] = `This field is required`;
-          } // email validation
         });
       }
 
       if (step === 2) {
-        cifStep2Fields.forEach(({ name }) => {
-          const dog = formData.dog;
-          const matchingKey = Object.keys(dog).find(
-            (key) => dog[key] === formData.dog?.[name]
-          );
+        // for mailing address field
+        if (!formData.dog?.["mailingAddress"]) {
+          newErrors["mailingAddress"] = `This field is required`;
+        } // empty validation
 
+        // for remainig fields
+        cifStep2Fields.forEach(({ name }) => {
           if (!formData.dog?.[name]) {
             newErrors[name] = `This field is required`;
           } // empty validation
-          if (
-            ["cellPhone", "homePhone", "workPhone"]?.includes(matchingKey) &&
-            !phoneRegex.test(formData.dog?.[name])
-          ) {
-            console.log(name);
-
-            newErrors[name] = `This field is required`;
-          } // number validation
         });
       }
 
@@ -194,13 +240,20 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
 
     // to submit all three forms data hit after client on third's form submit button
     const handleSubmit = async () => {
-      if (
-        !formData?.contract?.dogOwnerSignaturePictureId ||
-        !formData?.contract?.representativeSignaturePictureId
-      ) {
+      const { dogOwnerSignaturePictureId, representativeSignaturePictureId } =
+        formData?.contract || {};
+
+      if (!dogOwnerSignaturePictureId && !representativeSignaturePictureId) {
         toast.error("Please sign both signature fields");
         return;
+      } else if (!dogOwnerSignaturePictureId) {
+        toast.error("Please sign the Dog Owner field");
+        return;
+      } else if (!representativeSignaturePictureId) {
+        toast.error("Please sign the Representative field");
+        return;
       }
+
       if (!validateStep(3)) {
         toast.error("Please fill all fields");
         return;

@@ -230,6 +230,7 @@ export interface DialogProps {
 
 // Props for an input field component
 export interface InputProps {
+  ref?: React.Ref<HTMLInputElement>;
   options?: FieldOption[];
   value?: string | number | Date | boolean | string[];
   readOnly?: boolean;
@@ -333,6 +334,7 @@ export interface ImageUploadProps {
 }
 
 export interface LoaderProps {
+  isSmall?: boolean;
   isBlue?: boolean;
   padding?: number;
 }
@@ -406,4 +408,12 @@ export interface AddReportRedux {
   goal: string;
   behavior: string;
   sessionNotes: string;
+}
+
+export interface StructuredAddress {
+  line1?: string;
+  city?: string;
+  state?: string;
+  postal_code?: string;
+  country?: string;
 }

@@ -28,6 +28,7 @@ import certificate5 from "./certificate5.jpg";
 import aboutPageDog from "./aboutPageDog.png";
 import dog1 from "./dog1.png";
 import dog2 from "./dog2.png";
+import mobileFrame from "./mobileFrame.png";
 
 // icons
 import email from "../icons/email.png";
@@ -46,6 +47,7 @@ import group from "../icons/group.png";
 import client1Icon from "../icons/client1Icon.png";
 import pdf from "../icons/pdf.png";
 import deleteIcon from "../icons/deleteIcon.png";
+import avatar from "../icons/avatar.png";
 
 // svg
 import tabIcon from "../icons/tabIcon.svg";
@@ -81,6 +83,7 @@ export {
   aboutPageDog,
   dog1,
   dog2,
+  mobileFrame,
 
   // icons
   email,
@@ -99,6 +102,7 @@ export {
   client1Icon,
   pdf,
   deleteIcon,
+  avatar,
 
   // svg
   tabIcon,

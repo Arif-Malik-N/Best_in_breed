@@ -14,7 +14,7 @@ const Header = () => {
     { name: "Clients", url: "/clients", className: "" },
     { name: "Contracts", url: "/contracts", className: "" },
     { name: "About us", url: "/about-us", className: "" },
-    { name: "Review", url: "/review", className: "" },
+    { name: "Reviews", url: "/review", className: "" },
     { name: "Profile", url: "/profile", className: "xxs:block sm:hidden" },
     {
       name: "Notification",
@@ -31,11 +31,12 @@ const Header = () => {
     >
       <div className="mx-auto flex items-center justify-between">
         {/* Logo */}
-        <img
-          src={logo}
-          alt="logo"
-          className="xxs:w-[50%] xs:w-[40%] sm:w-[30%] md:w-[25%] lg:w-[22%] xl:w-[20%]"
-        />
+        <Link
+          to="/"
+          className="xxs:w-[50%] xs:w-[40%] sm:w-[30%] md:w-[25%] lg:w-[22%] xl:w-[20%] outline-none"
+        >
+          <img src={logo} alt="logo" className="" />
+        </Link>
         <div className="flex items-center xxs:gap-2 xs:gap-4 md:hidden">
           {/* profile and notification  */}
           <ProfileAndNotification className={"xxs:hidden sm:block md:hidden"} />

@@ -262,7 +262,7 @@ const Step3: React.FC<Step3FormProps> = ({
         ))}
       </div>
 
-      <div className="space-y-4">
+      <div className="mb-4">
         <Input
           value={formData?.contract?.["trainingFee"] || ""}
           type="number"
@@ -272,18 +272,18 @@ const Step3: React.FC<Step3FormProps> = ({
           }`}
           setValue={(val) => handleFieldChange("contract", "trainingFee", val)}
           error={errors["trainingFee"]}
-        />{" "}
-        <TextArea
-          rows={5}
-          value={formData?.contract?.["notesAndTerms"] || ""}
-          placeholder="Notes & Terms"
-          className="w-full bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none pt-3"
-          setValue={(val) =>
-            handleFieldChange("contract", "notesAndTerms", val)
-          }
-          error={errors["notesAndTerms"]}
         />
       </div>
+      <TextArea
+        rows={5}
+        value={formData?.contract?.["notesAndTerms"] || ""}
+        placeholder="Notes & Terms"
+        className={`w-full bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none pt-3 ${
+          errors["trainingFee"] && "border border-red-500"
+        } `}
+        setValue={(val) => handleFieldChange("contract", "notesAndTerms", val)}
+        error={errors["notesAndTerms"]}
+      />
       {/* Agreement Text */}
       <div className="space-y-6 py-10 xxs:text-xs xs:xxs:text-xs xs:xxs:text-md md:text-xl">
         <section className="space-y-3">
@@ -417,9 +417,9 @@ const Step3: React.FC<Step3FormProps> = ({
             />
           </div>
 
-          <div className="absolute right-2 top-[120px] md:top-[85%] transform -translate-y-1/2">
+          <div className="absolute right-16 md:right-20 top-[40px] md:top-[35%] transform -translate-y-1/2">
             <Button
-              name="Save"
+              name={isLoading ? <Loader isSmall={true} /> : "Save"}
               disabled={isLoading}
               className={`w-[45px] md:w-[60px] bg-brand-blue rounded-lg text-white font-semibold text-xs md:text-sm py-0.5 md:py-1 outline-none ${
                 isLoading && "cursor-not-allowed"
@@ -463,16 +463,16 @@ const Step3: React.FC<Step3FormProps> = ({
             }}
             onEnd={() => onEndSign(repSigRef, "representative")}
           />
-          <div className="absolute right-2 top-[40px] md:top-[40%] transform -translate-y-1/2">
+          <div className="absolute right-2 top-[40px] md:top-[35%] transform -translate-y-1/2">
             <Button
               name="Clear"
               className="w-[45px] md:w-[60px] bg-red-400 rounded-lg text-white font-semibold text-xs md:text-sm py-0.5 md:py-1 outline-none"
               onClick={() => handleClearSign(repSigRef, "representative")}
             />
           </div>
-          <div className="absolute right-2 top-[120px] md:top-[85%] transform -translate-y-1/2">
+          <div className="absolute right-16 md:right-20 top-[40px] md:top-[35%] transform -translate-y-1/2">
             <Button
-              name="Save"
+              name={isLoading ? <Loader isSmall={true} /> : "Save"}
               disabled={isLoading}
               className={`w-[45px] md:w-[60px] bg-brand-blue rounded-lg text-white font-semibold text-xs md:text-sm py-0.5 md:py-1 outline-none ${
                 isLoading && "cursor-not-allowed"

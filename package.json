@@ -15,6 +15,7 @@
     "@fullcalendar/interaction": "^6.1.19",
     "@fullcalendar/react": "^6.1.19",
     "@fullcalendar/timegrid": "^6.1.19",
+    "@googlemaps/js-api-loader": "^2.0.1",
     "@reduxjs/toolkit": "^2.9.0",
     "axios": "^1.12.2",
     "react": "^19.1.0",

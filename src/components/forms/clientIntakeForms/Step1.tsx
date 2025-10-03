@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { cifStep1Fields } from "../../../utils/arrays";
 import Input from "../../fields/Input";
 import Button from "../../buttons/Button";
 import type { StepFormProps } from "../../../utils/interfaces";
 import ImageUpload from "../ImageUpload";
 import { toast } from "react-toastify";
-import { emailRegex, phoneRegex } from "../../../utils/utilities";
+import { fetchPlaceDetails, fetchPlaces } from "../../../utils/utilities";
 import { useAppSelector } from "../../../store/store";
 import Loader from "../../Loader";
+
+type Prediction = {
+  description: string;
+  place_id: string;
+};
 
 const Step1: React.FC<StepFormProps> = React.memo(
   ({
@@ -20,21 +25,38 @@ const Step1: React.FC<StepFormProps> = React.memo(
     errors,
     validateStep,
   }) => {
+    const addressRef = useRef<HTMLInputElement>(null);
     const { isLoading } = useAppSelector((state) => state.commonSlice);
+    const [options, setOptions] = useState<Prediction[]>([]);
+    const [placeId, setPlaceId] = useState<string>(""); // place_id
+    const [isTyping, setIsTyping] = useState<boolean>(false);
 
     const isAddDog = selectedClientInfo?.client?._id; // add the time of new dog added against already created cleint
 
     const handleNext = () => {
-      // if (image || isAddDog) {
-      // if (validateStep(1)) {
-      setStep((prev: number) => prev + 1);
-      // } else {
-      //   toast.error("Please fill all required fields with format");
-      // }
-      // } else {
-      //   toast.error("Please select image");
-      // }
+      if (image || isAddDog) {
+        if (validateStep(1)) {
+          setStep((prev: number) => prev + 1);
+        } else {
+          toast.error("Please fill all required fields with format");
+        }
+      } else {
+        toast.error("Please select image");
+      }
     };
+
+    useEffect(() => {
+      if (isTyping && formData?.client?.address) {
+        fetchPlaces(formData.client.address).then((e) => {
+          setOptions(e || []);
+        });
+      }
+      if (placeId) {
+        fetchPlaceDetails(placeId).then((state) => {
+          handleFieldChange("client", "subdivision", state);
+        });
+      }
+    }, [formData?.client?.address, isTyping]);
 
     return (
       <div>
@@ -57,31 +79,49 @@ const Step1: React.FC<StepFormProps> = React.memo(
         <div className="grid grid-cols-12 gap-3 sm:gap-4 my-3 sm:my-8">
           {cifStep1Fields.map((field, index) => (
             <div key={index} className={field.colSpan}>
-              <div className="mx-1 sm:mb-1 font-semibold xxs:text-sm sm:text-base">
+              <div className="sm:mb-1 font-semibold xxs:text-sm sm:text-base">
                 {field.label}
               </div>
 
-              <Input
-                type={field.type || "text"}
-                value={formData.client?.[field.name] || ""}
-                readOnly={isAddDog}
-                placeholder={field.placeholder}
-                className={`w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 xxs:text-sm sm:text-base placeholder-gray-700 border border-gray-300 focus:outline-none  ${
-                  errors[field.name] ? "border-red-500" : "border-gray-300"
-                }`}
-                setValue={(val) => handleFieldChange("client", field.name, val)}
-                error={
-                  errors[field.name] &&
-                  ["phone2", "phone1"]?.includes(field.name) &&
-                  !phoneRegex.test(formData.client?.[field.name])
-                    ? "Invalid phone number format"
-                    : errors[field.name] &&
-                      field.name === "email" &&
-                      !emailRegex.test(formData.client?.[field.name])
-                    ? "Invalid email format"
-                    : errors[field.name]
-                }
-              />
+              <div className="relative">
+                <Input
+                  ref={field.name === "address" ? addressRef : undefined}
+                  type={field.type || "text"}
+                  value={formData.client?.[field.name] || ""}
+                  readOnly={isAddDog}
+                  placeholder={field.placeholder}
+                  className={`w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 xxs:text-sm sm:text-base placeholder-gray-700 border border-gray-300 focus:outline-none  ${
+                    errors[field.name] ? "border-red-500" : "border-gray-300"
+                  }`}
+                  setValue={(val) => {
+                    handleFieldChange("client", field.name, val);
+                    if (field.name === "address") {
+                      setIsTyping(true);
+                    }
+                  }}
+                  error={errors[field.name]}
+                />
+
+                {/* Suggestions dropdown only for address */}
+                {field.name === "address" && options.length > 0 && (
+                  <ul className="absolute z-50 bg-white border border-gray-300 rounded-md mt-1 w-full max-h-60 overflow-y-auto shadow-lg">
+                    {options.map((p) => (
+                      <li
+                        key={p.place_id}
+                        onClick={() => {
+                          handleFieldChange("client", "address", p.description);
+                          setPlaceId(p.place_id);
+                          setOptions([]); // hide dropdown immediately
+                          setIsTyping(false); // prevent reopening until typing again
+                        }}
+                        className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                      >
+                        {p.description}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </div>
           ))}
         </div>

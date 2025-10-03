@@ -1,51 +1,61 @@
 import React, { useState, useEffect } from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import { mobileFrame } from "../assets/images"; // Your mobile frame image
 
 const testimonials = [
   {
     rating: 5,
     quote:
-      "You made it so simple. My new site is so much faster and easier to work with than my old site. I just choose the page, make the change.",
-    name: "Leslie Alexander",
-    title: "Freelance React Developer",
+      "My Labrador went from wild to wonderful! The trainers are patient and professional. Best investment ever!",
+    name: "Sarah M.",
+    title: "Labrador Owner",
     image:
-      "https://cdn.rareblocks.xyz/collection/clarity/images/testimonial/4/avatar-male-1.png",
+      "https://cdn.rareblocks.xyz/collection/clarity/images/testimonial/4/avatar-female.png",
   },
   {
     rating: 5,
     quote:
-      "Simply the best. Better than all the rest. I’d recommend this product to beginners and advanced users.",
-    name: "Jacob Jones",
-    title: "Digital Marketer",
+      "Our German Shepherd learned commands so quickly. The team truly understands dog behavior and training methods.",
+    name: "Michael T.",
+    title: "German Shepherd Owner",
     image:
       "https://cdn.rareblocks.xyz/collection/clarity/images/testimonial/4/avatar-male-2.png",
   },
   {
     rating: 5,
     quote:
-      "I cannot believe that I have got a brand new landing page after getting Omega. It was super easy to edit and publish.",
-    name: "Jenny Wilson",
-    title: "Graphic Designer",
-    image:
-      "https://cdn.rareblocks.xyz/collection/clarity/images/testimonial/4/avatar-female.png",
-  },
-  {
-    rating: 4,
-    quote:
-      "Great value for the price. Customer support was amazing and really helpful throughout.",
-    name: "Tom Hardy",
-    title: "UX Designer",
+      "Amazing results with our Border Collie! She’s now the best-behaved dog at the park. Thank you Best in Breed!",
+    name: "Emma R.",
+    title: "Border Collie Owner",
     image:
       "https://cdn.rareblocks.xyz/collection/clarity/images/testimonial/4/avatar-female.png",
   },
   {
     rating: 5,
     quote:
-      "My website now looks amazing! Thanks for the clean and modern template.",
-    name: "Amelia Brown",
-    title: "Frontend Developer",
+      "Best in Breed transformed our hyper Beagle into a calm companion. The progress is unbelievable!",
+    name: "James H.",
+    title: "Beagle Owner",
+    image:
+      "https://cdn.rareblocks.xyz/collection/clarity/images/testimonial/4/avatar-male-2.png",
+  },
+  {
+    rating: 5,
+    quote:
+      "Our Poodle used to bark at everything. Now she’s calm and listens perfectly. Couldn’t be happier!",
+    name: "Linda W.",
+    title: "Poodle Owner",
     image:
       "https://cdn.rareblocks.xyz/collection/clarity/images/testimonial/4/avatar-female.png",
+  },
+  {
+    rating: 5,
+    quote:
+      "In just a few weeks, our Bulldog is leash-trained and responsive. Highly recommend this training service!",
+    name: "Carlos D.",
+    title: "Bulldog Owner",
+    image:
+      "https://cdn.rareblocks.xyz/collection/clarity/images/testimonial/4/avatar-male-2.png",
   },
 ];
 
@@ -61,217 +71,116 @@ const StarIcon = () => (
 );
 
 const TestimonialCard = ({ testimonial }) => (
-  <div className="flex flex-col overflow-hidden shadow-xl rounded-xl bg-white min-h-[300px]">
-    <div className="flex flex-col justify-between flex-1 p-6 lg:py-8 lg:px-7">
-      <div className="flex-1">
-        <div className="flex items-center">
-          {Array.from({ length: testimonial.rating }, (_, i) => (
-            <StarIcon key={i} />
-          ))}
-        </div>
-        <blockquote className="flex-1 mt-8">
-          <p className="text-lg leading-relaxed text-gray-900 font-pj">
-            “{testimonial.quote}”
-          </p>
-        </blockquote>
-      </div>
-      <div className="flex items-center mt-8">
-        <img
-          className="flex-shrink-0 object-cover rounded-full w-11 h-11"
-          src={testimonial.image}
-          alt={testimonial.name}
-        />
-        <div className="ml-4">
-          <p className="text-base font-bold text-gray-900 font-pj">
-            {testimonial.name}
-          </p>
-          <p className="mt-0.5 text-sm font-pj text-gray-600">
-            {testimonial.title}
-          </p>
-        </div>
-      </div>
+  <div className="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center xs:w-[250px] xs:w-[290px] mx-auto min-h-[360px]">
+    <div className="flex">
+      {Array.from({ length: testimonial.rating }).map((_, i) => (
+        <StarIcon key={i} />
+      ))}
+    </div>
+    <p className="text-gray-700 mt-4 text-md italic">“{testimonial.quote}”</p>
+    <div className="mt-6 flex flex-col items-center">
+      <img
+        className="w-14 h-14 rounded-full object-cover"
+        src={testimonial.image}
+        alt={testimonial.name}
+      />
+      <p className="font-semibold text-gray-900 mt-2">{testimonial.name}</p>
+      <p className="text-sm text-gray-700">{testimonial.title}</p>
     </div>
   </div>
 );
 
 const Review = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const visibleCount = 3;
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      nextSlide();
+    const timer = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
     }, 4000);
-    return () => clearInterval(interval);
+    return () => clearInterval(timer);
   }, []);
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex + visibleCount >= testimonials.length
-        ? 0
-        : prevIndex + visibleCount
-    );
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
   };
 
   const prevSlide = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex - visibleCount < 0
-        ? testimonials.length - visibleCount
-        : prevIndex - visibleCount
+      prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
     );
   };
 
   return (
-    <section>
-      <div className="flex flex-col items-center">
-        {/* Header */}
-        <div className="text-center">
-          <p className="text-lg font-medium text-gray-600 font-pj">
-            2,157 people have said how good Best In Breed
-          </p>
-          <h2 className="mt-4 text-3xl font-bold text-gray-900 sm:text-4xl xl:text-5xl font-pj">
-            Our happy clients say about us
-          </h2>
+    <section className="flex flex-col items-center">
+      {/* Header */}
+      <div className="text-center">
+        <h2 className="text-3xl sm:text-4xl xl:text-5xl font-bold text-black font-pj">
+          What Our Happy Clients{" "}
+          <span className="text-blue-500">Are Barking About!</span>
+        </h2>
+        <p className="mt-2 text-base text-gray-600">
+          Join hundreds of satisfied pet parents who've transformed their furry
+          friends
+        </p>
+      </div>
+
+      <div className="w-[100%] overflow-hidden flex flex-col items-center">
+        <div
+          className="mt-[200px] flex transition-transform duration-700 ease-in-out z-0"
+          style={{
+            // transform: `translateX(-${
+            //   (currentIndex / testimonials.length) * 100
+            // }%)`,
+            width: `400px`,
+            transform: `translateX(-${currentIndex * 100}%)`,
+            // width: `${testimonials.length * 100}%`,
+          }}
+        >
+          {testimonials.map((testimonial, index) => (
+            <div key={index} className="w-full flex-shrink-0 px-2">
+              <TestimonialCard testimonial={testimonial} />
+            </div>
+          ))}
         </div>
 
-        {/* Carousel */}
-        <div className="relative mt-10 w-full max-w-5xl">
-          {/* Left Button */}
-          <FaAngleLeft
-            onClick={prevSlide}
-            size={35}
-            className="absolute left-0 lg:left-[-50px] xl:left-[-100px] top-1/2 -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow-lg hover:bg-gray-100 cursor-pointer"
-          />
-
-          {/* Slider Wrapper */}
-          <div className="overflow-hidden">
+        {/* Frame with card inside */}
+        <div className="mt-[-510px] relative z-20">
+          <img src={mobileFrame} alt="Mobile Frame" className="w-full h-full" />
+          <div className="absolute top-[150px] left-[20px] right-[20px] bottom-[80px] overflow-hidden">
             <div
-              className="flex transition-transform duration-500 ease-in-out"
+              className="flex transition-transform duration-700 ease-in-out"
               style={{
-                transform: `translateX(-${
-                  (currentIndex / testimonials.length) * 100
-                }%)`,
-                width: `${(testimonials.length / visibleCount) * 100}%`,
+                transform: `translateX(-${currentIndex * 100}%)`,
+                width: `${testimonials.length * 16.5}%`,
               }}
             >
-              {testimonials.map((t, idx) => (
-                <div
-                  key={idx}
-                  className="w-full md:w-1/3 flex-shrink-0 px-2 my-5"
-                >
-                  <TestimonialCard testimonial={t} />
+              {testimonials.map((testimonial, index) => (
+                <div key={index} className="w-full flex-shrink-0 px-2">
+                  <TestimonialCard testimonial={testimonial} />
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Right Button */}
-          <FaAngleRight
-            onClick={nextSlide}
-            size={35}
-            className="absolute right-0 lg:right-[-50px] xl:right-[-100px] top-1/2 -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow-lg hover:bg-gray-100 cursor-pointer"
-          />
+          {/* Buttons under frame */}
+          <div className="absolute bottom-[40px] left-[90px] xs:left-[110px] mt-6 flex items-center gap-6">
+            <button
+              onClick={prevSlide}
+              className="px-4 py-2 bg-gray-200 rounded-full hover:bg-gray-300 transition outline-none"
+            >
+              <FaAngleLeft size={20} />
+            </button>
+            <button
+              onClick={nextSlide}
+              className="px-4 py-2 bg-gray-200 rounded-full hover:bg-gray-300 transition outline-none"
+            >
+              <FaAngleRight size={20} />
+            </button>
+          </div>
         </div>
       </div>
     </section>
   );
 };
-
-// const Review = () => {
-//   const [currentIndex, setCurrentIndex] = useState(0);
-//   const visibleCount = 3;
-
-//   // Auto slide every 4 seconds
-//   useEffect(() => {
-//     const interval = setInterval(() => {
-//       nextSlide();
-//     }, 4000);
-
-//     return () => clearInterval(interval);
-//   }, [currentIndex]);
-
-//   const nextSlide = () => {
-//     setCurrentIndex(
-//       (prevIndex) => (prevIndex + visibleCount) % testimonials.length
-//     );
-//   };
-
-//   const prevSlide = () => {
-//     setCurrentIndex(
-//       (prevIndex) =>
-//         (prevIndex - visibleCount + testimonials.length) % testimonials.length
-//     );
-//   };
-
-//   // Show only 3 testimonials at a time
-//   const getVisibleTestimonials = () => {
-//     const visible = [];
-//     for (let i = 0; i < visibleCount; i++) {
-//       visible.push(testimonials[(currentIndex + i) % testimonials.length]);
-//     }
-//     return visible;
-//   };
-
-//   return (
-//     <section>
-//       <div className="">
-//         <div className="flex flex-col items-center">
-//           <div className="text-center">
-//             <p className="text-lg font-medium text-gray-600 font-pj">
-//               2,157 people have said how good Best In Breed
-//             </p>
-//             <h2 className="mt-4 text-3xl font-bold text-gray-900 sm:text-4xl xl:text-5xl font-pj">
-//               Our happy clients say about us
-//             </h2>
-//           </div>
-
-//           <div className="mt-8 text-center md:mt-16">
-//             <a
-//               href="#"
-//               className="pb-2 text-base font-bold leading-7 text-gray-900 border-b-2 border-gray-900 hover:border-gray-600 hover:text-gray-600 font-pj"
-//             >
-//               Check all 2,157 reviews
-//             </a>
-//           </div>
-
-//           <div className="relative mt-10 md:mt-24 w-full">
-//             <div className="absolute -inset-x-1 inset-y-16 md:-inset-x-2 md:-inset-y-6 pointer-events-none">
-//               <div
-//                 className="w-full h-full max-w-5xl mx-auto rounded-3xl opacity-30 blur-lg filter"
-//                 style={{
-//                   background:
-//                     "linear-gradient(90deg, #44ff9a -0.55%, #44b0ff 22.86%, #8b44ff 48.36%, #ff6644 73.33%, #ebff70 99.34%)",
-//                 }}
-//               ></div>
-//             </div>
-
-//             <div className="relative flex items-center justify-between">
-//               {/* Left Button */}
-
-//               <FaAngleLeft
-//                 onClick={prevSlide}
-//                 size={35}
-//                 className=" left-0 z-10 p-2 text-2xl bg-white rounded-full shadow-lg hover:bg-gray-100 cursor-pointer"
-//               />
-
-//               {/* Testimonials */}
-//               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-10 mx-auto max-w-5xl w-full px-">
-//                 {getVisibleTestimonials().map((t, idx) => (
-//                   <TestimonialCard key={idx} testimonial={t} />
-//                 ))}
-//               </div>
-//               {/* Right Button */}
-//               <FaAngleRight
-//                 onClick={nextSlide}
-//                 size={35}
-//                 className=" right-0 z-10 p-2 text-2xl bg-white rounded-full shadow-lg hover:bg-gray-100 cursor-pointer"
-//               />
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// };
 
 export default Review;

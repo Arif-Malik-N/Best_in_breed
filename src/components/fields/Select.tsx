@@ -29,7 +29,11 @@ const Select: React.FC<InputProps> = ({
           </option>
         ))}
       </select>
-      <HiChevronDown className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+      <HiChevronDown
+        className={`w-4 h-4 absolute right-3 ${
+          !value && error ? "top-7" : "top-1/2"
+        } -translate-y-1/2 pointer-events-none`}
+      />
       {/* Error message */}
       {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
     </div>
