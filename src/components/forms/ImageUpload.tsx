@@ -1,7 +1,7 @@
 import React from "react";
 import { FaRegEdit } from "react-icons/fa";
 import type { ImageUploadProps } from "../../utils/interfaces";
-import { avatar, client1 } from "../../assets/images";
+import { avatar } from "../../assets/images";
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
   image,
