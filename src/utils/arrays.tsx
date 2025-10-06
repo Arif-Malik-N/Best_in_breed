@@ -1,4 +1,4 @@
-import { location, mainDog } from "../assets/images";
+import { location } from "../assets/images";
 import type { ClientForm, Column, Step2Field, Step3Field } from "./interfaces";
 
 // fields for client intake form step 1
@@ -397,42 +397,4 @@ export const contractColumns: Column[] = [
   // { key: "date", title: "Date", minWidth: 120 },
   { key: "email", title: "Email", minWidth: 220 },
   { key: "phone", title: "Phone", minWidth: 140 },
-];
-
-export const notifications = [
-  {
-    id: 1,
-    img: mainDog,
-    name: "John Carter",
-    description: "Booked a new obedience training session for Max",
-    time: "2h Ago",
-  },
-  {
-    id: 2,
-    img: mainDog,
-    name: "Emily Johnson",
-    description: "Requested feedback on Bella’s agility progress",
-    time: "3h Ago",
-  },
-  {
-    id: 3,
-    img: mainDog,
-    name: "Michael Lee",
-    description: "Confirmed enrollment for Luna in puppy classes",
-    time: "5h Ago",
-  },
-  {
-    id: 4,
-    img: mainDog,
-    name: "Sophia Williams",
-    description: "Scheduled a private session for Rocky’s behavior training",
-    time: "6h Ago",
-  },
-  {
-    id: 5,
-    img: mainDog,
-    name: "David Kim",
-    description: "Shared an update on Daisy’s progress in advanced training",
-    time: "1d Ago",
-  },
 ];

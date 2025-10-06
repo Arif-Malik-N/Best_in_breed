@@ -14,9 +14,13 @@ const notificationSlices = createSlice({
     saveNotifications: (state, { payload }) => {
       state.notifications = payload;
     },
+    addNewNotification: (state, { payload }) => {
+      state.notifications?.result?.unshift(payload);
+    },
   },
 });
 
-export const { saveNotifications } = notificationSlices.actions;
+export const { saveNotifications, addNewNotification } =
+  notificationSlices.actions;
 
 export default notificationSlices.reducer;
