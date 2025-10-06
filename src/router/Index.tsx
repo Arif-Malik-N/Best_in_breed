@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes } from "react-router";
 import {
   Home,
@@ -19,11 +19,12 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import type { AppRoute } from "../utils/interfaces";
 import { useAppSelector } from "../store/store";
+// import { io } from "socket.io-client";
+// import { baseURL } from "../apiRoutes/apiRoutes";
 
 const Routing = React.memo(() => {
+  // const socket = io(baseURL);
   const token = useAppSelector((state) => state.authSlices?.token);
-
-  // const token = true;
 
   const routes: AppRoute[] = [
     { path: "/", component: <Home /> },
@@ -39,6 +40,21 @@ const Routing = React.memo(() => {
     { path: "/reports", component: <Reports /> },
     { path: "/notification", component: <Notifications /> },
   ];
+
+  // useEffect(() => {
+  //   socket.on("connect", () => {
+  //     console.log("Connected to socket server:", socket.id);
+  //   });
+
+  //   socket.on("notification", (data) => {
+  //     console.log("Received notification:", data);
+  //   });
+
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, []);
+
   return (
     <div>
       {token ? (

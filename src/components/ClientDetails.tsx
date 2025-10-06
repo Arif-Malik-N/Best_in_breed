@@ -13,7 +13,7 @@ import Button from "./buttons/Button";
 import ReportForm from "./forms/clientIntakeForms/ReportForm";
 import { FaPlusCircle } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "../store/store";
-import { deleteReport } from "../store/client/clientAction";
+import { deleteReport } from "../store/report/reportAction";
 import { toast } from "react-toastify";
 import Loader from "./Loader";
 import { useNavigate } from "react-router-dom";

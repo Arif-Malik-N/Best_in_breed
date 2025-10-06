@@ -3,18 +3,24 @@ import Button from "../buttons/Button";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 import { useAppDispatch } from "../../store/store";
 import { getClientsWithContract } from "../../store/client/clientAction";
+import type { PaginationProps } from "../../utils/interfaces";
+import { getReports } from "../../store/report/reportAction";
 
-interface PaginationProps {
-  currentPage: number;
-  totalPages: number;
-}
-
-const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages }) => {
+const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  totalPages,
+  pageName,
+}) => {
   const dispatch = useAppDispatch();
 
   const handlePaginationBtnClicked = (page: number) => {
-    const data = { searchName: "", page: page, perPage: 10 };
-    dispatch(getClientsWithContract(data));
+    if (pageName === "reports") {
+      const data = { page: page, perPage: 20 };
+      dispatch(getReports(data));
+    } else {
+      const data = { searchName: "", page: page, perPage: 10 };
+      dispatch(getClientsWithContract(data));
+    }
   };
 
   return (

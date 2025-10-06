@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import SignInBackground from "../components/SignInBackground";
 import { logo } from "../assets/images";
 import Input from "../components/fields/Input";
@@ -11,7 +11,7 @@ import { login } from "../store/auth/authAction";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 
-const SignIn = () => {
+const SignIn = React.memo(() => {
   const dispatch = useAppDispatch();
 
   const [errors, setErrors] = useState("");
@@ -172,6 +172,6 @@ const SignIn = () => {
       </div>
     </div>
   );
-};
+});
 
 export default SignIn;

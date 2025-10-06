@@ -1,60 +1,93 @@
-import React from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NavigationTopBar from "../components/NavigationTopBar";
+import { pdf } from "../assets/images";
+import { HiOutlineClock } from "react-icons/hi";
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { getReports } from "../store/report/reportAction";
+import Pagination from "../components/table/Pagination";
+import Loader from "../components/Loader";
 
 const Reports = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const { reports } = useAppSelector((state) => state.reportSlices);
+  const { isLoading } = useAppSelector((state) => state.commonSlice);
+
+  useEffect(() => {
+    const data = { page: 1, perPage: 20 };
+    dispatch(getReports(data));
+  }, [dispatch]);
+
   return (
     <div>
-      {" "}
       <NavigationTopBar name="Reports" onClick={() => navigate(-1)} />
-      {/* Content */}
-      <div className="py-6">
-        <p className="mb-4">
-          Best in Breed Dog Training provides comprehensive training services
-          for dogs of all breeds and sizes. By utilizing our services, you agree
-          to the following terms:
-        </p>
-
-        <ul className="list-disc pl-6 space-y-3">
-          <li>
-            <strong>Eligibility:</strong> Clients must be at least 18 years old
-            and legally capable of entering into a contract.
-          </li>
-          <li>
-            <strong>Training Services:</strong> We offer various training
-            programs, including obedience, behavior modification, and
-            specialized training.
-          </li>
-          <li>
-            <strong>Payments & Refunds:</strong> A deposit is required to secure
-            a spot in a training program. Full payment is due before the
-            commencement of services. Refunds are not provided once services
-            have begun.
-          </li>
-          <li>
-            <strong>Liability:</strong> While we take precautions to ensure
-            safety, clients acknowledge that training involves inherent risks.
-            Clients agree to hold Best in Breed Dog Training harmless for any
-            injuries or damages that may occur.
-          </li>
-          <li>
-            <strong>Conduct:</strong> Clients are expected to follow all
-            instructions provided by trainers and to maintain control of their
-            dogs during sessions.
-          </li>
-          <li>
-            <strong>Media Release:</strong> By participating in our programs,
-            clients grant permission for photos and videos of their dogs to be
-            used for promotional purposes.
-          </li>
-          <li>
-            <strong>Modifications:</strong> Best in Breed Dog Training reserves
-            the right to modify these terms at any time. Continued use of
-            services constitutes acceptance of the updated terms.
-          </li>
-        </ul>
-      </div>
+      {isLoading ? (
+        <Loader isBlue={true} padding={10} />
+      ) : (
+        <div className="py-6 grid xxs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-6 pt-4 lg:pt-8">
+          {reports?.result?.map(
+            ({
+              _id,
+              name,
+              age,
+              picture,
+              reports = [],
+            }: {
+              _id: string;
+              name: string;
+              age: string;
+              picture: string;
+              reports: [];
+            }) => (
+              <div
+                key={_id}
+                className=" bg-white rounded-xl shadow p-4 font-sans"
+              >
+                {/* Profile Section */}
+                <div className="flex items-center space-x-4">
+                  <img
+                    src={picture}
+                    alt={name}
+                    className="w-16 h-16 rounded-full object-cover"
+                  />
+                  <div>
+                    <h2 className="text-lg font-semibold text-gray-800">
+                      {name}
+                    </h2>
+                    <p className="text-sm text-gray-600 flex items-center gap-1">
+                      <HiOutlineClock /> {age}
+                    </p>
+                  </div>
+                </div>
+                {/* pdfs */}
+                {reports?.length > 0 && (
+                  <div className="mt-6 flex justify-between flex-wrap gap-4">
+                    {reports?.map(({ reportPdfUrl }) => (
+                      <img
+                        key={reportPdfUrl}
+                        src={pdf}
+                        onClick={() => {
+                          if (reportPdfUrl) {
+                            window.open(reportPdfUrl, "_blank");
+                          }
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            )
+          )}
+        </div>
+      )}
+      {/* Pagination */}
+      <Pagination
+        currentPage={reports?.pagination?.page}
+        totalPages={reports?.pagination?.totalPages}
+        pageName="reports"
+      />
     </div>
   );
 };

@@ -2,10 +2,10 @@ import axios from "axios";
 import { store } from "../store/store";
 import { toast } from "react-toastify";
 
-const baseURL = "https://best-in-breed-v1.onrender.com/api";
+export const baseURL = "https://best-in-breed-v1.onrender.com";
 
 export const userRequest = axios.create({
-  baseURL: baseURL,
+  baseURL: `${baseURL}/api`,
 });
 
 userRequest.interceptors.request.use(

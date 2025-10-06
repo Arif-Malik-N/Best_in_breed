@@ -14,6 +14,9 @@ import authSlices from "./auth/authReducer";
 import commonSlice from "./common/commonSlice";
 import sessionSlices from "./session/sessionReducer";
 import clientSlices from "./client/clientReducer";
+import reportSlices from "./report/reportReducer";
+import notificationSlices from "./notification/notificationReducer";
+
 import {
   useDispatch,
   useSelector,
@@ -25,6 +28,8 @@ const reducers = combineReducers({
   authSlices,
   clientSlices,
   sessionSlices,
+  reportSlices,
+  notificationSlices,
 });
 
 const persistConfig = {
@@ -39,6 +44,7 @@ const rootReducer = (state: any, action: any) => {
   }
   return reducers(state, action);
 };
+
 const persistedReducers = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({

@@ -349,6 +349,20 @@ export interface ModalProps {
   onClose: () => void;
 }
 
+export interface StructuredAddress {
+  line1?: string;
+  city?: string;
+  state?: string;
+  postal_code?: string;
+  country?: string;
+}
+
+export interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  pageName?: string;
+}
+
 // ================> for store redux
 
 // for auth directory
@@ -410,10 +424,7 @@ export interface AddReportRedux {
   sessionNotes: string;
 }
 
-export interface StructuredAddress {
-  line1?: string;
-  city?: string;
-  state?: string;
-  postal_code?: string;
-  country?: string;
+export interface ReportGetRedux {
+  page?: number;
+  perPage?: number;
 }

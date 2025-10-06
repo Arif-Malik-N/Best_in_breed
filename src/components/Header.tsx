@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import ProfileAndNotification from "./ProfileAndNotification";
 import type { link } from "../utils/interfaces";
 
-const Header = () => {
+const Header = React.memo(() => {
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -104,6 +104,6 @@ const Header = () => {
       </div>
     </header>
   );
-};
+});
 
 export default Header;

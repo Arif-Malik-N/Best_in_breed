@@ -128,7 +128,6 @@ const Calendar = React.memo(() => {
             <img src={image} alt="avatar" className="w-5 h-5 rounded-lg" />
           )}
         </div>
-
         {/* Title & Description */}
         <div className="mt-1 font-semibold text-xs text-[#5C5C5C]">
           {dayAndYear ? (

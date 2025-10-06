@@ -362,20 +362,27 @@ export const cifStep3DateTime: Step3Field[] = [
 
 // for validation
 export const requiredContractFields = [
-  "weeksOnLeash",
-  "weeksOnOffLeash",
-  "houseBreakingChecklist1",
-  "personalProtectionOptions",
-  "maintainPreviouslyEnrolled",
-  "startDate",
-  "endDate",
-  "startTime",
-  "endTime",
-  "trainingFee",
-  "notesAndTerms",
-  "ownerOfDogName",
-  "ownerAgreementDate",
-  "trainingToStartWeekOf",
+  { name: "weeksOnLeash", label: "Weeks on leash" },
+  { name: "weeksOnOffLeash", label: "Weeks on/off leash" },
+  {
+    name: "houseBreakingChecklist1",
+    label: "Please select at least one housebreaking option",
+  },
+  {
+    name: "personalProtectionOptions",
+    label: "Please select at least one personal protection option",
+  },
+  { name: "maintainPreviouslyEnrolled", label: "Maintenance selection" },
+  { name: "startDate", label: "Start Date" },
+  { name: "endDate", label: "End Date" },
+  { name: "startTime", label: "Start Time" },
+  { name: "endTime", label: "End Time" },
+  { name: "trainingFee", label: "Training Fee" },
+  { name: "notesAndTerms", label: "Notes & Terms" },
+  { name: "ownerOfDogName", label: "Owner of Dog" },
+  { name: "ownerAgreementDate", label: "Date" },
+  { name: "trainingToStartWeekOf", label: "Training start week" },
+  { name: "representativeOfBESTINBREED", label: "Representative" },
 ];
 
 export const weeksOptions = [

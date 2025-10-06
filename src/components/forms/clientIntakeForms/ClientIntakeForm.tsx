@@ -173,9 +173,9 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
       const newErrors: Record<string, string> = {};
 
       if (step === 1) {
-        cifStep1Fields.forEach(({ name }) => {
+        cifStep1Fields.forEach(({ name, label }) => {
           if (!formData.client?.[name]) {
-            newErrors[name] = `This field is required`;
+            newErrors[name] = `${label} is required field`;
           } // empty validation
         });
       }
@@ -183,21 +183,21 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
       if (step === 2) {
         // for mailing address field
         if (!formData.dog?.["mailingAddress"]) {
-          newErrors["mailingAddress"] = `This field is required`;
+          newErrors["mailingAddress"] = `Mailing address is required field`;
         } // empty validation
 
         // for remainig fields
-        cifStep2Fields.forEach(({ name }) => {
+        cifStep2Fields.forEach(({ name, placeholder }) => {
           if (!formData.dog?.[name]) {
-            newErrors[name] = `This field is required`;
+            newErrors[name] = `${placeholder} is required field`;
           } // empty validation
         });
       }
 
       if (step === 3) {
-        requiredContractFields.forEach((field) => {
-          if (!formData.contract?.[field]) {
-            newErrors[field] = `This field is required`;
+        requiredContractFields.forEach(({ name, label }) => {
+          if (!formData.contract?.[name]) {
+            newErrors[name] = `${label} is required field`;
           }
         });
       }

@@ -3,7 +3,6 @@ import { setLoading } from "../common/commonSlice";
 import { saveClients, saveClientsWithContract } from "./clientReducer";
 import { userRequest } from "../../apiRoutes/apiRoutes";
 import type {
-  AddReportRedux,
   ClientGetRedux,
   ClientIntakeFormProp,
   UploadImgRedux,
@@ -136,35 +135,6 @@ export const addDogAgaintsClient = createAsyncThunk(
         `dogs/client/${clientId}/add`,
         dogData
       );
-      return res?.data;
-    } finally {
-      dispatch(setLoading(false));
-    }
-  }
-);
-
-// add report against dog
-export const addReport = createAsyncThunk(
-  "client/addReport",
-  async (data: AddReportRedux, { dispatch }) => {
-    dispatch(setLoading(true));
-    try {
-      const { dogId, ...reportData } = data; // extract dogId, keep report data
-      const res = await userRequest.post(`reports/dog/${dogId}`, reportData);
-      return res?.data;
-    } finally {
-      dispatch(setLoading(false));
-    }
-  }
-);
-
-// delete report against dog
-export const deleteReport = createAsyncThunk(
-  "client/deleteReport",
-  async (dogId: string, { dispatch }) => {
-    dispatch(setLoading(true));
-    try {
-      const res = await userRequest.delete(`reports/${dogId}`);
       return res?.data;
     } finally {
       dispatch(setLoading(false));

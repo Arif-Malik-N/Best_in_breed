@@ -6,7 +6,7 @@ import type { field, ReportFormProps } from "../../../utils/interfaces";
 import TextArea from "../../fields/TextArea";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../../../store/store";
-import { addReport } from "../../../store/client/clientAction";
+import { addReport } from "../../../store/report/reportAction";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../Loader";
 
