@@ -22,15 +22,14 @@ import { useAppDispatch, useAppSelector } from "../store/store";
 import { getNotifications } from "../store/notification/notificationAction";
 import { addNewNotification } from "../store/notification/notificationReducer";
 import { toast } from "react-toastify";
-// import { io } from "socket.io-client";
-// import { baseURL } from "../apiRoutes/apiRoutes";
+import { io } from "socket.io-client";
+import { baseURL } from "../apiRoutes/apiRoutes";
 
 const Routing = React.memo(() => {
-  // const socket = io(baseURL);
+  const socket = io(baseURL);
   const dispatch = useAppDispatch();
   const token = useAppSelector((state) => state.authSlices?.token);
-  const { notifications } = useAppSelector((state) => state.notificationSlices);
-  console.log(notifications);
+  // const { notifications } = useAppSelector((state) => state.notificationSlices);
 
   const routes: AppRoute[] = [
     { path: "/", component: <Home /> },
@@ -48,27 +47,15 @@ const Routing = React.memo(() => {
   ];
 
   useEffect(() => {
-    // socket.on("connect", () => {
-    //   console.log("Connected to socket server:", socket.id);
-    // });
-    // socket.on("notification", (data) => {
-    //   console.log("Received notification:", data);
-    // });
-    // return () => {
-    //   socket.disconnect();
-    // };
-    // setInterval(() => {
-    //   const data = {
-    //     _id: "68e3ab8079c1juhj28a93a1506ec",
-    //     message: "r55o' starts in 15 minutes.",
-    //     isRead: false,
-    //     clientPictureUrl: null,
-    //     createdAt: "10/06/2025, 4:44 PM",
-    //     createdAgo: "about 3 hour ago",
-    //   };
-    //   toast("Notification Arrived");
-    //   dispatch(addNewNotification(data));
-    // }, 10000);
+    socket.on("connect", () => {});
+    socket.emit("join_admin_room", { token: token });
+    socket.on("new_notification", (data) => {
+      toast(`Notification from ${data?.clientName}`);
+      dispatch(addNewNotification(data));
+    });
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   useEffect(() => {

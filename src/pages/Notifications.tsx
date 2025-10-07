@@ -33,19 +33,19 @@ export default function Notifications() {
           </h3>
         ) : (
           notifications?.result?.map(
-            ({ _id, clientPictureUrl, name, message, createdAgo }) => (
+            ({ _id, clientPictureUrl, clientName, message, createdAgo }) => (
               <div
                 key={_id}
                 className="flex items-center gap-2 sm:gap-4 py-2 sm:py-3 px-2 sm:px-5 border-b border-gray-200 last:border-none"
               >
                 <img
                   src={clientPictureUrl || avatar}
-                  alt={name}
+                  alt={clientName}
                   className="w-12 h-12 sm:w-20 sm:h-20 rounded-full object-cover"
                 />
                 <div className="flex flex-col flex-grow">
                   <span className="text-sm sm:text-base font-bold text-gray-800">
-                    {name}
+                    {clientName}
                   </span>
                   <span className="text-xs sm:text-sm text-gray-600">
                     {message}
