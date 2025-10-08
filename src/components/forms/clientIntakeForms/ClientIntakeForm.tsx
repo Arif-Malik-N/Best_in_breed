@@ -138,8 +138,8 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
               if (mailingAddressRegex.test(value)) {
                 delete newErrors[name];
               } else {
-                newErrors[name] =
-                  "The address '123 Main Street, New York, NY 10001' is valid.";
+                newErrors[name] = "Character length should be between 10 - 20";
+                // "The address '123 Main Street, New York, NY 10001' is valid.";
               }
             } else if (
               [
@@ -153,7 +153,8 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
               if (phoneRegex.test(value)) {
                 delete newErrors[name];
               } else {
-                newErrors[name] = "The Number '123-456-7890' is valid.";
+                newErrors[name] = "Character length should be between 9 - 15";
+                // newErrors[name] = "The Number '123-456-7890' is valid.";
               }
             }
           }
