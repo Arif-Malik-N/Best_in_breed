@@ -368,7 +368,7 @@ export const requiredContractFields = [
   { name: "ownerOfDogName", label: "Owner of Dog" },
   { name: "ownerAgreementDate", label: "Date" },
   { name: "trainingToStartWeekOf", label: "Training start week" },
-  { name: "representativeOfBESTINBREED", label: "Representative" },
+  // { name: "representativeOfBESTINBREED", label: "Representative" },
 ];
 
 export const weeksOptions = [
