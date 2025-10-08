@@ -47,20 +47,22 @@ const Routing = React.memo(() => {
   ];
 
   useEffect(() => {
-    socket.on("connect", () => {});
-    socket.emit("join_admin_room", { token: token });
-    socket.on("new_notification", (data) => {
-      toast(`Notification from ${data?.clientName}`);
-      dispatch(addNewNotification(data));
-    });
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+    if (token) {
+      socket.on("connect", () => {});
+      socket.emit("join_admin_room", { token: token });
+      socket.on("new_notification", (data) => {
+        toast(`Notification from ${data?.clientName}`);
+        dispatch(addNewNotification(data));
+      });
+      return () => {
+        socket.disconnect();
+      };
+    }
+  }, [token]);
 
   useEffect(() => {
-    dispatch(getNotifications());
-  }, []);
+    if (token) dispatch(getNotifications());
+  }, [token]);
 
   return (
     <div>
