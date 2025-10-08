@@ -17,9 +17,11 @@ import {
 import { clientcolumns } from "../utils/arrays";
 import Loader from "../components/Loader";
 import ClientDetails from "../components/ClientDetails";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { isLoading } = useAppSelector((state) => state.commonSlice);
 
   const [renderPage, setRenderPage] = useState("home");
@@ -137,8 +139,9 @@ function Home() {
                 name="View All"
                 className="w-[65px] h-[40px] bg-gray-100 rounded-xl font-semibold text-xs text-brand-blue outline-none"
                 onClick={() => {
-                  const data = { searchName: search };
-                  dispatch(getClientsWithContract(data));
+                  // const data = { searchName: search };
+                  // dispatch(getClientsWithContract(data));
+                  navigate('/clients')
                 }}
               />
             </div>

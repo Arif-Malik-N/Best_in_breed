@@ -65,6 +65,8 @@ export interface ContractForm {
   trainingToStartWeekOf: string;
   representativeSignatureName: string;
   policiesAccepted: boolean;
+  dogOwnerSignaturePictureId: string;
+  representativeSignaturePictureId: string;
 }
 // ============================================= interface for array
 
@@ -264,7 +266,7 @@ export interface ResetPsdProps {
 export interface clientIntakeProp {
   renderPage?: string;
   setRenderPage: React.Dispatch<React.SetStateAction<string>>;
-  selectedClientInfo?: {};
+  selectedClientInfo?: {} | any;
 }
 export interface clientDetailProp {
   selectedClientInfo?: {};
@@ -305,7 +307,7 @@ export interface StepFormProps {
     name: string
   ) => void;
 
-  selectedClientInfo: {};
+  selectedClientInfo?: {};
   errors: Record<string, string>;
   validateStep: (step: number) => boolean;
 }

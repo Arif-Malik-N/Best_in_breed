@@ -29,7 +29,6 @@ const Routing = React.memo(() => {
   const socket = io(baseURL);
   const dispatch = useAppDispatch();
   const token = useAppSelector((state) => state.authSlices?.token);
-  // const { notifications } = useAppSelector((state) => state.notificationSlices);
 
   const routes: AppRoute[] = [
     { path: "/", component: <Home /> },

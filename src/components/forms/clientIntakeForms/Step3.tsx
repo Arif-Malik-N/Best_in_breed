@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Button from "../../buttons/Button";
 import {
   cifStep3CheckBoxes,
@@ -24,9 +24,11 @@ const Step3: React.FC<Step3FormProps> = ({
   setSign,
 }) => {
   const dispatch = useAppDispatch();
-  const ownerSigRef = useRef(null);
-  const repSigRef = useRef(null);
+  const ownerSigRef: any = useRef(null);
+  const repSigRef: any = useRef(null);
   const { isLoading } = useAppSelector((state) => state.commonSlice);
+  const [representativeLoading, setRepresentativeLoading] = useState(false);
+  const [dogOwnerLoading, setDogOwnerLoading] = useState(false);
 
   // to make sign empty
   const handleClearSign = (
@@ -75,23 +77,37 @@ const Step3: React.FC<Step3FormProps> = ({
 
   // to up,load sign image in db
   const handleSignUpload = async (name: string) => {
-    const file = sign?.[name]?.file;
-    if (file) {
-      const formDataImg = new FormData();
-      formDataImg.append("file", file);
-
-      const response = await dispatch(
-        uploadSignatureImg({ formDataImg, name })
-      ).unwrap();
-
-      if (response?.success) {
-        handleFieldChange(
-          "contract",
-          `${name}SignaturePictureId`,
-          response?.data?.uploadId
-        );
-        toast.success(response?.data?.message);
+    try {
+      if (name === "representative") {
+        setRepresentativeLoading(true);
+      } else {
+        setDogOwnerLoading(true);
       }
+      const file = sign?.[name]?.file;
+      if (file) {
+        const formDataImg = new FormData();
+        formDataImg.append("file", file);
+
+        const response = await dispatch(
+          uploadSignatureImg({ formDataImg, name })
+        ).unwrap();
+
+        if (response?.success) {
+          handleFieldChange(
+            "contract",
+            `${name}SignaturePictureId`,
+            response?.data?.uploadId
+          );
+          toast.success(response?.data?.message);
+        }
+      }
+    } catch (error) {
+      setRepresentativeLoading(false);
+      setDogOwnerLoading(false);
+      console.log(error, "error");
+    } finally {
+      setRepresentativeLoading(false);
+      setDogOwnerLoading(false);
     }
   };
 
@@ -419,10 +435,10 @@ const Step3: React.FC<Step3FormProps> = ({
 
           <div className="absolute right-16 md:right-20 top-[40px] md:top-[35%] transform -translate-y-1/2">
             <Button
-              name={isLoading ? <Loader isSmall={true} /> : "Save"}
-              disabled={isLoading}
+              name={dogOwnerLoading ? <Loader isSmall={true} /> : "Save"}
+              disabled={dogOwnerLoading}
               className={`w-[45px] md:w-[60px] bg-brand-blue rounded-lg text-white font-semibold text-xs md:text-sm py-0.5 md:py-1 outline-none ${
-                isLoading && "cursor-not-allowed"
+                dogOwnerLoading && "cursor-not-allowed"
               }`}
               onClick={() => handleSignUpload("dogOwner")}
             />
@@ -472,10 +488,10 @@ const Step3: React.FC<Step3FormProps> = ({
           </div>
           <div className="absolute right-16 md:right-20 top-[40px] md:top-[35%] transform -translate-y-1/2">
             <Button
-              name={isLoading ? <Loader isSmall={true} /> : "Save"}
-              disabled={isLoading}
+              name={representativeLoading ? <Loader isSmall={true} /> : "Save"}
+              disabled={representativeLoading}
               className={`w-[45px] md:w-[60px] bg-brand-blue rounded-lg text-white font-semibold text-xs md:text-sm py-0.5 md:py-1 outline-none ${
-                isLoading && "cursor-not-allowed"
+                representativeLoading && "cursor-not-allowed"
               }`}
               onClick={() => handleSignUpload("representative")}
             />

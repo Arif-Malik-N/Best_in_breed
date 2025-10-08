@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import Button from "./buttons/Button";
 import { useAppDispatch, useAppSelector } from "../store/store";
@@ -74,8 +74,8 @@ const Calendar = React.memo(() => {
         // Convert augustData -> CalendarEvent[]
         const calendarEvents: CalendarEvent[] = Object.entries(
           res?.data?.result
-        ).flatMap(([dateStr, evs]) =>
-          evs.map((ev, idx) => {
+        ).flatMap(([dateStr, evs]: any) =>
+          evs.map((ev: any, idx: number) => {
             const start = parseDateTime(dateStr, ev.startTime);
             const end = parseDateTime(dateStr, ev.endTime);
 
@@ -101,17 +101,23 @@ const Calendar = React.memo(() => {
     window.scrollTo({ top: 0, behavior: "smooth" }); // to render every step component at the top
   }, []);
 
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
   // to print cards in calendar
   function renderEventContent(eventInfo: any) {
     const { event } = eventInfo;
     const { description, image, color } = event.extendedProps as any;
 
+    console.log(event.extendedProps, " event.extendedProps");
+
     return (
       <div
-        className={`border-2 xl:ml-1 rounded-lg py-1 px-1 min-w-[120px] bg-white ${
+        className={`border-2 xl:ml-1 rounded-lg py-1 px-1 min-w-[120px] bg-white cursor-pointer ${
           dayAndYear ? "lg:min-w-[130px]" : "lg:px-2"
         }`}
         style={{ borderColor: color }}
+        onClick={() => {
+          setSelectedEvent(event);
+        }}
       >
         {/* Time */}
         <div className="flex justify-between">
@@ -121,7 +127,8 @@ const Calendar = React.memo(() => {
             }`}
             style={{ background: color, color: "white" }}
           >
-            {formatTimeRangeTo12Hour(eventInfo.timeText)}
+            {eventInfo.timeText}
+            {/* {formatTimeRangeTo12Hour(eventInfo.timeText)} */}
           </span>
           {/* Avatar */}
           {image && (
@@ -230,6 +237,64 @@ const Calendar = React.memo(() => {
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-white/60 z-10">
           <Loader isBlue={true} padding={10} />
+        </div>
+      )}
+
+      {/* Modal for Event Details */}
+      {selectedEvent && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white rounded-2xl shadow-lg w-11/12 sm:w-[400px] p-6 relative animate-fadeIn">
+            {/* Close Button */}
+            <button
+              onClick={() => setSelectedEvent(null)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-black border rounded-full p-1 border-black cursor-pointer"
+            >
+              <AiOutlineClose size={20} color="black" />
+            </button>
+
+            {/* Event Image */}
+            {selectedEvent.extendedProps?.image && (
+              <img
+                src={selectedEvent.extendedProps.image}
+                alt="Event"
+                className="w-20 h-20 rounded-lg object-cover mx-auto mb-4"
+              />
+            )}
+
+            {/* Event Title */}
+            <h2 className="text-lg font-semibold text-center mb-2">
+              {selectedEvent.title}
+            </h2>
+
+            {/* Description */}
+            <p className="text-sm text-gray text-center mb-3">
+              {selectedEvent.extendedProps?.description ||
+                "No description available"}
+            </p>
+
+            {/* Time */}
+            <div className="text-center text-sm font-medium text-gray-700 mb-3">
+              <span className="inline-block bg-blue-100 text-blue-700 px-2 py-1 rounded-md">
+                {selectedEvent.start?.toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}{" "}
+                -{" "}
+                {selectedEvent.end?.toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </span>
+            </div>
+
+            {/* Color Indicator */}
+            {/* {selectedEvent.extendedProps?.color && (
+              <div
+                className="w-10 h-2 rounded-full mx-auto"
+                style={{ backgroundColor: selectedEvent.extendedProps.color }}
+              ></div>
+            )} */}
+          </div>
         </div>
       )}
     </div>

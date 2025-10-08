@@ -54,7 +54,7 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
 
     // to run when user type in fields (along with images (after they uploaded))
     const handleFieldChange = (
-      section: ClientIntakeFormProp,
+      section: keyof ClientIntakeFormProp,
       name: string,
       value: string | number | Date | boolean | string[]
     ) => {
@@ -138,7 +138,8 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
               if (mailingAddressRegex.test(value)) {
                 delete newErrors[name];
               } else {
-                newErrors[name] = "Invalid mailing address";
+                newErrors[name] =
+                  "The address '123 Main Street, New York, NY 10001' is valid.";
               }
             } else if (
               [
@@ -152,7 +153,7 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
               if (phoneRegex.test(value)) {
                 delete newErrors[name];
               } else {
-                newErrors[name] = "Invalid phone number";
+                newErrors[name] = "The Number '123-456-7890' is valid.";
               }
             }
           }
@@ -197,6 +198,8 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
       if (step === 3) {
         requiredContractFields.forEach(({ name, label }) => {
           if (!formData.contract?.[name]) {
+            console.log(formData.contract?.[name]);
+
             newErrors[name] = `${label} is required field`;
           }
         });
@@ -205,6 +208,8 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
       setErrors(newErrors);
       return Object.keys(newErrors).length === 0;
     };
+
+    console.log(errors);
 
     // to upload profile image for dog and client
     const handleProfileImg = async (
