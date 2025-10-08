@@ -41,7 +41,8 @@ function Clients() {
 
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
-      dispatch(getClients(search));
+      const data = { searchName: search, page: 1, perPage: 50 };
+      dispatch(getClients(data));
     }, 500);
 
     return () => clearTimeout(delayDebounce); // Cleanup function to cleartimeout on unmount
@@ -85,7 +86,9 @@ function Clients() {
       {isLoading ? (
         <Loader isBlue={true} padding={10} />
       ) : clients?.result?.length > 0 ? (
-        <div className="grid xxs:grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 3xl:grid-cols-8 gap-3 sm:gap-4 lg:gap-6 pt-4 lg:pt-8">
+        // <div className="grid xxs:grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 3xl:grid-cols-8 gap-3 sm:gap-4 lg:gap-6 pt-4 lg:pt-8">
+        // <div className="grid xxs:grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-6 pt-4 lg:pt-8">
+        <div className="grid xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 pt-4 lg:pt-8">
           {clients?.result?.map(
             ({
               _id,
@@ -105,10 +108,10 @@ function Clients() {
                   className="place-content-center h-[92px] border rounded-xl shadow-sm hover:shadow-md transition cursor-pointer"
                   onClick={() => handleClientClick(_id)}
                 >
-                  <h3 className="xxs:text-sm sm:text-base font-semibold text-center">
+                  <h3 className="xxs:text-sm sm:text-base font-semibold text-center overflow-hidden text-ellipsis whitespace-nowrap">
                     {fName} {lName && <div>{lName}</div>}
                   </h3>
-                  <p className="xxs:text-xs sm:text-sm text-gray-550 text-sm text-center">
+                  <p className="xxs:text-xs sm:text-sm text-gray-550 text-sm text-center overflow-hidden text-ellipsis whitespace-nowrap">
                     {role || "Dog Owner"}
                   </p>
                 </div>

@@ -39,13 +39,25 @@ export const getClientsWithContract = createAsyncThunk(
 // ===> for get clients for client page
 export const getClients = createAsyncThunk(
   "client/getClients",
-  async (searchName: string, { dispatch }) => {
+  async (data: ClientGetRedux, { dispatch }) => {
     dispatch(setLoading(true));
     try {
       // Dynamically construct the query parameters based on search name
-      const url = searchName
-        ? `clients/search?search=${searchName}`
+
+      const url = data?.searchName
+        ? `clients/search?search=${data?.searchName}&page=${data?.page}&perPage=${data?.perPage}`
+        : data?.page && data?.perPage
+        ? `clients/search?page=${data?.page}&perPage=${data?.perPage}`
         : "clients/search";
+
+      // async (searchName: string, { dispatch }) => {
+      //   dispatch(setLoading(true));
+      //   try {
+      //     // Dynamically construct the query parameters based on search name
+      //     const url = searchName
+      //       ? `clients/search?search=${searchName}`
+      //       : "clients/search";
+
       const res = await userRequest.get(url);
       if (res?.data?.success) {
         dispatch(saveClients(res?.data?.data));
