@@ -63,7 +63,7 @@ const Reports = () => {
                 </div>
                 {/* pdfs */}
                 {reports?.length > 0 && (
-                  <div className="mt-6 flex justify-between flex-wrap gap-4">
+                  <div className="mt-6 flex flex-wrap gap-4">
                     {reports?.map(({ reportPdfUrl }) => (
                       <img
                         key={reportPdfUrl}
