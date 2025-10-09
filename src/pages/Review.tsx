@@ -116,7 +116,7 @@ const Review = () => {
       <div className="text-center">
         <h2 className="text-3xl sm:text-4xl xl:text-5xl font-bold text-black font-pj">
           What Our Happy Clients{" "}
-          <span className="text-blue-500">Are Barking About!</span>
+          <span className="text-blue-500">Are Saying!</span>
         </h2>
         <p className="mt-2 text-base text-gray-600">
           Join hundreds of satisfied pet parents who've transformed their furry
