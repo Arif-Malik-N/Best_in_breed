@@ -6,7 +6,7 @@ const TermsAndConditions = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-scree text-gray-800">
+    <div>
       {/* Top Navigation */}
       <NavigationTopBar
         name="Terms & Conditions"

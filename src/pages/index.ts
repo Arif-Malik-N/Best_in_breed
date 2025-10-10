@@ -10,6 +10,7 @@ import PrivacyPolicy from "./PrivacyPolicy";
 import FAQs from "./FAQs";
 import Notifications from "./Notifications";
 import Reports from "./Reports";
+import Review from "./Review";
 
 export {
   Home,
@@ -24,4 +25,5 @@ export {
   FAQs,
   Notifications,
   Reports,
+  Review,
 };

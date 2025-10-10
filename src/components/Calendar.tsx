@@ -1,11 +1,14 @@
-import React, { useState } from "react";
-import { augustDataWithImage } from "../utils/arrays";
+import React, { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import Button from "./buttons/Button";
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { getSessions } from "../store/session/sessionAction";
+import Loader from "./Loader";
+import { formatTimeRangeTo12Hour } from "../utils/utilities";
 
 type CalendarEvent = {
   title: string;
@@ -18,36 +21,19 @@ type CalendarEvent = {
   };
 };
 
-const Calendar = () => {
+const Calendar = React.memo(() => {
+  const dispatch = useAppDispatch();
+  const { isLoading } = useAppSelector((state) => state.commonSlice);
+
   const calendarRef = React.useRef<FullCalendar | null>(null); // to change calendar date with custom calendar header
   const [currentRange, setCurrentRange] = useState(""); // for set calendar range
   const [currentView, setCurrentView] = useState("timeGridWeek"); // for custum button to know which button is press
+  const [calenderEvent, setCalenderEvent] = useState<CalendarEvent[]>([]);
 
   // Convert "10:00 AM" into proper Date with given date string
   function parseDateTime(dateStr: string, timeStr: string): Date {
     return new Date(`${dateStr} ${timeStr}`);
   }
-
-  // Convert augustData -> CalendarEvent[]
-  const calendarEvents: CalendarEvent[] = Object.entries(
-    augustDataWithImage
-  ).flatMap(([dateStr, evs]) =>
-    evs.map((ev, idx) => {
-      const start = parseDateTime(dateStr, ev.startTime);
-      const end = parseDateTime(dateStr, ev.endTime);
-
-      return {
-        title: ev.name,
-        start,
-        end,
-        extendedProps: {
-          description: ev.description,
-          image: ev.image,
-          color: idx % 2 === 0 ? "#0052FF" : "black", // alternate colors
-        },
-      };
-    })
-  );
 
   // Update current visible range
   const handleDatesSet = (arg: any) => {
@@ -70,6 +56,54 @@ const Calendar = () => {
     currentView
   );
 
+  // Get events for selected date
+  useEffect(() => {
+    if (currentRange) {
+      (async () => {
+        const [startDate, endDate] = currentRange.split("–").map((s) => {
+          const d = new Date(s.trim());
+          return `${String(d.getDate()).padStart(2, "0")}-${String(
+            d.getMonth() + 1
+          ).padStart(2, "0")}-${d.getFullYear()}`;
+        });
+
+        const res = await dispatch(
+          getSessions({ startDate: startDate, endDate: endDate })
+        ).unwrap();
+
+        // Convert augustData -> CalendarEvent[]
+        const calendarEvents: CalendarEvent[] = Object.entries(
+          res?.data?.result
+        ).flatMap(([dateStr, evs]: any) =>
+          evs.map((ev: any, idx: number) => {
+            const start = parseDateTime(dateStr, ev.startTime);
+            const end = parseDateTime(dateStr, ev.endTime);
+            // const end = start;
+
+            return {
+              title: ev.name,
+              start,
+              end,
+              extendedProps: {
+                description: ev.description,
+                image: ev.dogImageUrl,
+                color: idx % 2 === 0 ? "#0052FF" : "black", // alternate colors
+              },
+            };
+          })
+        );
+        setCalenderEvent(calendarEvents);
+      })();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentRange]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" }); // to render every step component at the top
+  }, []);
+  console.log(calenderEvent);
+
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
   // to print cards in calendar
   function renderEventContent(eventInfo: any) {
     const { event } = eventInfo;
@@ -77,27 +111,30 @@ const Calendar = () => {
 
     return (
       <div
-        className={`border-2 xl:ml-1 rounded-lg py-1 px-1 min-w-[120px] bg-white ${
+        className={`border-2 xl:ml-1 rounded-lg py-1 px-1 min-w-[120px] bg-white cursor-pointer ${
           dayAndYear ? "lg:min-w-[130px]" : "lg:px-2"
         }`}
         style={{ borderColor: color }}
+        onClick={() => {
+          setSelectedEvent(event);
+        }}
       >
         {/* Time */}
         <div className="flex justify-between">
           <span
             className={`rounded p-1 ${
-              dayAndYear ? "text-[7.5px]" : "font-bold text-[9px]"
+              dayAndYear ? "text-[6.5px]" : "font-bold text-[8px]"
             }`}
             style={{ background: color, color: "white" }}
           >
-            {eventInfo.timeText}
+            {/* {eventInfo.timeText} */}
+            {formatTimeRangeTo12Hour(eventInfo.timeText)}
           </span>
           {/* Avatar */}
           {image && (
             <img src={image} alt="avatar" className="w-5 h-5 rounded-lg" />
           )}
         </div>
-
         {/* Title & Description */}
         <div className="mt-1 font-semibold text-xs text-[#5C5C5C]">
           {dayAndYear ? (
@@ -115,87 +152,158 @@ const Calendar = () => {
 
   return (
     <div className="mb-10 bg-white">
-      {/* Custom Header */}
-      <div className="sm:flex items-center justify-between p-5 lg:p-10 space-y-4 sm:space-y-0 mb-2 sm:mb-0">
-        {/* View Tabs */}
-        <div className="flex justify-center">
-          {[
-            { label: "Year", view: "dayGridYear" },
-            { label: "Month", view: "dayGridMonth" },
-            { label: "Week", view: "timeGridWeek" },
-            { label: "Day", view: "timeGridDay" },
-          ].map(({ label, view }) => {
-            const isActive = currentView === view; // <-- track active view
-            return (
-              <div key={label}>
+      <div className="relative">
+        {/* Custom Header */}
+        <div className="sm:flex items-center justify-between p-5 lg:p-10 space-y-4 sm:space-y-0 mb-2 sm:mb-0">
+          {/* View Tabs */}
+          <div className="flex justify-center">
+            {[
+              { label: "Year", view: "dayGridYear" },
+              { label: "Month", view: "dayGridMonth" },
+              { label: "Week", view: "timeGridWeek" },
+              { label: "Day", view: "timeGridDay" },
+            ].map(({ label, view }) => {
+              const isActive = currentView === view; // <-- track active view
+              return (
+                <div key={label}>
+                  <Button
+                    name={label}
+                    className={`p-2 lg:w-[70px] border transition text-center text-sm outline-none ${
+                      isActive ? "text-black font-semibold" : "text-gray-600"
+                    } ${
+                      label === "Year"
+                        ? "rounded-l-full"
+                        : label === "Day"
+                        ? "rounded-r-full"
+                        : ""
+                    }`}
+                    onClick={() => {
+                      calendarRef.current?.getApi().changeView(view);
+                      setCurrentView(view); // <-- store selected view in state
+                    }}
+                  />
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Navigation and date range */}
+          <div className="flex space-x-2 lg:space-x-10 items-center justify-center">
+            {[
+              { action: "prev", icon: <AiOutlineLeft size={18} /> },
+              { action: "next", icon: <AiOutlineRight size={18} /> },
+            ].map(({ action, icon }) => (
+              <React.Fragment key={action}>
                 <Button
-                  name={label}
-                  className={`p-2 lg:w-[70px] border transition text-center text-sm outline-none ${
-                    isActive ? "text-black font-semibold" : "text-gray-600"
-                  } ${
-                    label === "Year"
-                      ? "rounded-l-full"
-                      : label === "Day"
-                      ? "rounded-r-full"
-                      : ""
-                  }`}
-                  onClick={() => {
-                    calendarRef.current?.getApi().changeView(view);
-                    setCurrentView(view); // <-- store selected view in state
-                  }}
+                  name={icon}
+                  onClick={() => calendarRef.current?.getApi()[action]()}
+                  className="p-1 xs:p-2 lg:w-[40px] lg:h-[40px] flex items-center justify-center rounded-full border bg-white hover:bg-gray-100 outline-none cursor-pointer"
                 />
-              </div>
-            );
-          })}
+                {/* Date Range */}
+                {action === "prev" && (
+                  <h2 className="text-sm font-semibold">{currentRange}</h2>
+                )}{" "}
+              </React.Fragment>
+            ))}
+          </div>
         </div>
 
-        {/* Navigation and date range */}
-        <div className="flex space-x-2 lg:space-x-10 items-center justify-center">
-          {[
-            { action: "prev", icon: <AiOutlineLeft size={18} /> },
-            { action: "next", icon: <AiOutlineRight size={18} /> },
-          ].map(({ action, icon }) => (
-            <React.Fragment key={action}>
-              <Button
-                name={icon}
-                onClick={() => calendarRef.current?.getApi()[action]()}
-                className="p-1 xs:p-2 lg:w-[40px] lg:h-[40px] flex items-center justify-center rounded-full border bg-white hover:bg-gray-100 outline-none cursor-pointer"
+        <div className="w-full overflow-x-auto">
+          <div className="min-w-[800px] sm:min-w-[900px]">
+            <FullCalendar
+              ref={calendarRef} // to set date range with manual header
+              plugins={[timeGridPlugin, dayGridPlugin, interactionPlugin]}
+              initialView="timeGridWeek" // initially week
+              events={calenderEvent}
+              height="auto"
+              slotMinTime="00:00:00"
+              slotMaxTime="23:59:00"
+              allDaySlot={false}
+              nowIndicator={true} // red line to indicate current time
+              headerToolbar={false} // Hide default header
+              datesSet={handleDatesSet} // Update range text
+              eventContent={renderEventContent} // render cards in calendar
+              eventTimeFormat={{
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: dayAndYear ? true : false,
+              }}
+              displayEventEnd={true} // <-- important, shows the END time as well
+              eventOverlap={false} // 🚫 Prevent overlapping events
+              slotEventOverlap={false} // 🚫 Prevent events to stack visually
+              eventMaxStack={1} // ⬆️ Limit stacking to one event per time slot
+              eventOrder="start" // Sort by start time to align properly
+              eventDisplay="block" // Ensure each event gets its own block
+            />
+          </div>
+        </div>
+      </div>
+      {/* Loader overlay (shows only when loading) */}
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-white/60 z-10">
+          <Loader isBlue={true} padding={10} />
+        </div>
+      )}
+
+      {/* Modal for Event Details */}
+      {selectedEvent && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white rounded-2xl shadow-lg w-11/12 sm:w-[400px] p-6 relative animate-fadeIn">
+            {/* Close Button */}
+            <button
+              onClick={() => setSelectedEvent(null)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-black border rounded-full p-1 border-black cursor-pointer"
+            >
+              <AiOutlineClose size={20} color="black" />
+            </button>
+
+            {/* Event Image */}
+            {selectedEvent.extendedProps?.image && (
+              <img
+                src={selectedEvent.extendedProps.image}
+                alt="Event"
+                className="w-20 h-20 rounded-lg object-cover mx-auto mb-4"
               />
-              {/* Date Range */}
-              {action === "prev" && (
-                <h2 className="text-sm font-semibold">{currentRange}</h2>
-              )}{" "}
-            </React.Fragment>
-          ))}
-        </div>
-      </div>
+            )}
 
-      <div className="w-full overflow-x-auto">
-        <div className="min-w-[800px] sm:min-w-[900px]">
-          <FullCalendar
-            ref={calendarRef} // to set date range with manual header
-            plugins={[timeGridPlugin, dayGridPlugin, interactionPlugin]}
-            initialView="timeGridWeek" // initially week
-            events={calendarEvents}
-            height="auto"
-            slotMinTime="06:00:00"
-            slotMaxTime="23:59:00"
-            allDaySlot={false}
-            nowIndicator={true} // red line to indicate current time
-            headerToolbar={false} // Hide default header
-            datesSet={handleDatesSet} // Update range text
-            eventContent={renderEventContent} // render cards in calendar
-            eventTimeFormat={{
-              hour: "2-digit",
-              minute: "2-digit",
-              hour12: dayAndYear ? true : false,
-            }}
-            displayEventEnd={true} // <-- important, shows the END time as well
-          />
+            {/* Event Title */}
+            <h2 className="text-lg font-semibold text-center mb-2">
+              {selectedEvent.title}
+            </h2>
+
+            {/* Description */}
+            <p className="text-sm text-gray text-center mb-3">
+              {selectedEvent.extendedProps?.description ||
+                "No description available"}
+            </p>
+
+            {/* Time */}
+            <div className="text-center text-sm font-medium text-gray-700 mb-3">
+              <span className="inline-block bg-blue-100 text-blue-700 px-2 py-1 rounded-md">
+                {selectedEvent.start?.toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}{" "}
+                -{" "}
+                {selectedEvent.end?.toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </span>
+            </div>
+
+            {/* Color Indicator */}
+            {/* {selectedEvent.extendedProps?.color && (
+              <div
+                className="w-10 h-2 rounded-full mx-auto"
+                style={{ backgroundColor: selectedEvent.extendedProps.color }}
+              ></div>
+            )} */}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
-};
+});
 
 export default Calendar;

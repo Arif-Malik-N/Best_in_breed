@@ -1,115 +1,66 @@
-import React, { useState } from "react";
-import type { ClientCards } from "../utils/interfaces";
-import {
-  client1,
-  client2,
-  client3,
-  client4,
-  client5,
-  client6,
-  client7,
-  client8,
-  client9,
-  client10,
-  client11,
-  client12,
-  client13,
-  client14,
-} from "../assets/images";
+import React, { useEffect, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import Input from "../components/fields/Input";
 import ClientDetails from "../components/ClientDetails";
 import ClientIntakeForm from "../components/forms/clientIntakeForms/ClientIntakeForm";
-
-const clientsData: ClientCards[] = [
-  {
-    name: "Kristin Watson",
-    role: "Dog Owner",
-    image: client1,
-  },
-  {
-    name: "Guy Hawkins",
-    role: "Dog Owner",
-    image: client2,
-  },
-  {
-    name: "Cody Fisher",
-    role: "Dog Owner",
-    image: client3,
-  },
-  {
-    name: "Darrell Steward",
-    role: "Dog Owner",
-    image: client4,
-  },
-  {
-    name: "Esther Howard",
-    role: "Dog Owner",
-    image: client5,
-  },
-  {
-    name: "Jane Cooper",
-    role: "Dog Owner",
-    image: client6,
-  },
-  {
-    name: "Devon Lane",
-    role: "Dog Owner",
-    image: client7,
-  },
-  {
-    name: "Dianne Russell",
-    role: "Dog Owner",
-    image: client8,
-  },
-  {
-    name: "Jacob Jones",
-    role: "Dog Owner",
-    image: client9,
-  },
-  {
-    name: "Kathryn Murphy",
-    role: "Dog Owner",
-    image: client10,
-  },
-  {
-    name: " Albert Flores",
-    role: "Dog Owner",
-    image: client11,
-  },
-  {
-    name: "Courtney Henry",
-    role: "Dog Owner",
-    image: client12,
-  },
-  {
-    name: "Floyd Miles",
-    role: "Dog Owner",
-    image: client13,
-  },
-  {
-    name: "Jerome Bell",
-    role: "Dog Owner",
-    image: client14,
-  },
-];
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { getClients, getClientWithDog } from "../store/client/clientAction";
+import Loader from "../components/Loader";
+import { useLocation } from "react-router-dom";
+import Pagination from "../components/table/Pagination";
 
 function Clients() {
+  const location = useLocation();
+  const dispatch = useAppDispatch();
+  const { isLoading } = useAppSelector((state) => state.commonSlice);
+  const { clients } = useAppSelector((state) => state.clientSlices);
+
   const [renderPage, setRenderPage] = useState("client");
+  const [isClientClicked, setIsClientClicked] = useState(false);
+  const [selectedClientId, setSelectedClientId] = useState("");
+  const [selectedClientInfo, setSelectedClientInfo] = useState({});
   const [search, setSearch] = useState("");
 
-  const filteredClients = clientsData.filter((client) =>
-    client.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const handleClientClick = async (_id: string) => {
+    setSelectedClientId(_id);
+    setIsClientClicked(!isClientClicked);
+  };
 
-  React.useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" }); // to render every step component at the top
-  }, []);
+  useEffect(() => {
+    (async () => {
+      if (selectedClientId) {
+        const response = await dispatch(
+          getClientWithDog(selectedClientId)
+        ).unwrap();
+        if (response?.success) {
+          setSelectedClientInfo(response?.data);
+          setRenderPage("clientDetails");
+        }
+      }
+    })();
+  }, [location, dispatch, selectedClientId, isClientClicked]);
+
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      const data = { searchName: search, page: 1, perPage: 20 };
+      dispatch(getClients(data));
+    }, 500);
+
+    return () => clearTimeout(delayDebounce); // Cleanup function to cleartimeout on unmount
+  }, [search, dispatch]);
 
   return renderPage === "clientIntakeForm" ? (
-    <ClientIntakeForm renderPage={renderPage} setRenderPage={setRenderPage} />
-  ) : renderPage === "clientDetails" ? (
-    <ClientDetails renderPage={renderPage} setRenderPage={setRenderPage} />
+    <ClientIntakeForm
+      renderPage={renderPage}
+      setRenderPage={setRenderPage}
+      selectedClientInfo={selectedClientInfo}
+    />
+  ) : selectedClientInfo && Object.keys(selectedClientInfo)?.length > 0 ? (
+    <ClientDetails
+      selectedClientInfo={selectedClientInfo}
+      setSelectedClientInfo={setSelectedClientInfo}
+      setRenderPage={setRenderPage}
+    />
   ) : (
     <div className="bg-white rounded-xl px-4 py-10">
       {/* Search Bar */}
@@ -129,33 +80,51 @@ function Clients() {
       </div>
 
       {/* Clients Cards */}
-      {filteredClients?.length > 0 ? (
-        <div className="grid xxs:grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6 pt-4 lg:pt-8">
-          {filteredClients.map(({ name, role, image }, index) => (
-            <div
-              key={name}
-              className="place-content-center h-[225px] border rounded-xl shadow-sm hover:shadow-md transition cursor-pointer"
-              onClick={() => setRenderPage("clientDetails")}
-            >
-              <img
-                src={image}
-                alt={name + index}
-                className="w-[125px] h-[125px] rounded-full object-cover mb-3 justify-self-center"
-              />
-              <h3 className="xxs:text-sm sm:text-base font-semibold text-center">
-                {name}
-              </h3>
-              <p className="xxs:text-xs sm:text-sm text-gray-550 text-sm text-center">
-                {role}
-              </p>
-            </div>
-          ))}
+      {isLoading ? (
+        <Loader isBlue={true} padding={10} />
+      ) : clients?.result?.length > 0 ? (
+        <div className="grid xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 pt-4 lg:pt-8">
+          {clients?.result?.map(
+            ({
+              _id,
+              name,
+              role,
+            }: {
+              _id: string;
+              name?: string;
+              role?: string;
+            }) => {
+              const [fName, ...rest] = (name ?? "").split(" ");
+              const lName = rest.join(" ");
+
+              return (
+                <div
+                  key={_id}
+                  className="place-content-center h-[92px] border rounded-xl shadow-sm hover:shadow-md transition cursor-pointer"
+                  onClick={() => handleClientClick(_id)}
+                >
+                  <h3 className="xxs:text-sm sm:text-base font-semibold text-center overflow-hidden text-ellipsis whitespace-nowrap">
+                    {fName} {lName && <div>{lName}</div>}
+                  </h3>
+                  <p className="xxs:text-xs sm:text-sm text-gray-550 text-sm text-center overflow-hidden text-ellipsis whitespace-nowrap">
+                    {role || "Dog Owner"}
+                  </p>
+                </div>
+              );
+            }
+          )}
         </div>
       ) : (
         <h3 className="xxs:text-sm sm:text-base text-red-400 py-5 font-semibold text-center">
           No Record Found
         </h3>
       )}
+      {/* Pagination */}
+      <Pagination
+        currentPage={clients?.pagination?.page}
+        totalPages={clients?.pagination?.totalPages}
+        pageName="clients"
+      />
     </div>
   );
 }

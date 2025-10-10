@@ -1,14 +1,22 @@
-import React, { useContext } from "react";
+import React from "react";
 import Button from "../buttons/Button";
-import { changePassword, edit, lock, terms } from "../../assets/images";
+import {
+  changePassword,
+  edit,
+  lock,
+  profile2,
+  terms,
+} from "../../assets/images";
 import { AiOutlineRight } from "react-icons/ai";
 import type { menu, Props } from "../../utils/interfaces";
-import { AuthContext } from "../../router/Index";
 import { useNavigate } from "react-router-dom";
+import { resetUserState } from "../../store/auth/authReducer";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 
 const Menu: React.FC<Props> = ({ setType }) => {
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useContext(AuthContext);
+  const dispatch = useAppDispatch();
+  const { userData, profileImg } = useAppSelector((state) => state.authSlices);
 
   const profileMenu: menu[] = [
     {
@@ -37,6 +45,18 @@ const Menu: React.FC<Props> = ({ setType }) => {
 
   return (
     <div>
+      <div className="place-items-center">
+        <div className="bg-brand-blue xxs:w-[100px] xxs:h-[100px] md:w-[144px] md:h-[144px] rounded-full">
+          <img
+            src={profileImg}
+            // alt="profile2"
+            className="xxs:w-[100px] xxs:h-[100px] md:w-[144px] md:h-[144px] rounded-full"
+          />
+        </div>
+        <div className="xxs:text-lg sm:text-xl lg:text-2xl font-bold mt-3">
+          {userData?.name}
+        </div>
+      </div>
       <div className="my-[50px]">
         {profileMenu.map(({ key, name, icon, path }) => {
           const isSamePage: boolean = [
@@ -65,7 +85,7 @@ const Menu: React.FC<Props> = ({ setType }) => {
         name="Log Out"
         className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white"
         onClick={() => {
-          setIsAuthenticated(false);
+          dispatch(resetUserState());
           navigate("/");
         }}
       />

@@ -1,111 +1,146 @@
-import React from "react";
-import Button from "../../buttons/Button";
+import React, { useEffect, useRef, useState } from "react";
 import { cifStep1Fields } from "../../../utils/arrays";
 import Input from "../../fields/Input";
-import TextArea from "../../fields/TextArea";
+import Button from "../../buttons/Button";
 import type { StepFormProps } from "../../../utils/interfaces";
-import { AiOutlineDown } from "react-icons/ai";
-import { HiChevronDown } from "react-icons/hi";
+import ImageUpload from "../ImageUpload";
+import { toast } from "react-toastify";
+import { fetchPlaceDetails, fetchPlaces } from "../../../utils/utilities";
+import { useAppSelector } from "../../../store/store";
+import Loader from "../../Loader";
 
-const Step1: React.FC<StepFormProps> = ({
-  setStep,
-  formData,
-  handleFieldChange,
-}) => {
-  return (
-    <div>
-      {/* All Fields */}
-      <div className="border rounded-xl bg-white my-8 pt-3 sm:pt-18 pb-4 xxs:px-2 sm:px-6">
-        {/* <h1 className="xxs:text-xl xs:text-2xl sm:text-3xl lg:text-4xl text-center font-semibold"> */}
-        <h1 className="xxs:text-xl xs:text-2xl md:text-3xl lg:text-4xl text-center font-semibold">
-          Best in Breed Dog Training
-        </h1>
-        <div className="grid sm:grid-cols-4 gap-2 sm:gap-4 items-center xxs:mt-6 sm:mt-0 mb-1 sm:my-8 lg:my-18">
-          {/* Left: Address text */}
-          <div className="xxs:text-sm sm:text-lg lg:text-2xl">
-            Matt Bramlett 224 Brown Industrial Pkwy Suite 101 Canton, GA 30114
-          </div>
-          <div></div>
-          {/* Right: Mailing Address input */}
-          <div className="col-span-2 ">
-            <TextArea
-              rows={4}
-              value={formData["Mailing Address"] || ""}
-              placeholder="Mailing Address"
-              className="w-full bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none pt-3"
-              setValue={(val) => handleFieldChange("Mailing Address", val)}
+type Prediction = {
+  description: string;
+  place_id: string;
+};
+
+const Step1: React.FC<StepFormProps> = React.memo(
+  ({
+    setStep,
+    formData,
+    handleFieldChange,
+    image,
+    handleImageUpdate,
+    selectedClientInfo,
+    errors,
+    validateStep,
+  }) => {
+    const addressRef = useRef<HTMLInputElement>(null);
+    const { isLoading } = useAppSelector((state) => state.commonSlice);
+    const [options, setOptions] = useState<Prediction[]>([]);
+    const [placeId, setPlaceId] = useState<string>(""); // place_id
+    const [isTyping, setIsTyping] = useState<boolean>(false);
+
+    const isAddDog = selectedClientInfo?.client?._id; // add the time of new dog added against already created cleint
+
+    const handleNext = () => {
+      if (image || isAddDog) {
+        if (validateStep(1)) {
+          setStep((prev: number) => prev + 1);
+        } else {
+          toast.error(
+            "Please fill in all required fields in the correct format."
+          );
+        }
+      } else {
+        toast.error(
+          "Please upload an image before proceeding to the next step."
+        );
+      }
+    };
+
+    useEffect(() => {
+      if (isTyping && formData?.client?.address) {
+        fetchPlaces(formData.client.address).then((e) => {
+          setOptions(e || []);
+        });
+      }
+      if (placeId) {
+        fetchPlaceDetails(placeId).then((state) => {
+          handleFieldChange("client", "subdivision", state);
+        });
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [formData?.client?.address, isTyping]);
+    // console.log(isLoading, image);
+
+    return (
+      <div>
+        {isAddDog ? (
+          <div className="place-items-center">
+            <img
+              src={selectedClientInfo?.client?.imageUrl || null}
+              className="bg-brand-blue rounded-full xxs:w-[100px] xxs:h-[100px] md:w-[144px] md:h-[144px]"
             />
           </div>
+        ) : isLoading ? (
+          <Loader isBlue={true} padding={10} />
+        ) : (
+          <ImageUpload
+            image={image}
+            handleImageUpdate={(e) => handleImageUpdate(e, "client")}
+          />
+        )}
+
+        <div className="grid grid-cols-12 gap-3 sm:gap-4 my-3 sm:my-8">
+          {cifStep1Fields.map((field, index) => (
+            <div key={index} className={field.colSpan}>
+              <div className="sm:mb-1 font-semibold xxs:text-sm sm:text-base">
+                {field.label}
+              </div>
+
+              <div className="relative">
+                <Input
+                  ref={field.name === "address" ? addressRef : undefined}
+                  type={field.type || "text"}
+                  value={formData.client?.[field.name] || ""}
+                  readOnly={isAddDog}
+                  placeholder={field.placeholder}
+                  className={`w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 xxs:text-sm sm:text-base placeholder-gray-700 border border-gray-300 focus:outline-none  ${
+                    errors[field.name] ? "border-red-500" : "border-gray-300"
+                  }`}
+                  setValue={(val: string) => {
+                    handleFieldChange("client", field.name, val, field.label);
+                    if (field.name === "address") {
+                      setIsTyping(true);
+                    }
+                  }}
+                  error={errors[field.name]}
+                />
+
+                {/* Suggestions dropdown only for address */}
+                {field.name === "address" && options.length > 0 && (
+                  <ul className="absolute z-50 bg-white border border-gray-300 rounded-md mt-1 w-full max-h-60 overflow-y-auto shadow-lg">
+                    {options.map((p) => (
+                      <li
+                        key={p.place_id}
+                        onClick={() => {
+                          handleFieldChange("client", "address", p.description);
+                          setPlaceId(p.place_id);
+                          setOptions([]); // hide dropdown immediately
+                          setIsTyping(false); // prevent reopening until typing again
+                        }}
+                        className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                      >
+                        {p.description}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
-        <div className="grid grid-cols-12 gap-2 sm:gap-4">
-          {cifStep1Fields.map((field, index) => {
-            switch (field.elementType) {
-              case "input":
-                return (
-                  <div key={index} className={field.colSpan}>
-                    <Input
-                      type={field.type || "text"}
-                      value={formData[field.name] || ""}
-                      placeholder={field.placeholder}
-                      className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none"
-                      setValue={(val) => handleFieldChange(field.name, val)}
-                    />
-                  </div>
-                );
 
-              case "textarea":
-                return (
-                  <div key={index} className={field.colSpan}>
-                    <TextArea
-                      rows={field.rows || 3}
-                      value={formData[field.name] || ""}
-                      placeholder={field.placeholder}
-                      className="w-full bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none pt-3"
-                      setValue={(val) => handleFieldChange(field.name, val)}
-                    />
-                  </div>
-                );
-
-              case "select":
-                return (
-                  <div key={index} className={`relative ${field.colSpan}`}>
-                    <select
-                      required
-                      value={formData[field.name] || ""}
-                      onChange={(e) =>
-                        handleFieldChange(field.name, e.target.value)
-                      }
-                      className="appearance-none w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 xxs:text-sm sm:text-base focus:outline-none"
-                    >
-                      <option value="" disabled selected hidden>
-                        {field.placeholder}
-                      </option>
-                      {field.options?.map((opt, i) => (
-                        <option key={i} value={opt}>
-                          {opt}
-                        </option>
-                      ))}
-                    </select>
-                    <HiChevronDown className="w-5 h-5 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                    {/* <AiOutlineDown className="w-3 h-3 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" /> */}
-                  </div>
-                );
-
-              default:
-                return null;
-            }
-          })}
-        </div>
+        {/* Next Button */}
+        <Button
+          name="Next"
+          className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-xl text-white font-semibold outline-none"
+          onClick={handleNext}
+        />
       </div>
-
-      {/* Next Button */}
-      <Button
-        name="Next"
-        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-xl text-white text-base"
-        onClick={() => setStep((prev: number) => prev + 1)}
-      />
-    </div>
-  );
-};
+    );
+  }
+);
 
 export default Step1;

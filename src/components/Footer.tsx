@@ -3,7 +3,7 @@ import { email, logoWhiteText, phone } from "../assets/images";
 import { Link, useLocation } from "react-router-dom";
 import type { link } from "../utils/interfaces";
 
-const Footer = () => {
+const Footer = React.memo(() => {
   const location = useLocation();
 
   // for links
@@ -33,8 +33,8 @@ const Footer = () => {
   // for legal
   const legals: link[] = [
     {
-      name: "About App",
-      url: "/about-app",
+      name: "About Us",
+      url: "/about-us",
     },
     {
       name: "Terms & Conditions",
@@ -132,6 +132,6 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
+});
 
 export default Footer;

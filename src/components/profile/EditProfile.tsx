@@ -3,11 +3,68 @@ import Button from "../buttons/Button";
 import { check, location } from "../../assets/images";
 import Input from "../fields/Input";
 import type { field, Props } from "../../utils/interfaces";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import { toast } from "react-toastify";
+import { updateProfile, updateProfileImg } from "../../store/auth/authAction";
+import NavigationTopBar from "../NavigationTopBar";
+import ImageUpload from "../forms/ImageUpload";
+import Loader from "../Loader";
+import { addressRegex, emailRegex, phoneRegex } from "../../utils/utilities";
 
 const EditProfile: React.FC<Props> = ({ setType }) => {
-  const [email, setEmail] = useState("brucenelson@demomail.com");
-  const [loc, setLoc] = useState("Theron Branch Suite 920");
-  const [phoneNo, setPhoneNo] = useState("+1 (027) 266-7137");
+  const dispatch = useAppDispatch();
+  const { userData, profileImg } = useAppSelector((state) => state.authSlices);
+  const { isLoading } = useAppSelector((state) => state.commonSlice);
+
+  const [errors, setErrors] = useState("");
+  const [email, setEmail] = useState(userData?.email);
+  const [loc, setLoc] = useState(userData?.location);
+  const [phoneNo, setPhoneNo] = useState(userData?.phone);
+
+  const handleProfileImgUpdate = async (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+      const response = await dispatch(updateProfileImg(formData));
+      if (response?.payload?.success) {
+        toast.success(`Profile picture updated successfully`);
+      }
+    }
+  };
+
+  const handleProfileUpdate = async () => {
+    // Email/ address/ number validation
+    if (
+      !email ||
+      !emailRegex.test(email) ||
+      !phoneNo ||
+      !phoneRegex.test(phoneNo) ||
+      !loc ||
+      !addressRegex.test(loc)
+    ) {
+      setErrors("error");
+      return;
+    }
+
+    try {
+      const dataToSend = {
+        email: email,
+        phoneNumber: phoneNo,
+        location: loc,
+      };
+      setErrors("");
+
+      const response = await dispatch(updateProfile(dataToSend)).unwrap();
+      if (response?.success) {
+        toast.success("Profile updated successfully.");
+        setType("menu");
+      }
+    } catch (error) {
+      // Optional: show toast error here
+    }
+  };
 
   const fields: field[] = [
     {
@@ -41,7 +98,17 @@ const EditProfile: React.FC<Props> = ({ setType }) => {
 
   return (
     <div>
-      <div className="my-[50px]">
+      {/* Top Bar */}
+      <NavigationTopBar name="Edit Profile" onClick={() => setType("menu")} />
+
+      {/* Profile Image */}
+      <ImageUpload
+        image={profileImg}
+        name={userData?.name}
+        handleImageUpdate={handleProfileImgUpdate}
+      />
+
+      <div className="my-8 sm:my-[50px]">
         <div className="grid xxs:grid-cols-1 sm:grid-cols-2 xxs:gap-4 sm:gap-5">
           {fields.map(({ value, name, type, className, setValue, endIcon }) => (
             <div key={name}>
@@ -52,7 +119,25 @@ const EditProfile: React.FC<Props> = ({ setType }) => {
                 <Input
                   value={value}
                   type={type}
-                  className={className}
+                  className={`${className} ${
+                    !value && errors ? "border-red-500" : "border-gray-300"
+                  }`}
+                  // error={!value && errors ? `${name} is required` : undefined}
+                  error={
+                    !value && errors
+                      ? `${name} is a required field`
+                      : errors &&
+                        name === "Email Address" &&
+                        !emailRegex.test(email)
+                      ? "Please enter a valid email address"
+                      : errors &&
+                        name === "Phone Number" &&
+                        !phoneRegex.test(phoneNo)
+                      ? "Please enter a valid phone number (10–15 digits)"
+                      : errors && name === "Location" && !addressRegex.test(loc)
+                      ? "Please enter a valid location (include street and city)"
+                      : undefined
+                  }
                   setValue={setValue}
                   endIcon={endIcon}
                 />
@@ -63,9 +148,12 @@ const EditProfile: React.FC<Props> = ({ setType }) => {
       </div>
 
       <Button
-        name="Save Changes"
-        className="w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white"
-        onClick={() => setType("menu")}
+        name={isLoading ? <Loader /> : "Save Changes"}
+        disabled={isLoading}
+        className={`w-full xxs:h-[45px] sm:h-[56px] bg-brand-blue rounded-lg text-white outline-none ${
+          isLoading && "cursor-not-allowed"
+        }`}
+        onClick={handleProfileUpdate}
       />
     </div>
   );

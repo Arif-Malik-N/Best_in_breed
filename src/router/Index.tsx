@@ -1,5 +1,5 @@
-import React, { createContext, useState } from "react";
-import { Route, Routes } from "react-router";
+import React, { use, useEffect } from "react";
+import { Route, Routes, useNavigate } from "react-router";
 import {
   Home,
   Schedule,
@@ -13,22 +13,32 @@ import {
   FAQs,
   Notifications,
   Reports,
+  Review,
 } from "../pages";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import type { AppRoute } from "../utils/interfaces";
-
-export const AuthContext = createContext(false);
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { getNotifications } from "../store/notification/notificationAction";
+import { addNewNotification } from "../store/notification/notificationReducer";
+import { toast } from "react-toastify";
+import { io } from "socket.io-client";
+import { baseURL } from "../apiRoutes/apiRoutes";
 
 const Routing = React.memo(() => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const socket = io(baseURL);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const token = useAppSelector((state) => state.authSlices?.token);
+  // const token = true;
 
   const routes: AppRoute[] = [
     { path: "/", component: <Home /> },
     { path: "/schedule", component: <Schedule /> },
     { path: "/clients", component: <Clients /> },
     { path: "/contracts", component: <Contracts /> },
-    { path: "/about-app", component: <AboutUs /> },
+    { path: "/about-us", component: <AboutUs /> },
+    { path: "/review", component: <Review /> },
     { path: "/profile", component: <Profile /> },
     { path: "/term-and-conditions", component: <TermsAndConditions /> },
     { path: "/privacy-policy", component: <PrivacyPolicy /> },
@@ -36,30 +46,57 @@ const Routing = React.memo(() => {
     { path: "/reports", component: <Reports /> },
     { path: "/notification", component: <Notifications /> },
   ];
+
+  useEffect(() => {
+    if (token) {
+      socket.on("connect", () => {});
+      socket.emit("join_admin_room", { token: token });
+      socket.on("new_notification", (data) => {
+        toast(`Notification from ${data?.clientName}`, {
+          onOpen: () => {
+            navigate("/notification");
+          },
+        });
+
+        dispatch(addNewNotification(data));
+      });
+      return () => {
+        socket.disconnect();
+      };
+    }
+  }, [token]);
+
+  useEffect(() => {
+    // toast(`Notification from Client`, {
+    //   onOpen: () => {
+    //     navigate("/notification");
+    //   },
+    // });
+    if (token) dispatch(getNotifications());
+  }, [token]);
+
   return (
     <div>
-      <AuthContext value={{ isAuthenticated, setIsAuthenticated }}>
-        {isAuthenticated ? (
-          <div className="bg-brand-grayBg min-h-screen flex flex-col">
-            {/* Header */}
-            <Header />
+      {token ? (
+        <div className="bg-brand-grayBg min-h-screen flex flex-col">
+          {/* Header */}
+          <Header />
 
-            {/* Main content */}
-            <main className="flex-grow pt-10 sm:p-4 xxs:pt-[90px] xs:pt-[100px] sm:pt-[130px] lg:pt-[150px] xl:pt-[200px] xxs:pb-[20px] sm:pb-[60px] xxs:px-[8px] sm:px-[30px] lg:px-[60px] xl:px-[152px]">
-              <Routes>
-                {routes.map(({ path, component }) => (
-                  <Route key={path} path={path} element={component} />
-                ))}
-              </Routes>
-            </main>
+          {/* Main content */}
+          <main className="flex-grow pt-10 sm:p-4 xxs:pt-[90px] xs:pt-[100px] sm:pt-[130px] lg:pt-[150px] xl:pt-[200px] xxs:pb-[20px] sm:pb-[60px] xxs:px-[8px] sm:px-[30px] lg:px-[60px] xl:px-[152px]">
+            <Routes>
+              {routes.map(({ path, component }) => (
+                <Route key={path} path={path} element={component} />
+              ))}
+            </Routes>
+          </main>
 
-            {/* Footer */}
-            <Footer />
-          </div>
-        ) : (
-          <SignIn />
-        )}
-      </AuthContext>
+          {/* Footer */}
+          <Footer />
+        </div>
+      ) : (
+        <SignIn />
+      )}
     </div>
   );
 });

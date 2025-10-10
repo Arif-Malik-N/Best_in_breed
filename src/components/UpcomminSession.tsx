@@ -1,10 +1,12 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import { augustDataWithImage, septemberDataWithImage } from "../utils/arrays";
 import type { EventItem } from "../utils/interfaces";
 import EventList from "./EventList";
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { getSessions } from "../store/session/sessionAction";
 
-const UpcomminSession = () => {
+const UpcomminSession = React.memo(() => {
+  const dispatch = useAppDispatch();
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState(today.getMonth()); // in number
   const [currentYear, setCurrentYear] = useState(today.getFullYear()); // in number
@@ -21,6 +23,7 @@ const UpcomminSession = () => {
       year: "numeric",
     }
   );
+  const { sessions } = useAppSelector((state) => state.sessionSlices);
 
   // Days in current month
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
@@ -61,27 +64,33 @@ const UpcomminSession = () => {
 
   // Get events for selected date
   useEffect(() => {
-    if (!isSelectFromPagination) {
-      const events =
-        augustDataWithImage?.[
-          `${selectedDate.getDate()}-${monthName.toLowerCase()}`
-        ] || [];
-      setEvents(events);
-    } else {
-      const events =
-        septemberDataWithImage?.[`1-${monthName.toLowerCase()}`] || [];
-      setEvents(events);
-      setSelectedDate(weeks[0]?.filter((date) => date)[0]);
-    }
+    const date = selectedDate.toLocaleDateString("en-GB").split("/").join("-");
+
+    (async () => {
+      await dispatch(getSessions({ startDate: date, endDate: date }));
+
+      if (isSelectFromPagination) {
+        setSelectedDate(weeks[0]?.filter((date) => date)[0]);
+      }
+    })();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentMonth, selectedDate, monthName]);
+
+  useEffect(() => {
+    const key = `${selectedDate.getDate()}-${monthName}`;
+    const events = sessions?.[key] || [];
+    setEvents(events);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sessions]);
 
   // Handle week navigation
   const prevWeek = () => setWeekIndex((prev) => Math.max(prev - 1, 0));
   const nextWeek = () =>
     setWeekIndex((prev) => Math.min(prev + 1, weeks.length - 1));
 
-  // Handle month navigation
+  // Handle month navigation prev
   const prevMonth = () => {
     setIsSelectFromPagination(true);
     setCurrentMonth((prev) => {
@@ -93,6 +102,7 @@ const UpcomminSession = () => {
     });
     setWeekIndex(0);
   };
+  // Handle month navigation next
   const nextMonth = () => {
     setIsSelectFromPagination(true);
     setCurrentMonth((prev) => {
@@ -206,10 +216,10 @@ const UpcomminSession = () => {
         events={events}
         scrollable
         className="gap-3 p-2 bg-gray-400"
-        emptyMessage="No sessions for this date."
+        emptyMessage="No session available for selected date."
       />
     </div>
   );
-};
+});
 
 export default UpcomminSession;

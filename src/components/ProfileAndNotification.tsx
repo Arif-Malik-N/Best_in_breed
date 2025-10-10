@@ -1,11 +1,15 @@
 import { Link } from "react-router-dom";
-import { notification, profile } from "../assets/images";
+import { notification } from "../assets/images";
 import { AiOutlineDown } from "react-icons/ai";
 import type { ProfileAndNotProps } from "../utils/interfaces";
+import { useAppSelector } from "../store/store";
 
 const ProfileAndNotification: React.FC<ProfileAndNotProps> = ({
   className = "",
 }) => {
+  const { profileImg } = useAppSelector((state) => state.authSlices);
+  const { notifications } = useAppSelector((state) => state.notificationSlices);
+
   return (
     <>
       {/* Profile */}
@@ -13,7 +17,11 @@ const ProfileAndNotification: React.FC<ProfileAndNotProps> = ({
         <Link to="/profile">
           <div className="flex cursor-pointer">
             <div className="bg-gray-200 rounded-full">
-              <img src={profile} alt="profile" />
+              <img
+                src={profileImg}
+                alt="profile"
+                className="w-12 h-12 rounded-full"
+              />
             </div>
             <AiOutlineDown className="ml-1 mt-4" />
           </div>
@@ -26,9 +34,11 @@ const ProfileAndNotification: React.FC<ProfileAndNotProps> = ({
           <div className="relative bg-gray-400 w-10 h-10 rounded-full flex items-center justify-center">
             <img src={notification} alt="notification" />
             {/* White circle background for red dot */}
-            <span className="absolute top-[7px] right-[7px] w-2.5 h-2.5 bg-white rounded-full flex items-center justify-center">
-              <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
-            </span>
+            {notifications?.result?.some(({ isRead }) => !isRead) && (
+              <span className="absolute top-[7px] right-[7px] w-2.5 h-2.5 bg-white rounded-full flex items-center justify-center">
+                <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+              </span>
+            )}
           </div>
         </div>
       </Link>
