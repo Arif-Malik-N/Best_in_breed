@@ -24,7 +24,8 @@ const ResetPasswordDialog: React.FC<DialogProps> = ({
 
         {/* Description */}
         <p className="xxs:text-sm xs:text-base sm:text-lg pb-5">
-          Password reset link has been sent to {email || "bru*****n@gmail.com"}{" "}
+          Password reset link has been sent to{" "}
+          <span className="font-bold">{email || "bru*****n@gmail.com"}</span>{" "}
           <br /> please check your email and follow the instructions
         </p>
 

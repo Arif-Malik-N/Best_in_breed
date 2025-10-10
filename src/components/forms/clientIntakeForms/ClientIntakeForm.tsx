@@ -56,7 +56,8 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
     const handleFieldChange = (
       section: keyof ClientIntakeFormProp,
       name: string,
-      value: string | number | Date | boolean | string[]
+      value: string | number | Date | boolean | string[],
+      label: string
     ) => {
       setFormData((prev) => ({
         ...prev,
@@ -85,7 +86,14 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
           const endTime =
             name === "endTime" ? value : formData?.contract?.endTime;
 
-          if (["startDate", "endDate"].includes(name)) {
+          if (
+            [
+              "startDate",
+              "endDate",
+              "evaluationSchedule",
+              "trainingToStartWeekOf",
+            ].includes(name)
+          ) {
             if (isPastDate(value as string)) {
               newErrors[name] = "Date cannot be in the past";
             } else {
@@ -115,6 +123,8 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
             ![
               "startDate",
               "endDate",
+              "evaluationSchedule",
+              "trainingToStartWeekOf",
               "startTime",
               "endTime",
               "mailingAddress",
@@ -132,13 +142,14 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
               if (emailRegex.test(value)) {
                 delete newErrors[name];
               } else {
-                newErrors[name] = "Invalid email address";
+                newErrors[name] = "Please enter a valid email address";
               }
             } else if (name === "mailingAddress") {
               if (mailingAddressRegex.test(value)) {
                 delete newErrors[name];
               } else {
-                newErrors[name] = "Character length should be between 10 - 20";
+                newErrors[name] =
+                  "'Please enter a valid mailing address (10–20 characters)'";
                 // "The address '123 Main Street, New York, NY 10001' is valid.";
               }
             } else if (
@@ -153,7 +164,8 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
               if (phoneRegex.test(value)) {
                 delete newErrors[name];
               } else {
-                newErrors[name] = "Character length should be between 9 - 15";
+                newErrors[name] =
+                  "Please enter a valid phone number (10–15 digits)";
                 // newErrors[name] = "The Number '123-456-7890' is valid.";
               }
             }
@@ -164,7 +176,7 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
       } else {
         setErrors((prev) => {
           const newErrors = { ...prev };
-          newErrors[name] = `This field is required`;
+          newErrors[name] = `${label} is a required field`;
           return newErrors;
         });
       }
@@ -177,7 +189,7 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
       if (step === 1) {
         cifStep1Fields.forEach(({ name, label }) => {
           if (!formData.client?.[name]) {
-            newErrors[name] = `${label} is required field`;
+            newErrors[name] = `${label} is a required field`;
           } // empty validation
         });
       }
@@ -185,13 +197,13 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
       if (step === 2) {
         // for mailing address field
         if (!formData.dog?.["mailingAddress"]) {
-          newErrors["mailingAddress"] = `Mailing address is required field`;
+          newErrors["mailingAddress"] = `Mailing address is a required field`;
         } // empty validation
 
         // for remainig fields
         cifStep2Fields.forEach(({ name, placeholder }) => {
           if (!formData.dog?.[name]) {
-            newErrors[name] = `${placeholder} is required field`;
+            newErrors[name] = `${placeholder} is a required field`;
           } // empty validation
         });
       }
@@ -201,7 +213,7 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
           if (!formData.contract?.[name]) {
             console.log(formData.contract?.[name]);
 
-            newErrors[name] = `${label} is required field`;
+            newErrors[name] = `${label} is a required field`;
           }
         });
       }
@@ -209,8 +221,6 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
       setErrors(newErrors);
       return Object.keys(newErrors).length === 0;
     };
-
-    console.log(errors);
 
     // to upload profile image for dog and client
     const handleProfileImg = async (
@@ -253,10 +263,10 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
         toast.error("Please sign both signature fields");
         return;
       } else if (!dogOwnerSignaturePictureId) {
-        toast.error("Please sign the Dog Owner field");
+        toast.error("Please sign the Owner of Dog field");
         return;
       } else if (!representativeSignaturePictureId) {
-        toast.error("Please sign the Representative field");
+        toast.error("Please sign the Representative of BEST IN BREED field");
         return;
       }
 
@@ -295,7 +305,7 @@ const ClientIntakeForm: React.FC<clientIntakeProp> = React.memo(
           toast.success(
             isEditMode
               ? "Dog added successfully!"
-              : "Form submitted successfully!"
+              : "Client Intake Form submitted successfully"
           );
         }
       } catch (error) {

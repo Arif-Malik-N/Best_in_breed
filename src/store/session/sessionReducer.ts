@@ -8,6 +8,7 @@ const initialState = {
     appointments: 0,
     pendingContracts: 0,
   },
+  isLoading: false,
 };
 
 const sessionSlices = createSlice({
@@ -20,9 +21,12 @@ const sessionSlices = createSlice({
     saveMetrics: (state, { payload }) => {
       state.metrics = payload;
     },
+    setLoading: (state, { payload }) => {
+      state.isLoading = payload;
+    },
   },
 });
 
-export const { saveSession, saveMetrics } = sessionSlices.actions;
+export const { saveSession, saveMetrics, setLoading } = sessionSlices.actions;
 
 export default sessionSlices.reducer;

@@ -40,7 +40,7 @@ const SignIn = React.memo(() => {
       const response = await dispatch(login(dataToSend)).unwrap();
       // toaster after api success
       if (response?.success) {
-        toast.success(`Welcome Back ${response?.data?.user?.name}`);
+        toast.success(`Welcome Back, ${response?.data?.user?.name}`);
       }
     } catch (error) {
       // Empty catch block (no error handling)
@@ -145,7 +145,10 @@ const SignIn = React.memo(() => {
                   Forgot your password?{" "}
                   <span
                     className="text-brand-blue cursor-pointer underline"
-                    onClick={() => setFormType("resetPassword")}
+                    onClick={() => {
+                      setFormType("resetPassword");
+                      setEmail("");
+                    }}
                   >
                     Reset Now
                   </span>

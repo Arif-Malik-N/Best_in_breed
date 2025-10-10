@@ -13,7 +13,7 @@ const Header = React.memo(() => {
     { name: "Schedule", url: "/schedule", className: "" },
     { name: "Clients", url: "/clients", className: "" },
     { name: "Contracts", url: "/contracts", className: "" },
-    { name: "About us", url: "/about-us", className: "" },
+    { name: "About Us", url: "/about-us", className: "" },
     { name: "Reviews", url: "/review", className: "" },
     { name: "Profile", url: "/profile", className: "xxs:block sm:hidden" },
     {

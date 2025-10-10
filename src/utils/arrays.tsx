@@ -69,7 +69,7 @@ export const cifStep1Fields: {
   },
   {
     name: "evaluationSchedule",
-    label: "Evaluation scheduled",
+    label: "Evaluation schedule",
     // type: "date",
     type: "datetime-local",
     placeholder: "Enter appointment date",
@@ -208,11 +208,14 @@ export const cifStep2Fields: Step2Field[] = [
     elementType: "select",
     colSpan: "col-span-12 md:col-span-12",
     options: [
-      { value: "houseBreaking", label: "House Breaking" },
+      { value: "House Breaking", label: "House Breaking" },
       {
-        value: "PpersonalProtection",
+        value: "Personal Protection",
         label: "Personal Protection (no bite work - treat training only)",
       },
+      { value: "Behavior Problem", label: "Behavior Problem" },
+      { value: "Adnance Obedience", label: "Adnance Obedience" },
+      { value: "Obedience Training", label: "Obedience Training" },
     ],
   },
   {
@@ -374,8 +377,9 @@ export const requiredContractFields = [
 export const weeksOptions = [
   { value: 0, label: "0" },
   { value: 2, label: "2" },
-  { value: 3, label: "3" },
   { value: 4, label: "4" },
+  { value: 8, label: "8" },
+  { value: 10, label: "10" },
   // { value: "other", label: "Other" },
 ];
 

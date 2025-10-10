@@ -26,7 +26,7 @@ const Reports = () => {
       {isLoading ? (
         <Loader isBlue={true} padding={10} />
       ) : (
-        <div className="py-6 grid xxs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-6 pt-4 lg:pt-8">
+        <div className="py-6 grid xxs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  2xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 pt-4 lg:pt-8">
           {reports?.result?.map(
             ({
               _id,
@@ -68,6 +68,7 @@ const Reports = () => {
                       <img
                         key={reportPdfUrl}
                         src={pdf}
+                        className="cursor-pointer"
                         onClick={() => {
                           if (reportPdfUrl) {
                             window.open(reportPdfUrl, "_blank");

@@ -65,7 +65,9 @@ export const fetchPlaceDetails = async (placeId: string) => {
 // regix
 export const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+
 // export const phoneRegex = /^(\+1\s?)?(\(?\d{3}\)?[\s.-]?)?\d{3}[\s.-]?\d{4}$/;
 // export const phoneRegex = /^(\+?1[\s.-]?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
 // export const addressRegex = /^\d+\s[A-z]+\s[A-z]+.*$/;

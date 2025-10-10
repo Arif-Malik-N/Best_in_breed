@@ -29,7 +29,7 @@ const Step2: React.FC<StepFormProps> = ({
         toast.error("Please fill all required fields");
       }
     } else {
-      toast.error("Please select image");
+      toast.error("Please upload an image before proceeding to the next step.");
     }
   };
 
@@ -65,8 +65,13 @@ const Step2: React.FC<StepFormProps> = ({
               placeholder="Mailing Address"
               className={`w-full bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none pt-3 
                         ${errors["mailingAddress"] && "border border-red-500"}`}
-              setValue={(val) =>
-                handleFieldChange("dog", "mailingAddress", val)
+              setValue={(val: string) =>
+                handleFieldChange(
+                  "dog",
+                  "mailingAddress",
+                  val,
+                  "Mailing Address"
+                )
               }
               error={errors["mailingAddress"]}
             />
@@ -85,8 +90,8 @@ const Step2: React.FC<StepFormProps> = ({
                       className={`w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none  ${
                         errors[field.name] && "border border-red-500"
                       }`}
-                      setValue={(val) =>
-                        handleFieldChange("dog", field.name, val)
+                      setValue={(val: string) =>
+                        handleFieldChange("dog", field.name, val, field.label)
                       }
                       error={errors[field.name]}
                     />
@@ -103,8 +108,8 @@ const Step2: React.FC<StepFormProps> = ({
                       className={`w-full bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none pt-3 
                         ${errors[field.name] && "border border-red-500"}
                         `}
-                      setValue={(val) =>
-                        handleFieldChange("dog", field.name, val)
+                      setValue={(val: string) =>
+                        handleFieldChange("dog", field.name, val, field.label)
                       }
                       error={errors[field.name]}
                     />
@@ -121,7 +126,7 @@ const Step2: React.FC<StepFormProps> = ({
                       className={`appearance-none w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 xxs:text-sm sm:text-base focus:outline-none 
                         ${errors[field.name] && "border border-red-500"}
                         `}
-                      setValue={(val) =>
+                      setValue={(val: string) =>
                         handleFieldChange("dog", field.name, val)
                       }
                       error={errors[field.name]}

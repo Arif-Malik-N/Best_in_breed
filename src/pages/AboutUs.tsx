@@ -21,12 +21,12 @@ const AboutUs = () => {
   return (
     <div>
       {/* Top bar */}
-      <NavigationTopBar name="About us" onClick={() => navigate("/")} />
+      <NavigationTopBar name="About Us" onClick={() => navigate("/")} />
 
       {/* Middle Text With Image */}
       <div className="my-3 sm:my-10">
         {/* Text Section */}
-        <div className="xxs:text-xs xs:text-sm sm:text-lg text-gray-800 space-y-4">
+        <div className="xxs:text-xs xs:text-sm sm:text-base 3xl:text-lg text-gray-800 space-y-4">
           At Best in Breed Dog Training, we believe every dog deserves the
           chance to be their best self. Our mission is to help dogs and their
           owners build stronger, healthier, and happier relationships through
@@ -54,10 +54,10 @@ const AboutUs = () => {
             <li>Tailored programs for every dog’s personality and needs</li>
             <li>A caring and safe environment for growth and learning</li>
           </ul>
-          <br />
-          <br /> At Best in Breed Dog Training, we’re not just training dogs —
-          we’re building lifelong bonds. <br />
-          <br />
+          <div className="py-4 2xl:py-0 3xl:py-8">
+            At Best in Breed Dog Training, we’re not just training dogs — we’re
+            building lifelong bonds.
+          </div>
           {/* <React.Fragment>
             Non non ut sit adipiscing sed id nisl at integ ipsum dolor sit amet,
             consectetur adipiscing elit Sed non netus cum faucibus blandit. Non
@@ -68,7 +68,7 @@ const AboutUs = () => {
 
       {/* Certificate Section */}
       <div>
-        <div className="text-center xxs:my-5 sm:my-12">
+        <div className="text-center xxs:my-5 sm:my-12 2xl:my-20">
           <h1 className="xxs:text-xl xs:text-2xl sm:text-4xl font-bold">
             Training That Earns a Title
           </h1>

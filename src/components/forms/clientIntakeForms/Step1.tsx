@@ -38,10 +38,14 @@ const Step1: React.FC<StepFormProps> = React.memo(
         if (validateStep(1)) {
           setStep((prev: number) => prev + 1);
         } else {
-          toast.error("Please fill all required fields with format");
+          toast.error(
+            "Please fill in all required fields in the correct format."
+          );
         }
       } else {
-        toast.error("Please select image");
+        toast.error(
+          "Please upload an image before proceeding to the next step."
+        );
       }
     };
 
@@ -56,7 +60,9 @@ const Step1: React.FC<StepFormProps> = React.memo(
           handleFieldChange("client", "subdivision", state);
         });
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [formData?.client?.address, isTyping]);
+    // console.log(isLoading, image);
 
     return (
       <div>
@@ -93,8 +99,8 @@ const Step1: React.FC<StepFormProps> = React.memo(
                   className={`w-full xxs:h-[50px] sm:h-[56px] bg-white rounded-lg px-4 xxs:text-sm sm:text-base placeholder-gray-700 border border-gray-300 focus:outline-none  ${
                     errors[field.name] ? "border-red-500" : "border-gray-300"
                   }`}
-                  setValue={(val) => {
-                    handleFieldChange("client", field.name, val);
+                  setValue={(val: string) => {
+                    handleFieldChange("client", field.name, val, field.label);
                     if (field.name === "address") {
                       setIsTyping(true);
                     }

@@ -2,7 +2,10 @@ import React from "react";
 import Button from "../buttons/Button";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 import { useAppDispatch } from "../../store/store";
-import { getClientsWithContract } from "../../store/client/clientAction";
+import {
+  getClients,
+  getClientsWithContract,
+} from "../../store/client/clientAction";
 import type { PaginationProps } from "../../utils/interfaces";
 import { getReports } from "../../store/report/reportAction";
 
@@ -13,13 +16,16 @@ const Pagination: React.FC<PaginationProps> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const handlePaginationBtnClicked = (page: number) => {
+  const handlePaginationBtnClicked = async (page: number) => {
     if (pageName === "reports") {
       const data = { page: page, perPage: 20 };
       dispatch(getReports(data));
+    } else if (pageName === "clients") {
+      const data = { searchName: "", page: page, perPage: 20 };
+      dispatch(getClients(data));
     } else {
       const data = { searchName: "", page: page, perPage: 10 };
-      dispatch(getClientsWithContract(data));
+      await dispatch(getClientsWithContract(data));
     }
   };
 

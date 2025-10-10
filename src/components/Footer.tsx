@@ -33,7 +33,7 @@ const Footer = React.memo(() => {
   // for legal
   const legals: link[] = [
     {
-      name: "About us",
+      name: "About Us",
       url: "/about-us",
     },
     {

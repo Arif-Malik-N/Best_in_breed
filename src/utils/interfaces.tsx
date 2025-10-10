@@ -187,7 +187,7 @@ export interface EventItem {
   description: string;
   startTime: string;
   endTime: string;
-  image?: string;
+  dogImageUrl?: string;
   date?: string;
 }
 
@@ -239,7 +239,9 @@ export interface InputProps {
   type?: string;
   placeholder?: string;
   className?: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  setValue?:
+    | ((val: string) => void)
+    | React.Dispatch<React.SetStateAction<string>>;
   startIcon?: string | React.ReactNode;
   endIcon?: string | React.ReactNode;
   rows?: number;
@@ -300,7 +302,8 @@ export interface StepFormProps {
   handleFieldChange: (
     section: keyof ClientIntakeFormProp,
     name: string,
-    value: any
+    value: any,
+    label?: string
   ) => void;
   handleImageUpdate: (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -322,7 +325,8 @@ export interface Step3FormProps {
   handleFieldChange: (
     section: keyof ClientIntakeFormProp,
     name: string,
-    value: any
+    value: any,
+    label?: string
   ) => void;
   errors: Record<string, string>;
   sign: SignType;
@@ -333,6 +337,7 @@ export interface ImageUploadProps {
   image: string;
   name?: string;
   handleImageUpdate: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleImageLoaded?: () => void;
 }
 
 export interface LoaderProps {

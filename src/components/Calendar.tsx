@@ -78,6 +78,7 @@ const Calendar = React.memo(() => {
           evs.map((ev: any, idx: number) => {
             const start = parseDateTime(dateStr, ev.startTime);
             const end = parseDateTime(dateStr, ev.endTime);
+            // const end = start;
 
             return {
               title: ev.name,
@@ -100,14 +101,13 @@ const Calendar = React.memo(() => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" }); // to render every step component at the top
   }, []);
+  console.log(calenderEvent);
 
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
   // to print cards in calendar
   function renderEventContent(eventInfo: any) {
     const { event } = eventInfo;
     const { description, image, color } = event.extendedProps as any;
-
-    console.log(event.extendedProps, " event.extendedProps");
 
     return (
       <div
@@ -127,8 +127,8 @@ const Calendar = React.memo(() => {
             }`}
             style={{ background: color, color: "white" }}
           >
-            {eventInfo.timeText}
-            {/* {formatTimeRangeTo12Hour(eventInfo.timeText)} */}
+            {/* {eventInfo.timeText} */}
+            {formatTimeRangeTo12Hour(eventInfo.timeText)}
           </span>
           {/* Avatar */}
           {image && (
@@ -216,7 +216,7 @@ const Calendar = React.memo(() => {
               initialView="timeGridWeek" // initially week
               events={calenderEvent}
               height="auto"
-              slotMinTime="06:00:00"
+              slotMinTime="00:00:00"
               slotMaxTime="23:59:00"
               allDaySlot={false}
               nowIndicator={true} // red line to indicate current time

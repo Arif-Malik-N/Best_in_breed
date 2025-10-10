@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "../store/store";
 import { getClients, getClientWithDog } from "../store/client/clientAction";
 import Loader from "../components/Loader";
 import { useLocation } from "react-router-dom";
+import Pagination from "../components/table/Pagination";
 
 function Clients() {
   const location = useLocation();
@@ -41,16 +42,12 @@ function Clients() {
 
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
-      const data = { searchName: search, page: 1, perPage: 50 };
+      const data = { searchName: search, page: 1, perPage: 20 };
       dispatch(getClients(data));
     }, 500);
 
     return () => clearTimeout(delayDebounce); // Cleanup function to cleartimeout on unmount
   }, [search, dispatch]);
-
-  React.useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" }); // to render every step component at the top
-  }, []);
 
   return renderPage === "clientIntakeForm" ? (
     <ClientIntakeForm
@@ -86,8 +83,6 @@ function Clients() {
       {isLoading ? (
         <Loader isBlue={true} padding={10} />
       ) : clients?.result?.length > 0 ? (
-        // <div className="grid xxs:grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 3xl:grid-cols-8 gap-3 sm:gap-4 lg:gap-6 pt-4 lg:pt-8">
-        // <div className="grid xxs:grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-6 pt-4 lg:pt-8">
         <div className="grid xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 pt-4 lg:pt-8">
           {clients?.result?.map(
             ({
@@ -124,6 +119,12 @@ function Clients() {
           No Record Found
         </h3>
       )}
+      {/* Pagination */}
+      <Pagination
+        currentPage={clients?.pagination?.page}
+        totalPages={clients?.pagination?.totalPages}
+        pageName="clients"
+      />
     </div>
   );
 }

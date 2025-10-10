@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { EventItem } from "../utils/interfaces";
 import Calendar from "../components/Calendar";
 import EventList from "../components/EventList";
-import { useAppDispatch } from "../store/store";
+import { useAppDispatch, useAppSelector } from "../store/store";
 import { getSessions } from "../store/session/sessionAction";
 
 const Schedule = () => {
@@ -11,24 +11,26 @@ const Schedule = () => {
 
   const today = new Date(); // get current date
   const monthName = today.toLocaleString("default", { month: "short" }); //get current month
+  const formattedDate: string = `${today.getDate()}-${monthName} ${today.getFullYear()}`; // today's date come from api
+
+  const { sessions } = useAppSelector((state) => state.sessionSlices);
 
   // Get events for selected date
   useEffect(() => {
     const date = today.toLocaleDateString("en-GB").split("/").join("-"); // today's date to send api
-    const formattedDate = `${today.getDate()}-${monthName} ${today.getFullYear()}`; // today's date come from api
 
-    (async () => {
-      const res = await dispatch(
-        getSessions({ startDate: date, endDate: date })
-      ).unwrap();
-
-      const events = res?.data?.result?.[formattedDate] || [];
-      setEvents(events);
-    })();
+    (async () =>
+      await dispatch(getSessions({ startDate: date, endDate: date })))();
 
     window.scrollTo({ top: 0, behavior: "smooth" }); // to render every step component at the top
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    const events = sessions?.[formattedDate] || [];
+    setEvents(events);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sessions]);
 
   return (
     <div>

@@ -144,7 +144,9 @@ const Step3: React.FC<Step3FormProps> = ({
             type="text"
             readOnly={true}
             className={`w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none`}
-            setValue={(val) => handleFieldChange("contract", "name", val)}
+            setValue={(val: string) =>
+              handleFieldChange("contract", "name", val)
+            }
           />
         </div>
         <Input
@@ -153,7 +155,9 @@ const Step3: React.FC<Step3FormProps> = ({
           readOnly={true}
           placeholder="Address"
           className={`w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none`}
-          setValue={(val) => handleFieldChange("contract", "address", val)}
+          setValue={(val: string) =>
+            handleFieldChange("contract", "address", val)
+          }
         />{" "}
         <Input
           value={formData?.client?.["phone1"] || ""}
@@ -161,7 +165,9 @@ const Step3: React.FC<Step3FormProps> = ({
           readOnly={true}
           placeholder="Phone"
           className={`w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none`}
-          setValue={(val) => handleFieldChange("contract", "phone1", val)}
+          setValue={(val: string) =>
+            handleFieldChange("contract", "phone1", val)
+          }
         />
       </div>
       {/* Checkbox Fields */}
@@ -176,7 +182,7 @@ const Step3: React.FC<Step3FormProps> = ({
             value={formData?.contract?.["weeksOnLeash"] || ""}
             placeholder={"Select Weeks on Leash"}
             className="appearance-none w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 xxs:text-sm sm:text-base focus:outline-none"
-            setValue={(val) =>
+            setValue={(val: string) =>
               handleFieldChange("contract", "weeksOnLeash", val)
             }
             error={errors["weeksOnLeash"]}
@@ -189,7 +195,7 @@ const Step3: React.FC<Step3FormProps> = ({
             value={formData?.contract?.["weeksOnOffLeash"] || ""}
             placeholder={"Weeks On/off Leash"}
             className="appearance-none w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 xxs:text-sm sm:text-base focus:outline-none"
-            setValue={(val) =>
+            setValue={(val: string) =>
               handleFieldChange("contract", "weeksOnOffLeash", val)
             }
             error={errors["weeksOnOffLeash"]}
@@ -226,7 +232,8 @@ const Step3: React.FC<Step3FormProps> = ({
                           handleFieldChange(
                             "contract",
                             field.name,
-                            e.target.checked
+                            e.target.checked,
+                            field.label
                           );
                         } else {
                           // multi checkbox group (string[])
@@ -241,7 +248,8 @@ const Step3: React.FC<Step3FormProps> = ({
                             field.name,
                             e.target.checked
                               ? [...current, opt]
-                              : current.filter((o: string) => o !== opt)
+                              : current.filter((o: string) => o !== opt),
+                            field.label
                           );
                         }
                       }}
@@ -271,7 +279,9 @@ const Step3: React.FC<Step3FormProps> = ({
               value={formData.contract?.[field.name] || ""}
               placeholder=""
               className="w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none"
-              setValue={(val) => handleFieldChange("contract", field.name, val)}
+              setValue={(val: string) =>
+                handleFieldChange("contract", field.name, val, field.label)
+              }
               error={errors[field.name]}
             />
           </div>
@@ -286,7 +296,9 @@ const Step3: React.FC<Step3FormProps> = ({
           className={`w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none  ${
             errors["trainingFee"] && "border border-red-500"
           }`}
-          setValue={(val) => handleFieldChange("contract", "trainingFee", val)}
+          setValue={(val: string) =>
+            handleFieldChange("contract", "trainingFee", val, "Training Fee")
+          }
           error={errors["trainingFee"]}
         />
       </div>
@@ -297,7 +309,9 @@ const Step3: React.FC<Step3FormProps> = ({
         className={`w-full bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none pt-3 ${
           errors["trainingFee"] && "border border-red-500"
         } `}
-        setValue={(val) => handleFieldChange("contract", "notesAndTerms", val)}
+        setValue={(val: string) =>
+          handleFieldChange("contract", "notesAndTerms", val, "Notes & Terms")
+        }
         error={errors["notesAndTerms"]}
       />
       {/* Agreement Text */}
@@ -380,8 +394,13 @@ const Step3: React.FC<Step3FormProps> = ({
               className={`w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none  ${
                 errors["ownerOfDogName"] && "border border-red-500"
               }`}
-              setValue={(val) =>
-                handleFieldChange("contract", "ownerOfDogName", val)
+              setValue={(val: string) =>
+                handleFieldChange(
+                  "contract",
+                  "ownerOfDogName",
+                  val,
+                  "Owner of Dog Name"
+                )
               }
               error={errors["ownerOfDogName"]}
             />
@@ -403,8 +422,8 @@ const Step3: React.FC<Step3FormProps> = ({
               className={`w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none  ${
                 errors["ownerAgreementDate"] && "border border-red-500"
               }`}
-              setValue={(val) =>
-                handleFieldChange("contract", "ownerAgreementDate", val)
+              setValue={(val: string) =>
+                handleFieldChange("contract", "ownerAgreementDate", val, "Date")
               }
               error={errors["ownerAgreementDate"]}
             />
@@ -425,7 +444,7 @@ const Step3: React.FC<Step3FormProps> = ({
             }}
             onEnd={() => onEndSign(ownerSigRef, "dogOwner")}
           />
-          <div className="absolute right-2 top-[40px] md:top-[35%] transform -translate-y-1/2">
+          <div className="absolute right-2 top-[120px] md:top-[85%] transform -translate-y-1/2">
             <Button
               name="Clear"
               className="w-[45px] md:w-[60px] bg-red-400 rounded-lg text-white font-semibold text-xs md:text-sm py-0.5 md:py-1 outline-none"
@@ -433,7 +452,7 @@ const Step3: React.FC<Step3FormProps> = ({
             />
           </div>
 
-          <div className="absolute right-16 md:right-20 top-[40px] md:top-[35%] transform -translate-y-1/2">
+          <div className="absolute right-16 md:right-20 top-[120px] md:top-[85%] transform -translate-y-1/2">
             <Button
               name={dogOwnerLoading ? <Loader isSmall={true} /> : "Save"}
               disabled={dogOwnerLoading}
@@ -457,8 +476,13 @@ const Step3: React.FC<Step3FormProps> = ({
               className={`w-full xxs:h-[50px] sm:h-[56px] bg-gray-50 rounded-lg px-4 placeholder-gray-700 xxs:text-sm sm:text-base focus:outline-none  ${
                 errors["trainingToStartWeekOf"] && "border border-red-500"
               }`}
-              setValue={(val) =>
-                handleFieldChange("contract", "trainingToStartWeekOf", val)
+              setValue={(val: string) =>
+                handleFieldChange(
+                  "contract",
+                  "trainingToStartWeekOf",
+                  val,
+                  "Training to start week of"
+                )
               }
               error={errors["trainingToStartWeekOf"]}
             />
@@ -479,14 +503,14 @@ const Step3: React.FC<Step3FormProps> = ({
             }}
             onEnd={() => onEndSign(repSigRef, "representative")}
           />
-          <div className="absolute right-2 top-[40px] md:top-[35%] transform -translate-y-1/2">
+          <div className="absolute right-2 top-[120px] md:top-[85%] transform -translate-y-1/2">
             <Button
               name="Clear"
               className="w-[45px] md:w-[60px] bg-red-400 rounded-lg text-white font-semibold text-xs md:text-sm py-0.5 md:py-1 outline-none"
               onClick={() => handleClearSign(repSigRef, "representative")}
             />
           </div>
-          <div className="absolute right-16 md:right-20 top-[40px] md:top-[35%] transform -translate-y-1/2">
+          <div className="absolute right-16 md:right-20 top-[120px] md:top-[85%] transform -translate-y-1/2">
             <Button
               name={representativeLoading ? <Loader isSmall={true} /> : "Save"}
               disabled={representativeLoading}

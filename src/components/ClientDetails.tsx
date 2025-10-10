@@ -129,7 +129,7 @@ const ClientDetails: React.FC<clientDetailProp> = React.memo(
                   />
                   <div>
                     <h3 className="text-xs sm:text-sm md:text-base font-semibold">
-                      About {name}
+                      {name}
                     </h3>
                     {/* <p className="text-xs sm:text-sm md:text-base text-gray-550">
                     {desc}
@@ -251,7 +251,7 @@ const ClientDetails: React.FC<clientDetailProp> = React.memo(
                               title="Delete Report?"
                               description="Are you sure you want to delete this report? This action cannot be undone."
                               buttonText="Yes, Delete Report"
-                              buttonColor="bg-red-600"
+                              buttonColor="bg-brand-blue"
                               onConfirm={() => handleDeleteReport(_id)}
                               icon={deleteIcon}
                             />

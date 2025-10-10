@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import type { EventItem } from "../utils/interfaces";
 import EventList from "./EventList";
-import { useAppDispatch } from "../store/store";
+import { useAppDispatch, useAppSelector } from "../store/store";
 import { getSessions } from "../store/session/sessionAction";
 
 const UpcomminSession = React.memo(() => {
@@ -23,6 +23,7 @@ const UpcomminSession = React.memo(() => {
       year: "numeric",
     }
   );
+  const { sessions } = useAppSelector((state) => state.sessionSlices);
 
   // Days in current month
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
@@ -66,13 +67,7 @@ const UpcomminSession = React.memo(() => {
     const date = selectedDate.toLocaleDateString("en-GB").split("/").join("-");
 
     (async () => {
-      const res = await dispatch(
-        getSessions({ startDate: date, endDate: date })
-      ).unwrap();
-
-      const events =
-        res?.data?.result?.[`${selectedDate.getDate()}-${monthName}`] || [];
-      setEvents(events);
+      await dispatch(getSessions({ startDate: date, endDate: date }));
 
       if (isSelectFromPagination) {
         setSelectedDate(weeks[0]?.filter((date) => date)[0]);
@@ -81,6 +76,14 @@ const UpcomminSession = React.memo(() => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentMonth, selectedDate, monthName]);
+
+  useEffect(() => {
+    const key = `${selectedDate.getDate()}-${monthName}`;
+    const events = sessions?.[key] || [];
+    setEvents(events);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sessions]);
 
   // Handle week navigation
   const prevWeek = () => setWeekIndex((prev) => Math.max(prev - 1, 0));

@@ -8,7 +8,7 @@ const initialState = {
     result: [],
   },
   clients: {
-    pagination: {},
+    pagination: { searchName: "", page: 0, perPage: 0, totalPages: 0 },
     result: [],
   },
 };

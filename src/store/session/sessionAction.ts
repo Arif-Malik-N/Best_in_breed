@@ -1,6 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { setLoading } from "../common/commonSlice";
-import { saveMetrics, saveSession } from "./sessionReducer";
+import { saveMetrics, saveSession, setLoading } from "./sessionReducer";
 import { userRequest } from "../../apiRoutes/apiRoutes";
 import type { SessionParamsRedux } from "../../utils/interfaces";
 
@@ -8,7 +7,6 @@ export const getSessions = createAsyncThunk(
   "session/getSession",
   async ({ startDate, endDate }: SessionParamsRedux, { dispatch }) => {
     dispatch(setLoading(true));
-
     try {
       // Dynamically construct the query parameters
       const url = `home/sessions?startDate=${startDate}&endDate=${endDate}`;
@@ -32,7 +30,6 @@ export const getSessions = createAsyncThunk(
 export const getMetrices = createAsyncThunk(
   "session/getMetrices",
   async (_, { dispatch }) => {
-    dispatch(setLoading(true));
     try {
       const res = await userRequest.get("metrics/dashboard");
       if (res?.data?.success) {
@@ -44,8 +41,6 @@ export const getMetrices = createAsyncThunk(
     } catch (error) {
       console.error(error);
       return { error: "Failed to fetch sessions" };
-    } finally {
-      dispatch(setLoading(false));
     }
   }
 );

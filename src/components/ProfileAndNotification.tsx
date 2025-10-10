@@ -20,7 +20,7 @@ const ProfileAndNotification: React.FC<ProfileAndNotProps> = ({
               <img
                 src={profileImg}
                 alt="profile"
-                className="w-12 h-w-12 rounded-full"
+                className="w-12 h-12 rounded-full"
               />
             </div>
             <AiOutlineDown className="ml-1 mt-4" />

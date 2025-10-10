@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import Button from "./buttons/Button";
 import Input from "./fields/Input";
 import ResetPasswordDialog from "./dialog/ResetPasswordDialog";
@@ -48,16 +48,31 @@ const ResetPassword: React.FC<ResetPsdProps> = ({
 
   const closeDialog = () => {
     dialogRef.current?.close(); // close modal
+    setFormType("login");
   };
 
+  useEffect(() => {
+    return () => {
+      setEmail("");
+    };
+  }, []);
+
   return (
-    <div className="w-full xxs:p-4 md:p-5 lg:pr-10">
+    <div
+      className="w-full xxs:p-4 md:p-5 lg:pr-10"
+      // onClick={() => {
+      //   if (dialogRef.current?.open) {
+      //     // Dialog is open, run your function here
+      //     dialogRef.current.close(); // Close the dialog
+      //   }
+      // }}
+    >
       {/* title and description  */}
       <div className="font-bold xxs:text-2xl xs:text-3xl sm:text-4xl text-center">
         Reset Password
       </div>
       <div className="my-2 text-gray-700 xxs:text-sm xs:text-base sm:text-lg text-center">
-        Please enter the email you use to sign in and we will send you resent
+        Please enter the email you use to sign in and we will send you reset
         link.{" "}
       </div>
 

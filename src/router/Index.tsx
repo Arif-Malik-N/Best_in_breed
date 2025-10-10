@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Route, Routes } from "react-router";
+import React, { use, useEffect } from "react";
+import { Route, Routes, useNavigate } from "react-router";
 import {
   Home,
   Schedule,
@@ -27,8 +27,10 @@ import { baseURL } from "../apiRoutes/apiRoutes";
 
 const Routing = React.memo(() => {
   const socket = io(baseURL);
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const token = useAppSelector((state) => state.authSlices?.token);
+  // const token = true;
 
   const routes: AppRoute[] = [
     { path: "/", component: <Home /> },
@@ -50,7 +52,12 @@ const Routing = React.memo(() => {
       socket.on("connect", () => {});
       socket.emit("join_admin_room", { token: token });
       socket.on("new_notification", (data) => {
-        toast(`Notification from ${data?.clientName}`);
+        toast(`Notification from ${data?.clientName}`, {
+          onOpen: () => {
+            navigate("/notification");
+          },
+        });
+
         dispatch(addNewNotification(data));
       });
       return () => {
@@ -60,6 +67,11 @@ const Routing = React.memo(() => {
   }, [token]);
 
   useEffect(() => {
+    // toast(`Notification from Client`, {
+    //   onOpen: () => {
+    //     navigate("/notification");
+    //   },
+    // });
     if (token) dispatch(getNotifications());
   }, [token]);
 

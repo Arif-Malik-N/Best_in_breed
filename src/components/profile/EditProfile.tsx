@@ -125,17 +125,17 @@ const EditProfile: React.FC<Props> = ({ setType }) => {
                   // error={!value && errors ? `${name} is required` : undefined}
                   error={
                     !value && errors
-                      ? `${name} is required`
+                      ? `${name} is a required field`
                       : errors &&
                         name === "Email Address" &&
                         !emailRegex.test(email)
-                      ? "Invalid email format"
+                      ? "Please enter a valid email address"
                       : errors &&
                         name === "Phone Number" &&
                         !phoneRegex.test(phoneNo)
-                      ? "Invalid phone number format"
+                      ? "Please enter a valid phone number (10–15 digits)"
                       : errors && name === "Location" && !addressRegex.test(loc)
-                      ? "Invalid address format"
+                      ? "Please enter a valid location (include street and city)"
                       : undefined
                   }
                   setValue={setValue}
