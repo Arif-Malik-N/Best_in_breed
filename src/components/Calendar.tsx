@@ -229,6 +229,11 @@ const Calendar = React.memo(() => {
                 hour12: dayAndYear ? true : false,
               }}
               displayEventEnd={true} // <-- important, shows the END time as well
+              eventOverlap={false} // 🚫 Prevent overlapping events
+              slotEventOverlap={false} // 🚫 Prevent events to stack visually
+              eventMaxStack={1} // ⬆️ Limit stacking to one event per time slot
+              eventOrder="start" // Sort by start time to align properly
+              eventDisplay="block" // Ensure each event gets its own block
             />
           </div>
         </div>
